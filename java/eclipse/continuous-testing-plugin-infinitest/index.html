@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>지속적인 테스트 플러그인 - Infinitest 소개 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="test,java,eclipse,eclipse-plugin,tdd,junit" />
+    
+    <meta name="description" content="Infinitest는 지속적인 테스트를 해주는 Eclipse와 IntelliJ 플러그인입니다.(여기에서는 Eclipse에 대해서만 소개합니다.) Infinitest는 소스 코드 변경을 감지해서 영향도가 있는 테스트를 수행합니다. 소스 코드를 저장할 때 마다 자동으로 테스트를 돌려 줘서 편하게 테스트와 비즈니스 로직을 개발할 수 있을 것 같습니다. githu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="지속적인 테스트 플러그인 - Infinitest 소개">
+<meta property="og:url" content="https://gongzza.github.io/java/eclipse/continuous-testing-plugin-infinitest/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Infinitest는 지속적인 테스트를 해주는 Eclipse와 IntelliJ 플러그인입니다.(여기에서는 Eclipse에 대해서만 소개합니다.) Infinitest는 소스 코드 변경을 감지해서 영향도가 있는 테스트를 수행합니다. 소스 코드를 저장할 때 마다 자동으로 테스트를 돌려 줘서 편하게 테스트와 비즈니스 로직을 개발할 수 있을 것 같습니다. githu">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://infinitest.github.io/assets/img/logo.png">
+<meta property="article:published_time" content="2018-02-05T11:24:05.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.615Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="eclipse">
+<meta property="article:tag" content="eclipse-plugin">
+<meta property="article:tag" content="tdd">
+<meta property="article:tag" content="junit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://infinitest.github.io/assets/img/logo.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Java/">Java</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-java/eclipse/continuous-testing-plugin-infinitest" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        지속적인 테스트 플러그인 - Infinitest 소개
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/java/eclipse/continuous-testing-plugin-infinitest/" class="article-date">
+       <time datetime="2018-02-05T11:24:05.000Z" itemprop="datePublished">2018-02-05</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/java/eclipse/continuous-testing-plugin-infinitest/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.615Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/eclipse/" rel="tag">eclipse</a>, <a class="tag-link-link" href="/tags/eclipse-plugin/" rel="tag">eclipse-plugin</a>, <a class="tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link-link" href="/tags/junit/" rel="tag">junit</a>, <a class="tag-link-link" href="/tags/tdd/" rel="tag">tdd</a>, <a class="tag-link-link" href="/tags/test/" rel="tag">test</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id=""><a href="#" class="headerlink" title=""></a><img src="http://infinitest.github.io/assets/img/logo.png"></h1><p>Infinitest는 지속적인 테스트를 해주는 Eclipse와 IntelliJ 플러그인입니다.<br>(여기에서는 Eclipse에 대해서만 소개합니다.)</p>
+<p>Infinitest는 소스 코드 변경을 감지해서 영향도가 있는 테스트를 수행합니다.</p>
+<p>소스 코드를 저장할 때 마다 자동으로 테스트를 돌려 줘서 편하게 테스트와 비즈니스 로직을 개발할 수 있을 것 같습니다.</p>
+<p>github: <a target="_blank" rel="noopener" href="http://infinitest.github.io/">http://infinitest.github.io</a><br>user guide: <a target="_blank" rel="noopener" href="http://infinitest.github.io/doc/user_guide.html">http://infinitest.github.io/doc/user_guide.html</a></p>
+<h2 id="Install-Eclipse"><a href="#Install-Eclipse" class="headerlink" title="Install Eclipse"></a>Install Eclipse</h2><p>설치 방법은 간단합니다.</p>
+<ol>
+<li>Help -&gt; Eclipse Marketplace 열기</li>
+<li>infinitest 검색 및 설치</li>
+</ol>
+<p><img src="/images/java/eclipse/eclipse-marketplace-infinitest.png" alt="eclipse marketplace infinitest"></p>
+<p>참 쉽죠?</p>
+<p>자세한 사항은 <a target="_blank" rel="noopener" href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1124">여기</a>를 참고하시기 바랍니다.</p>
+<h2 id="Filtering-Tests"><a href="#Filtering-Tests" class="headerlink" title="Filtering Tests"></a>Filtering Tests</h2><p>정규화 표현식으로 수행하지 않을 테스트들을 걸러낼 수 있습니다.</p>
+<p><code>infinitest.filters</code>파일을 프로젝트 루트(working directory)에 추가합니다.</p>
+<figure class="highlight text"><figcaption><span>infinitest.filters</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ITest로 끝나는 테스트:</span><br><span class="line">.*ITest</span><br><span class="line"></span><br><span class="line">Inner Classes:</span><br><span class="line">.*\$.*</span><br><span class="line"></span><br><span class="line">package 안에 있는 테스트:</span><br><span class="line">com\.mycompany\.mypackage\..*</span><br><span class="line"></span><br><span class="line">모든 테스트:</span><br><span class="line">.*</span><br></pre></td></tr></table></figure>
+
+<p>테스트 시간이 너무 오래 걸리면 위 기능을 이용해서 테스트를 수행하지 않도록 합니다.</p>
+<h2 id="Preferences"><a href="#Preferences" class="headerlink" title="Preferences"></a>Preferences</h2><p>설치하고 나면 Preferences에 Infinitest가 추가됩니다.<br>(Window -&gt; Preferences -&gt; Infinitest)</p>
+<p><img src="/images/java/eclipse/preferences-infinitest.png" alt="preferences - Infinitest"></p>
+<blockquote>
+<p><code>Continuously Test</code> 체크를 해지하면, 테스트를 수행하지 않습니다.</p>
+</blockquote>
+<p>Slow Test Warning (milliseconds)는 기본값이 500ms 이고 테스트 수행 시간이 넘어가게 되면 테스트에 warning을 표시하게 됩니다.<br>현재 무시하는 방법은 없고 최대값인 2147483647를 입력하는 방법만 있는 것 같습니다.</p>
+<h2 id="Continuously-Test"><a href="#Continuously-Test" class="headerlink" title="Continuously Test"></a>Continuously Test</h2><p>테스트 수행 여부는 왼쪽 하단에 바로 표시가 되는데요.</p>
+<ul>
+<li><span style="background-color: green;">초록색</span>: 테스트 성공</li>
+<li><span style="background-color: yellow;">노란색</span>: 수행 테스트가 없음 또는 Infinitest 비활성화</li>
+<li><span style="background-color: red;">빨간색</span>: 테스트 실패</li>
+</ul>
+<p>프로젝트에 컴파일 에러가 있으면, Infinitest가 비활성화 되어 테스트가 수행되지 않습니다.</p>
+<p><img src="/images/java/eclipse/infinitest-test-failure.png" alt="Infinitest Test Failure"></p>
+<p>테스트가 실패하면 빨간색 바가 표시되며 Problems와 실패한 테스트에서 위치를 볼 수 있습니다.</p>
+<h2 id="Infinitest-isn’t-running-my-tests"><a href="#Infinitest-isn’t-running-my-tests" class="headerlink" title="Infinitest isn’t running my tests"></a>Infinitest isn’t running my tests</h2><p>Infinitest가 수행되지 않을때:</p>
+<ul>
+<li>Infinitest preferences(Window-&gt;Preferences) 에서 <code>Continously Test</code> 체크 확인</li>
+<li>Project 메뉴 밑에서 <code>Build Automatically</code> 체크 확인</li>
+<li>filter가 안될 때에는 <code>infinitest.filters</code> 파일이 루트 디렉토리에 있는지 확인</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://infinitest.github.io/doc/user_guide.html">http://infinitest.github.io/doc/user_guide.html</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/java/eclipse/continuous-testing-plugin-infinitest/" data-id="cklexwu7z000zpypv3xpg6uqa" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "지속적인 테스트 플러그인 - Infinitest 소개",
+        "image": "https://gongzza.github.iohttp://infinitest.github.io/assets/img/logo.png",
+        "keywords": "test java eclipse eclipse-plugin tdd junit",
+        "genre": "Java",
+        "datePublished": "2018-02-05",
+        "dateCreated": "2018-02-05",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/java/eclipse/continuous-testing-plugin-infinitest/",
+        "description": "Infinitest는 지속적인 테스트를 해주는 Eclipse와 IntelliJ 플러그인입니다.(여기에서는 Eclipse에 대해서만 소개합니다.)
+Infinitest는 소스 코드 변경을 감지해서 영향도가 있는 테스트를 수행합니다.
+소스 코드를 저장할 때 마다 자동으로 테스트를 돌려 줘서 편하게 테스트와 비즈니스 로직을 개발할 수 있을 것 같습니다.
+githu",
+        "wordCount": 270
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/java/spring/spring-mybatis-h2-localtest/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/nodejs/adonisjs-swagger/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">AdonisJs + Swagger-ui</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/java/eclipse/continuous-testing-plugin-infinitest/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

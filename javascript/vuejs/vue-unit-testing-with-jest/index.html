@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Vue.js Unit Testing with Jest | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="jest,vuejs,vue-test-utils" />
+    
+    <meta name="description" content="Jest를 이용해서 Vue.js 테스트 환경을 만들어 볼 것입니다. Test Runner로 Mocha + Webpack도 있었지만, Jest를 선택하게 되었습니다.  테스트 실행이 굉장히 빠릅니다. 스냅샷을 찍어서 비교가 가능합니다. 이는 직접 DOM이 어떻게 그려질지 확인할 수 있습니다. Assertion(Expect)과 Code Coverage 등의 기">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js Unit Testing with Jest">
+<meta property="og:url" content="https://gongzza.github.io/javascript/vuejs/vue-unit-testing-with-jest/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Jest를 이용해서 Vue.js 테스트 환경을 만들어 볼 것입니다. Test Runner로 Mocha + Webpack도 있었지만, Jest를 선택하게 되었습니다.  테스트 실행이 굉장히 빠릅니다. 스냅샷을 찍어서 비교가 가능합니다. 이는 직접 DOM이 어떻게 그려질지 확인할 수 있습니다. Assertion(Expect)과 Code Coverage 등의 기">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-11-05T11:27:57.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.642Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="jest">
+<meta property="article:tag" content="vuejs">
+<meta property="article:tag" content="vue-test-utils">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Vue-js/">Vue.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/vuejs/vue-unit-testing-with-jest" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Vue.js Unit Testing with Jest
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/vuejs/vue-unit-testing-with-jest/" class="article-date">
+       <time datetime="2017-11-05T11:27:57.000Z" itemprop="datePublished">2017-11-05</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/vuejs/vue-unit-testing-with-jest/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.642Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/jest/" rel="tag">jest</a>, <a class="tag-link-link" href="/tags/vue-test-utils/" rel="tag">vue-test-utils</a>, <a class="tag-link-link" href="/tags/vuejs/" rel="tag">vuejs</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="https://facebook.github.io/jest/">Jest</a>를 이용해서 <a target="_blank" rel="noopener" href="https://kr.vuejs.org/">Vue.js</a> 테스트 환경을 만들어 볼 것입니다.</p>
+<p>Test Runner로 Mocha + Webpack도 있었지만, Jest를 선택하게 되었습니다.</p>
+<ol>
+<li>테스트 실행이 굉장히 빠릅니다.</li>
+<li>스냅샷을 찍어서 비교가 가능합니다. 이는 직접 DOM이 어떻게 그려질지 확인할 수 있습니다.</li>
+<li>Assertion(<a target="_blank" rel="noopener" href="http://facebook.github.io/jest/docs/en/expect.html">Expect</a>)과 Code Coverage 등의 기능들이 내장되어 있습니다.</li>
+<li>요즘 대새인 Zero Configuration</li>
+<li>다양한 <a target="_blank" rel="noopener" href="https://facebook.github.io/jest/docs/en/cli.html">CLI</a> 옵션들이 있습니다.</li>
+</ol>
+<p>좀 더 고민이 되는 경우 <a target="_blank" rel="noopener" href="https://vue-test-utils.vuejs.org/en/guides/choosing-a-test-runner.html">Test Runner 선택하기</a>를 참고하시면 도움이 될 것 같습니다.</p>
+<h1 id="시작하기"><a href="#시작하기" class="headerlink" title="시작하기"></a>시작하기</h1><p><a target="_blank" rel="noopener" href="https://vue-test-utils.vuejs.org/en/guides/testing-SFCs-with-jest.html">Testing Single File Components with Jest</a>에서 설명이 매우 잘 되어 있습니다.</p>
+<p>그래서 위 내용을 참고로 작성 하였습니다.</p>
+<h2 id="프로젝트-생성"><a href="#프로젝트-생성" class="headerlink" title="프로젝트 생성"></a>프로젝트 생성</h2><p><code>vue-cli</code>를 이용해서 <code>webpack-simple</code> 탬플릿으로 프로젝트를 생성하겠습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack-simple vue-test-jest</span><br><span class="line"></span><br><span class="line">? Project name vue-test-jest</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author gongzza &lt;gz.us.to@gmail.com&gt;</span><br><span class="line">? Use sass? No</span><br><span class="line"></span><br><span class="line">   vue-cli · Generated <span class="string">&quot;vue-test-jest&quot;</span>.</span><br><span class="line"></span><br><span class="line">   To get started:</span><br><span class="line"></span><br><span class="line">     <span class="built_in">cd</span> vue-test-jest</span><br><span class="line">     npm install</span><br><span class="line">     npm run dev</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> vue-test-jest &amp;&amp; npm install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Jest-셋팅"><a href="#Jest-셋팅" class="headerlink" title="Jest 셋팅"></a>Jest 셋팅</h2><p>Jest와 vue-test-utils를 설치합니다.</p>
+<p>그리고 <code>*.vue</code> 파일을 처리하기 위해서 <a target="_blank" rel="noopener" href="https://github.com/eddyerburgh/vue-jest">vue-jest</a>를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D jest vue-test-utils vue-jest</span><br><span class="line">+ jest@21.2.1</span><br><span class="line">+ vue-test-utils@1.0.0-beta.4</span><br><span class="line">+ vue-jest@1.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="Package-json"><a href="#Package-json" class="headerlink" title="Package.json"></a>Package.json</h3><p><code>package.json</code>에 Jest 설정 옵션을 정의합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;jest&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;moduleFileExtensions&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;js&quot;</span>,</span><br><span class="line">      <span class="string">&quot;json&quot;</span>,</span><br><span class="line">      <span class="comment">// tell Jest to handle *.vue files</span></span><br><span class="line">      <span class="string">&quot;vue&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;transform&quot;</span>: &#123;</span><br><span class="line">      <span class="comment">// process *.vue files with vue-jest</span></span><br><span class="line">      <span class="attr">&quot;.*\\.(vue)$&quot;</span>: <span class="string">&quot;&lt;rootDir&gt;/node_modules/vue-jest&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;mapCoverage&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Handling-webpack-aliases"><a href="#Handling-webpack-aliases" class="headerlink" title="Handling webpack aliases"></a>Handling webpack aliases</h3><p>webpack config에서 resolve alias를 사용하고 있다면, Jest 에서도 설정해 주어야 합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// support the same @ -&gt; src alias mapping in source code</span></span><br><span class="line">    <span class="attr">&quot;moduleNameMapper&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;^@/(.*)$&quot;</span>: <span class="string">&quot;&lt;rootDir&gt;/src/$1&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuring-Babel-for-Jest"><a href="#Configuring-Babel-for-Jest" class="headerlink" title="Configuring Babel for Jest"></a>Configuring Babel for Jest</h3><p>babel을 사용하고 있다면, <a target="_blank" rel="noopener" href="https://github.com/facebook/jest/tree/master/packages/babel-jest">babel-jest</a>도 설치가 필요합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D babel-jest</span><br><span class="line">+ babel-jest@21.2.0</span><br></pre></td></tr></table></figure>
+
+<p>기본적으로 <code>babel-jest</code>는 자동으로 설치된다고 합니다. 하지만, 우리가 <code>*.vue</code>를 추가 하면서 <code>babel-jest</code>을 명시적으로 추가해 주어야 합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">&quot;transform&quot;</span>: &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">      <span class="comment">// process js with babel-jest</span></span><br><span class="line">      <span class="attr">&quot;^.+\\.js$&quot;</span>: <span class="string">&quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>그리고 <code>.babelrc</code>에 <code>env.test</code>를 설정합니다.</p>
+<figure class="highlight json"><figcaption><span>.babelrc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;env&quot;</span>, &#123; <span class="attr">&quot;modules&quot;</span>: <span class="literal">false</span> &#125;]</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;env&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;presets&quot;</span>: [</span><br><span class="line">        [<span class="string">&quot;env&quot;</span>, &#123; <span class="attr">&quot;targets&quot;</span>: &#123; <span class="attr">&quot;node&quot;</span>: <span class="string">&quot;current&quot;</span> &#125;&#125;]</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>async/await</code>을 사용할 경우 <code>plugins</code>에 <code>transform-runtime</code>를 추가합니다.</p>
+<figure class="highlight json"><figcaption><span>.babelrc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [</span><br><span class="line">    [<span class="string">&quot;transform-runtime&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">&quot;polyfill&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">&quot;regenerator&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Snapshot-Testing"><a href="#Snapshot-Testing" class="headerlink" title="Snapshot Testing"></a>Snapshot Testing</h3><p><a target="_blank" rel="noopener" href="https://ssr.vuejs.org/ko/">vue-server-renderer</a>를 사용해서 <a target="_blank" rel="noopener" href="https://facebook.github.io/jest/docs/en/snapshot-testing.html">Jest snapshot testing</a>을 수해할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D jest-serializer-vue</span><br><span class="line">+ jest-serializer-vue@0.2.0</span><br></pre></td></tr></table></figure>
+
+<p>그리고 <code>package.json</code>에 설정합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// serializer for snapshots</span></span><br><span class="line">    <span class="attr">&quot;snapshotSerializers&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;&lt;rootDir&gt;/node_modules/jest-serializer-vue&quot;</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Test-예제"><a href="#Test-예제" class="headerlink" title="Test 예제"></a>Test 예제</h2><p>기본으로 설치된 <code>src/App.vue</code>에서 <code>h1</code> 태그에 <code>msg</code> 값이 잘 설정되는지 확인해보는 테스트를 작성해 보겠습니다.</p>
+<figure class="highlight js"><figcaption><span>test/app.test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;mount&#125; <span class="keyword">from</span> <span class="string">&#x27;vue-test-utils&#x27;</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;../src/App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;App.vue&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">&#x27;vue-server-renderer&#x27;</span>).createRenderer()</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;should render correct contents&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> wrap = mount(App)</span><br><span class="line"></span><br><span class="line">    expect(wrap.vm.msg).toEqual(<span class="string">&#x27;Welcome to Your Vue.js App&#x27;</span>)</span><br><span class="line">    expect(wrap.find(<span class="string">&#x27;h1&#x27;</span>).text()).toEqual(wrap.vm.msg)</span><br><span class="line"></span><br><span class="line">    renderer.renderToString(wrap.vm, <span class="function">(<span class="params">err, str</span>) =&gt;</span> &#123;</span><br><span class="line">      expect(str).toMatchSnapshot()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 실행해 봅니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ npm test</span><br><span class="line"></span><br><span class="line">&gt; vue-test-jest@1.0.0 test</span><br><span class="line">&gt; jest</span><br><span class="line"></span><br><span class="line"> PASS  test&#x2F;app.test.js</span><br><span class="line">  App.vue</span><br><span class="line">    ✓ should render correct contents (38ms)</span><br><span class="line"></span><br><span class="line"> › 1 snapshot written.</span><br><span class="line">Snapshot Summary</span><br><span class="line"> › 1 snapshot written in 1 test suite.</span><br><span class="line"></span><br><span class="line">Test Suites: 1 passed, 1 total</span><br><span class="line">Tests:       1 passed, 1 total</span><br><span class="line">Snapshots:   1 added, 1 total</span><br><span class="line">Time:        2.129s</span><br><span class="line">Ran all test suites.</span><br></pre></td></tr></table></figure>
+
+<p>테스트가 성공적으로 통과하는 것을 확인할 수 있습니다.</p>
+<p>그리고 <code>test/__snapshots__/app.test.js.snap</code> 파일이 생성된 것을 볼 수 있습니다.<br>(스냅샷 파일이 없을 경우 자동으로 생성됩니다.)</p>
+<p>생성된 파일을 확인해 봅시다.</p>
+<figure class="highlight js"><figcaption><span>test/__snapshots__/app.test.js.snap</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Jest Snapshot v1, https://goo.gl/fbAQLP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span>[<span class="string">`App.vue should render correct contents 1`</span>] = <span class="string">`</span></span><br><span class="line"><span class="string">&lt;div id=&quot;app&quot;&gt;&lt;img src=&quot;./assets/logo.png&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;h1&gt;Welcome to Your Vue.js App&lt;/h1&gt;</span></span><br><span class="line"><span class="string">    &lt;h2&gt;Essential Links&lt;/h2&gt;</span></span><br><span class="line"><span class="string">    &lt;ul&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;https://vuejs.org&quot; target=&quot;_blank&quot;&gt;Core Docs&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;https://forum.vuejs.org&quot; target=&quot;_blank&quot;&gt;Forum&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;https://gitter.im/vuejs/vue&quot; target=&quot;_blank&quot;&gt;Gitter Chat&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;https://twitter.com/vuejs&quot; target=&quot;_blank&quot;&gt;Twitter&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">    &lt;/ul&gt;</span></span><br><span class="line"><span class="string">    &lt;h2&gt;Ecosystem&lt;/h2&gt;</span></span><br><span class="line"><span class="string">    &lt;ul&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;http://router.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vue-router&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;http://vuex.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vuex&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;http://vue-loader.vuejs.org/&quot; target=&quot;_blank&quot;&gt;vue-loader&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">        &lt;li&gt;&lt;a href=&quot;https://github.com/vuejs/awesome-vue&quot; target=&quot;_blank&quot;&gt;awesome-vue&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">    &lt;/ul&gt;</span></span><br><span class="line"><span class="string">&lt;/div&gt;</span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+
+<p>앞으로 테스트 할 때 랜더링된 정보가 위 내용과 다를 경우 테스트가 실패하게 됩니다.</p>
+<p><code>src/App.vue</code>에서 <code>&lt;img src=&quot;./assets/logo.png&quot;&gt;</code>를 제거한 다음 테스트를 다시 수행해 봅니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">$ npm t</span><br><span class="line"></span><br><span class="line">&gt; vue-test-jest@1.0.0 test</span><br><span class="line">&gt; jest</span><br><span class="line"></span><br><span class="line"> FAIL  test&#x2F;app.test.js</span><br><span class="line">  App.vue</span><br><span class="line">    ✕ should render correct contents (47ms)</span><br><span class="line"></span><br><span class="line">  ● App.vue › should render correct contents</span><br><span class="line"></span><br><span class="line">    expect(value).toMatchSnapshot()</span><br><span class="line"></span><br><span class="line">    Received value does not match stored snapshot 1.</span><br><span class="line"></span><br><span class="line">    - Snapshot</span><br><span class="line">    + Received</span><br><span class="line"></span><br><span class="line">    @@ -1,6 +1,6 @@</span><br><span class="line">    - &lt;div id&#x3D;&quot;app&quot;&gt;&lt;img src&#x3D;&quot;.&#x2F;assets&#x2F;logo.png&quot;&gt;</span><br><span class="line">    + &lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">          &lt;h1&gt;Welcome to Your Vue.js App&lt;&#x2F;h1&gt;</span><br><span class="line">          &lt;h2&gt;Essential Links&lt;&#x2F;h2&gt;</span><br><span class="line">          &lt;ul&gt;</span><br><span class="line">              &lt;li&gt;&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;vuejs.org&quot; target&#x3D;&quot;_blank&quot;&gt;Core Docs&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;</span><br><span class="line">              &lt;li&gt;&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;forum.vuejs.org&quot; target&#x3D;&quot;_blank&quot;&gt;Forum&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;</span><br><span class="line"></span><br><span class="line">      at test&#x2F;app.test.js:14:19</span><br><span class="line"></span><br><span class="line"> › 1 snapshot test failed.</span><br><span class="line">Snapshot Summary</span><br><span class="line"> › 1 snapshot test failed in 1 test suite. Inspect your code changes or run with &#96;npm test -- -u&#96; to</span><br><span class="line"> update them.</span><br><span class="line"></span><br><span class="line">Test Suites: 1 failed, 1 total</span><br><span class="line">Tests:       1 failed, 1 total</span><br><span class="line">Snapshots:   1 failed, 1 total</span><br><span class="line">Time:        1.261s, estimated 2s</span><br><span class="line">Ran all test suites.</span><br><span class="line">npm ERR! Test failed.  See above for more details.</span><br></pre></td></tr></table></figure>
+
+<p>정확하게 이전 스냅샷과의 차이점을 보여주고 있습니다.</p>
+<p>만약 화면이 수정되어서 스냅샷이 업데이트 되어야 할 경우 <code>npm test -- -u</code> 명령어로 스냅샷을 업데이트 해주면 됩니다.</p>
+<p>만약 <code>vue-server-renderer</code>를 사용할 경우 <code>this.$el.classList</code> 같은 메소드에 대해서 재대로 랜더링이 되지 않는 문제가 있습니다.</p>
+<h2 id="Code-Coverage"><a href="#Code-Coverage" class="headerlink" title="Code Coverage"></a>Code Coverage</h2><p>위에서 언급한데로 Jest는 Code Covarge 기능도 갖추고 있습니다.</p>
+<p>CLI로 손쉽게 사용할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ npm test -- --coverage</span><br><span class="line"></span><br><span class="line">&gt; vue-test-jest@1.0.0 test</span><br><span class="line">&gt; jest &quot;--coverage&quot;</span><br><span class="line"></span><br><span class="line"> PASS  test&#x2F;app.test.js</span><br><span class="line">  App.vue</span><br><span class="line">    ✓ should render correct contents (39ms)</span><br><span class="line"></span><br><span class="line">Test Suites: 1 passed, 1 total</span><br><span class="line">Tests:       1 passed, 1 total</span><br><span class="line">Snapshots:   1 passed, 1 total</span><br><span class="line">Time:        2.29s</span><br><span class="line">Ran all test suites.</span><br><span class="line">----------|----------|----------|----------|----------|----------------|</span><br><span class="line">File      |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |</span><br><span class="line">----------|----------|----------|----------|----------|----------------|</span><br><span class="line">All files |      100 |      100 |      100 |      100 |                |</span><br><span class="line"> App.vue  |      100 |      100 |      100 |      100 |                |</span><br><span class="line">----------|----------|----------|----------|----------|----------------|</span><br></pre></td></tr></table></figure>
+
+<p>함수형 컴포넌트는 다음 설정을 추가해야 Code Coverage를 확인할 수 있습니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">&quot;moduleNameMapper&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;^vue$&quot;</span>: <span class="string">&quot;vue/dist/vue.common.js&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h1><p><code>Jest</code>의 스냅샷 기능으로 어느정도 화면단의 사이드 이팩트를 확인할 수 있는 좋은 수단이 된 것 같습니다.</p>
+<p>테스트 러너 별로 예제도 잘 되어 있고 설명도 잘 되어 있으니 마음에 드는 걸로 테스트를 적용해 보시기 바랍니다.</p>
+<h1 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-test-utils-jest-example">https://github.com/vuejs/vue-test-utils-jest-example</a></li>
+<li><a target="_blank" rel="noopener" href="https://vue-test-utils.vuejs.org/en/guides/testing-SFCs-with-jest.html">https://vue-test-utils.vuejs.org/en/guides/testing-SFCs-with-jest.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/jest/tree/master/examples/async">https://github.com/facebook/jest/tree/master/examples/async</a></li>
+<li><a target="_blank" rel="noopener" href="https://alexjoverm.github.io/2017/08/21/Write-the-first-Vue-js-Component-Unit-Test-in-Jest/">https://alexjoverm.github.io/2017/08/21/Write-the-first-Vue-js-Component-Unit-Test-in-Jest/</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/vuejs/vue-unit-testing-with-jest/" data-id="cklexwud9002hpypv9iovaz31" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Vue.js Unit Testing with Jest",
+        "image": "https://gongzza.github.io",
+        "keywords": "jest vuejs vue-test-utils",
+        "genre": "Javascript Vue.js",
+        "datePublished": "2017-11-05",
+        "dateCreated": "2017-11-05",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/vuejs/vue-unit-testing-with-jest/",
+        "description": "Jest를 이용해서 Vue.js 테스트 환경을 만들어 볼 것입니다.
+Test Runner로 Mocha + Webpack도 있었지만, Jest를 선택하게 되었습니다.
+
+테스트 실행이 굉장히 빠릅니다.
+스냅샷을 찍어서 비교가 가능합니다. 이는 직접 DOM이 어떻게 그려질지 확인할 수 있습니다.
+Assertion(Expect)과 Code Coverage 등의 기",
+        "wordCount": 2002
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/vuejs/vue-lazy-loading-with-webpack/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Vue Component Lazy Loading with Webpack
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/nodejs/typescript-express-starter-4/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">TypeScript로 Express 시작하기 - 4</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/vuejs/vue-unit-testing-with-jest/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

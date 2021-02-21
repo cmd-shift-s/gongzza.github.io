@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>VSCode Debugging for Node.js | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="mocha,vscode,debugging" />
+    
+    <meta name="description" content="VSCode - Debugging을 참고하여 작성하였습니다. VSCode Debugging for Node.jsExpress로 echo 서버를 개발하면서 mocha로 테스트 할 때 디버깅 환경을 구축해 볼 것입니다. Debugger extensionsVSCode는 기본적으로 Node.js 디버깅 기능을 제공합니다. 그래서 JavaScript, TypeScr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSCode Debugging for Node.js">
+<meta property="og:url" content="https://gongzza.github.io/vscode/debugging/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="VSCode - Debugging을 참고하여 작성하였습니다. VSCode Debugging for Node.jsExpress로 echo 서버를 개발하면서 mocha로 테스트 할 때 디버깅 환경을 구축해 볼 것입니다. Debugger extensionsVSCode는 기본적으로 Node.js 디버깅 기능을 제공합니다. 그래서 JavaScript, TypeScr">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/vscode/debugging_hero.png">
+<meta property="article:published_time" content="2019-06-19T17:32:10.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.664Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="mocha">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="debugging">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/vscode/debugging_hero.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-vscode/debugging" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        VSCode Debugging for Node.js
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/vscode/debugging/" class="article-date">
+       <time datetime="2019-06-19T17:32:10.000Z" itemprop="datePublished">2019-06-20</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/vscode/debugging/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.664Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/debugging/" rel="tag">debugging</a>, <a class="tag-link-link" href="/tags/mocha/" rel="tag">mocha</a>, <a class="tag-link-link" href="/tags/vscode/" rel="tag">vscode</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/editor/debugging">VSCode - Debugging</a>을 참고하여 작성하였습니다.</p>
+<h1 id="VSCode-Debugging-for-Node-js"><a href="#VSCode-Debugging-for-Node-js" class="headerlink" title="VSCode Debugging for Node.js"></a>VSCode Debugging for Node.js</h1><p><a target="_blank" rel="noopener" href="https://expressjs.com/">Express</a>로 echo 서버를 개발하면서 <a target="_blank" rel="noopener" href="https://mochajs.org/">mocha</a>로 테스트 할 때 디버깅 환경을 구축해 볼 것입니다.</p>
+<h2 id="Debugger-extensions"><a href="#Debugger-extensions" class="headerlink" title="Debugger extensions"></a>Debugger extensions</h2><p>VSCode는 기본적으로 Node.js 디버깅 기능을 제공합니다. 그래서 JavaScript, TypeScript 등 JavaScript로 변환해주는 언어들에 대해서 디버깅이 가능합니다.</p>
+<p><img src="/images/vscode/debugging_hero.png" alt="https://code.visualstudio.com/docs/editor/debugging"></p>
+<p>다른 언어들은 VSCode Marketplat에서 Debugger를 찾아서 설치해서 사용할 수 있습니다.</p>
+<h2 id="Launch-configurations"><a href="#Launch-configurations" class="headerlink" title="Launch configurations"></a>Launch configurations</h2><p><code>F5</code>를 누르면 디버그를 시작하게 됩니다. 만약 설정 파일이 없을 경우 추가 하라는 팝업이 뜨게 됩니다. 그러면 <code>Open launch.json</code> 버튼을 눌러서 <code>launch.json</code> 파일로 이동합니다.</p>
+<blockquote>
+<p>현재 열려있는 파일을 기반으로 VSCode가 디버거를 찾아서 있을 경우 자동으로 추가해줍니다. 만약 찾지 못하였으면 Node.js를 선택해서 추가해줍니다.</p>
+</blockquote>
+<p>여기서 저희는 Mocha로 디버그를 실행 할 것입니다. 그래서 설정을 다음과 같이 작성해 줍니다.</p>
+<figure class="highlight json"><figcaption><span>.vscode/launch.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;node&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Run mocha&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;program&quot;</span>: <span class="string">&quot;$&#123;workspaceFolder&#125;/node_modules/mocha/bin/_mocha&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;args&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;--opts&quot;</span>, <span class="string">&quot;test/mocha.opts&quot;</span>,</span><br><span class="line">                <span class="string">&quot;--timeout&quot;</span>, <span class="string">&quot;0&quot;</span>, <span class="comment">// 디버깅 시간이 테스트 결과에 영향을 주지 않기 위해서,</span></span><br><span class="line">                <span class="string">&quot;--colors&quot;</span>, <span class="comment">// terminal color와 같은 색으로 출력</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="comment">// 디버그 실행 시 DEBUG CONSOLE 오픈</span></span><br><span class="line">            <span class="attr">&quot;internalConsoleOptions&quot;</span>: <span class="string">&quot;openOnSessionStart&quot;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 디버그 실행 시 TERMINAL에서 실행</span></span><br><span class="line">            <span class="comment">// &quot;console&quot;: &quot;integratedTerminal&quot;,</span></span><br><span class="line">            <span class="comment">// &quot;internalConsoleOptions&quot;: &quot;neverOpen&quot; </span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug-actions"><a href="#Debug-actions" class="headerlink" title="Debug actions"></a>Debug actions</h2><img src="/images/vscode/debugging_toolbar.png" alt="debugging toolbar" width="300">
+
+<ul>
+<li>Continue / Pause <code>F5</code>: Step을 진행하지 않고 다음 Breakpoint까지 진행</li>
+<li>Step Over <code>F10</code>: 현재 라인 실행 후 다음 라인으로 커서를 이동</li>
+<li>Step Into <code>F11</code>: 다음 실행이 함수일 경우 함수 내부로 커서를 이동</li>
+<li>Step Out <code>⇧F11</code>: 현재 커서가 함수일 경우 함수 실행을 완료하고 호출한 곳으로 커서를 이동</li>
+<li>Restart <code>⇧⌘F5</code></li>
+<li>Stop <code>⇧F5</code></li>
+</ul>
+<h2 id="Echo-server"><a href="#Echo-server" class="headerlink" title="Echo server"></a>Echo server</h2><p>POST와 GET 모두 동작하는 echo 서버를 작성해 볼 것입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir echo-server</span><br><span class="line">$ <span class="built_in">cd</span> echo-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># package.json 초기화</span></span><br><span class="line">$ npm init -y</span><br><span class="line">Wrote to /echo-server/package.json:</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$ npm i -S typescript express ts-node</span><br><span class="line">+ express@4.17.1</span><br><span class="line">+ typescript@3.5.2</span><br><span class="line"></span><br><span class="line">$ npm i -D @types/express</span><br><span class="line">+ @types/express@4.17.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># tsconfig.json 초기화</span></span><br><span class="line">$ npx tsc --init</span><br><span class="line">message TS6071: Successfully created a tsconfig.json file.</span><br></pre></td></tr></table></figure>
+
+<p>이제 서버를 작성해 봅니다.</p>
+<figure class="highlight ts"><figcaption><span>src/app.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&#x27;express&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">&#x27;/echo&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> res.send(req.query.msg || req.body.msg)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><figcaption><span>src/server.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; app &#125; <span class="keyword">from</span> <span class="string">&#x27;./app&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> port = process.env.PORT || <span class="number">3000</span></span><br><span class="line"></span><br><span class="line">app.listen(port, <span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`Example app listening on port <span class="subst">$&#123;port&#125;</span>!`</span>))</span><br></pre></td></tr></table></figure>
+
+<p><code>app.ts</code>와 <code>server.ts</code> 파일로 분리한 이유는 supertest에서 서버를 실행 시켜서 API를 호출하기 때문에 중복으로 서버를 실행하지 않기 위해서 분리를 합니다. 그리고 서버가 켜져 있으면 테스트가 종료되지 않습니다.</p>
+<h2 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D mocha @types/mocha supertest @types/supertest chai @types/chai ts-node</span><br><span class="line">+ supertest@4.0.2</span><br><span class="line">+ chai@4.2.0</span><br><span class="line">+ mocha@6.1.4</span><br><span class="line">+ ts-node@8.3.0</span><br><span class="line">+ @types/chai@4.1.7</span><br><span class="line">+ @types/mocha@5.2.7</span><br><span class="line">+ @types/supertest@2.0.7</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mochajs.org/">mocha</a>: Test Framework</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/visionmedia/supertest">supertest</a>: HTTP 호출 및 검사</li>
+<li><a target="_blank" rel="noopener" href="https://www.chaijs.com/">chaijs</a>: Assertion Library</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/TypeStrong/ts-node">ts-node</a>: ts 파일을 바로 실행할 때 사용 </li>
+</ul>
+<p>mocha는 ts를 해석할 수 없기 때문에 ts-node를 이용해서 ts로 작성된 테스트 파일을 실행합니다.</p>
+<p>GET과 POST로 <code>/echo</code> API를 요청하는 테스트를 작성합니다. </p>
+<figure class="highlight ts"><figcaption><span>test/app.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; app &#125; <span class="keyword">from</span> <span class="string">&#x27;../src/app&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;app&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> req = request(app)</span><br><span class="line"></span><br><span class="line">    it(<span class="string">&#x27;GET /echo - returns msg&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="comment">// given</span></span><br><span class="line">        <span class="keyword">const</span> msg = <span class="string">&#x27;message&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// when</span></span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> req.get(<span class="string">&#x27;/echo&#x27;</span>)</span><br><span class="line">            .query(&#123; msg &#125;)</span><br><span class="line">            .expect(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// then</span></span><br><span class="line">        expect(res.text).to.equal(msg)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    it(<span class="string">&#x27;POST /echo - returns msg&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="comment">// given</span></span><br><span class="line">        <span class="keyword">const</span> msg = <span class="string">&#x27;message&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// when</span></span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> req.post(<span class="string">&#x27;/echo&#x27;</span>)</span><br><span class="line">            .send(&#123; msg &#125;)</span><br><span class="line">            .expect(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// then</span></span><br><span class="line">        expect(res.text).to.equal(msg)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>mocha에서 사용할 옵션을 추가합니다.</p>
+<figure class="highlight plain"><figcaption><span>test/mocha.opts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--require ts-node&#x2F;register</span><br><span class="line">--extension ts</span><br><span class="line">test&#x2F;**&#x2F;*.test.ts</span><br></pre></td></tr></table></figure>
+
+<p>test script를 수정합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;mocha&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 수행합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ npm t</span><br><span class="line"></span><br><span class="line">&gt; echo-server@1.0.0 <span class="built_in">test</span> /echo-server</span><br><span class="line">&gt; mocha</span><br><span class="line"></span><br><span class="line">  app</span><br><span class="line">    <span class="built_in">echo</span></span><br><span class="line">      ✓ GET /<span class="built_in">echo</span> - returns msg</span><br><span class="line">      1) POST /<span class="built_in">echo</span> - returns msg</span><br><span class="line">TypeError: Cannot <span class="built_in">read</span> property <span class="string">&#x27;echo&#x27;</span> of undefined</span><br><span class="line"></span><br><span class="line">  1 passing (27ms)</span><br><span class="line">  1 failing</span><br><span class="line"></span><br><span class="line">  1) app</span><br><span class="line">       <span class="built_in">echo</span></span><br><span class="line">         POST /<span class="built_in">echo</span> - returns msg:</span><br><span class="line">     Error: expected 200 <span class="string">&quot;OK&quot;</span>, got 500 <span class="string">&quot;Internal Server Error&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>테스트가 실패하는 것을 확인할 수 있습니다.</p>
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><p>이제 VSCode의 Debug를 사용해서 에러를 확인해 볼 것입니다.</p>
+<p>mocha.opts에 <code>--grep app\secho\sPOST</code>를 추가해서 실패했던 테스트만 수행하도록 합니다.</p>
+<p>그리고 <code>/echo</code> api에서 <code>res.send</code>에 breakpoint를 찍고 <code>F5</code>를 눌러서 디버깅을 수행합니다.</p>
+<img src="/images/vscode/debugging_echo_api_breakpoint.png" alt="echo api breakpoint" width="500">
+
+<p><img src="/images/vscode/debugging_echo_api.png" alt="debugging-echo-api"></p>
+<p>오른쪽에 WATCH에서 <code>req.body</code>가 undefined인 것을 확인 할 수 있습니다.</p>
+<p>즉, undefined에서 msg를 가져오려고 해서 에러가 발생한 것임을 알 수 있습니다.</p>
+<p><code>req.body</code>가 undefined인 이유는 <code>Content-Type: application/json</code>을 해석하지 못해서 입니다.</p>
+<p>다음과 같이 json 형식을 파싱할 수 있도록 추가해줍니다.</p>
+<figure class="highlight ts"><figcaption><span>src/app.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&#x27;express&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.use(express.json())</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://expressjs.com/en/4x/api.html#express.json">express.json()</a>은 body-parser를 기반으로 작성된 built-in middleware입니다. </p>
+</blockquote>
+<p><code>test/mocha.opts</code>에서 <code>--grep app\secho\sPOST</code>를 지우고 다시 테스트를 수행하면 모든 테스트가 성공하는 것을 확인 할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ npm t                                                                                      </span><br><span class="line"></span><br><span class="line">&gt; echo-server@1.0.0 <span class="built_in">test</span> /echo-server</span><br><span class="line">&gt; mocha</span><br><span class="line"></span><br><span class="line">  app</span><br><span class="line">    ✓ GET /<span class="built_in">echo</span> - returns msg</span><br><span class="line">    ✓ POST /<span class="built_in">echo</span> - returns msg</span><br><span class="line"></span><br><span class="line">  2 passing (34ms)</span><br></pre></td></tr></table></figure>
+
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>디버깅 없이 테스트 실패를 확인하기 위해서는 데이터를 추측해서 하나씩 출력해보거나 조건문 마다 현재 단계를 출력해서 어느 단계에서 로그가 멈췄는지 확인해 봐야 하고 다시 로그를 지우는 수고가 필요합니다. 하지만, 디버그 모드로 실행하면 비즈니스 로직 또는 테스트 코드를 한단계씩 확인할 수 있기 때문에 문제점을 바로 확인하고 고칠 수 있어서 훨씬 빠르고 정확하고 편하게 문제를 해결 할 수 있습니다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/editor/debugging">https://code.visualstudio.com/docs/editor/debugging</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/nodejs/nodejs-debugging">https://code.visualstudio.com/docs/nodejs/nodejs-debugging</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/vscode/debugging/" data-id="cklexwu7u000wpypv8blhgqoy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "VSCode Debugging for Node.js",
+        "image": "https://gongzza.github.io/images/vscode/debugging_hero.png",
+        "keywords": "mocha vscode debugging",
+        "genre": "",
+        "datePublished": "2019-06-20",
+        "dateCreated": "2019-06-20",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/vscode/debugging/",
+        "description": "VSCode - Debugging을 참고하여 작성하였습니다.
+VSCode Debugging for Node.jsExpress로 echo 서버를 개발하면서 mocha로 테스트 할 때 디버깅 환경을 구축해 볼 것입니다.
+Debugger extensionsVSCode는 기본적으로 Node.js 디버깅 기능을 제공합니다. 그래서 JavaScript, TypeScr",
+        "wordCount": 1615
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/mac/shortcuts/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">업무 효율을 올리기 위해 키보드에서 손 떼지 않기 on Mac</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/vscode/debugging/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

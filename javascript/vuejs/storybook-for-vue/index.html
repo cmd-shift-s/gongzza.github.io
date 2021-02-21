@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Storybook for Vue | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="vue.js,storybook" />
+    
+    <meta name="description" content="StorybookStorybook은 UI 컴포넌트를 위한 개발 환경을 만들수 있습니다.App이랑 상관없이 돌아가며, UI 컴포넌트들의 여러 상태들을 예제로 작성해서 볼 수 있습니다.App에서 사용하는 UI 컴포넌트들의 바이블이라고 보시면 될 것 같습니다.  Getting StartedStorybook for Vue에 들어가 보시면 단계별로 설명이 나와있습니">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Storybook for Vue">
+<meta property="og:url" content="https://gongzza.github.io/javascript/vuejs/storybook-for-vue/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="StorybookStorybook은 UI 컴포넌트를 위한 개발 환경을 만들수 있습니다.App이랑 상관없이 돌아가며, UI 컴포넌트들의 여러 상태들을 예제로 작성해서 볼 수 있습니다.App에서 사용하는 UI 컴포넌트들의 바이블이라고 보시면 될 것 같습니다.  Getting StartedStorybook for Vue에 들어가 보시면 단계별로 설명이 나와있습니">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/javascript/vuejs/storybook-demo.gif">
+<meta property="article:published_time" content="2017-12-09T06:24:36.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.638Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="vue.js">
+<meta property="article:tag" content="storybook">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/javascript/vuejs/storybook-demo.gif">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Vue-js/">Vue.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/vuejs/storybook-for-vue" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Storybook for Vue
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/vuejs/storybook-for-vue/" class="article-date">
+       <time datetime="2017-12-09T06:24:36.000Z" itemprop="datePublished">2017-12-09</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/vuejs/storybook-for-vue/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.638Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/storybook/" rel="tag">storybook</a>, <a class="tag-link-link" href="/tags/vue-js/" rel="tag">vue.js</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Storybook"><a href="#Storybook" class="headerlink" title="Storybook"></a>Storybook</h1><p><a target="_blank" rel="noopener" href="https://storybook.js.org/">Storybook</a>은 UI 컴포넌트를 위한 개발 환경을 만들수 있습니다.<br>App이랑 상관없이 돌아가며, UI 컴포넌트들의 여러 상태들을 예제로 작성해서 볼 수 있습니다.<br>App에서 사용하는 UI 컴포넌트들의 바이블이라고 보시면 될 것 같습니다.</p>
+<p><img src="/images/javascript/vuejs/storybook-demo.gif" alt="Storybook demo [출처: https://storybook.js.org]"></p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p><a target="_blank" rel="noopener" href="https://storybook.js.org/basics/guide-vue/">Storybook for Vue</a>에 들어가 보시면 단계별로 설명이 나와있습니다.</p>
+<h3 id="Create-a-project"><a href="#Create-a-project" class="headerlink" title="Create a project"></a>Create a project</h3><p><code>vue-cli</code>를 이용하여 webpack-simple로 프로젝트를 구성합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack-simple storybook-for-vue</span><br><span class="line">? Project name storybook-for-vue</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author gongzza &lt;gz.us.to@gmail.com&gt;</span><br><span class="line">? License MIT</span><br><span class="line">? Use sass? Yes</span><br><span class="line"></span><br><span class="line">   vue-cli · Generated <span class="string">&quot;storybook-for-vue&quot;</span>.</span><br><span class="line"></span><br><span class="line">   To get started:</span><br><span class="line"></span><br><span class="line">     <span class="built_in">cd</span> storybook-for-vue</span><br><span class="line">     npm install</span><br><span class="line">     npm run dev</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> storybook-for-vue &amp;&amp; npm install</span><br><span class="line">...</span><br><span class="line">added 890 packages <span class="keyword">in</span> 79.194s</span><br></pre></td></tr></table></figure>
+
+<h3 id="Storybook-for-Vue"><a href="#Storybook-for-Vue" class="headerlink" title="Storybook for Vue"></a>Storybook for Vue</h3><p>Storybook은 Webpack 설정과 dev 서버를 내장하고 있습니다.<br>따라서 기존의 개발환경을 해치지 않고 독립적으로 실행이 가능합니다.</p>
+<p>Webpack 설정은 수정이 가능합니다. <a target="_blank" rel="noopener" href="https://storybook.js.org/configurations/custom-webpack-config/">참조</a></p>
+<h4 id="storybook-vue를-설치합니다"><a href="#storybook-vue를-설치합니다" class="headerlink" title="@storybook/vue를 설치합니다."></a><code>@storybook/vue</code>를 설치합니다.</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D @storybook/vue</span><br><span class="line">+ @storybook/vue@3.2.17</span><br></pre></td></tr></table></figure>
+
+<h4 id="npm-script를-추가합니다"><a href="#npm-script를-추가합니다" class="headerlink" title="npm script를 추가합니다."></a>npm script를 추가합니다.</h4><figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;storybook&quot;</span>: <span class="string">&quot;start-storybook -p 9001 -c .storybook&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="config-파일을-추가합니다"><a href="#config-파일을-추가합니다" class="headerlink" title="config 파일을 추가합니다."></a>config 파일을 추가합니다.</h4><p>npm script에서 <code>-c</code> 옵션으로 보고 있는 <code>.storybook</code> 디렉토리에 <code>config.js</code> 파일을 추가할 것입니다.</p>
+<p><code>config.js</code> 파일에서는 다음과 같은 작업을 합니다.</p>
+<ol>
+<li>Import와 <code>Vue.component</code>를 통한 Global 컴포넌트 등록</li>
+<li>Vue plugins 설치</li>
+<li>Stories 로드</li>
+</ol>
+<p>여기서 우리는 Stories 로드만 필요하기 때문에 다음과 같이 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>.storybook/config.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; configure &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadStories</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// You can require as many stories as you need.</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;../src/stories&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">configure(loadStories, <span class="built_in">module</span>);</span><br></pre></td></tr></table></figure>
+
+<p>다음은 <a target="_blank" rel="noopener" href="https://storybook.js.org/basics/guide-vue/">Storybook for Vue</a>에 있는 <code>./storybook/config.js</code> 예제입니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; configure &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span>; <span class="comment">// Vue plugins</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Import your custom components.</span></span><br><span class="line"><span class="keyword">import</span> Mybutton <span class="keyword">from</span> <span class="string">&#x27;../src/stories/Button.vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Install Vue plugins.</span></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Register custom components.</span></span><br><span class="line">Vue.component(<span class="string">&#x27;my-button&#x27;</span>, Mybutton);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadStories</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// You can require as many stories as you need.</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">&#x27;../src/stories&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">configure(loadStories, <span class="built_in">module</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="stories를-작성합니다"><a href="#stories를-작성합니다" class="headerlink" title="stories를 작성합니다."></a>stories를 작성합니다.</h4><p><code>.storybook/config.js</code>에서 바라보는 경로 <code>../src/stories</code>에 <code>index.js</code>파일을 추가합니다.</p>
+<figure class="highlight js"><figcaption><span>src/stories/index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; storiesOf &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;../App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line">storiesOf(<span class="string">&#x27;App&#x27;</span>, <span class="built_in">module</span>)</span><br><span class="line">  .add(<span class="string">&#x27;main&#x27;</span>, <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    components: &#123; App &#125;,</span><br><span class="line">    template: <span class="string">&#x27;&lt;app&gt;&lt;/app&gt;&#x27;</span></span><br><span class="line">  &#125;))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Storybook-실행"><a href="#Storybook-실행" class="headerlink" title="Storybook 실행"></a>Storybook 실행</h3><p>다음 명령으로 Storybook을 실행합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ npm run storybook</span><br><span class="line"></span><br><span class="line">&gt; storybook-for-vue@1.0.0 storybook /vue/storybook-for-vue</span><br><span class="line">&gt; start-storybook -p 9001 -c .storybook</span><br><span class="line"></span><br><span class="line">@storybook/vue v3.2.17</span><br><span class="line"></span><br><span class="line">Failed to load ./.env.</span><br><span class="line">=&gt; Loading custom .babelrc</span><br><span class="line">=&gt; Using default webpack setup based on <span class="string">&quot;vue-cli&quot;</span>.</span><br><span class="line">webpack built 4158726a27d45de70301 <span class="keyword">in</span> 10213ms</span><br><span class="line">Storybook started on =&gt; http://localhost:9001/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/javascript/vuejs/storybook-for-vue-app.png" alt="storybord-for-vue-app"></p>
+<p>Storybook이 hot 모드로 켜져 있기 때문에 <code>App.vue</code>를 수정하면 화면에 바로 반영되는 것을 볼 수 있습니다.</p>
+<p>이렇게 하나의 컴포넌트에 집중해서 개발할 수 있습니다.</p>
+<h2 id="stories-파일-나누기"><a href="#stories-파일-나누기" class="headerlink" title="stories 파일 나누기"></a>stories 파일 나누기</h2><p><code>src/stories/index.js</code> 파일 하나에 모든 스토리를 넣으면 파일이 너무 커질 것입니다.</p>
+<p>그래서 컴포넌트 별로 스토리 파일을 따로 만드는 것이 관리하기도 좋을 것입니다.</p>
+<p>그리고 webpack의 <code>require.context</code>를 이용해서 파일이 자동으로 추가되도록 하면, 파일을 추가할 때 번거로운 작업을 하지 않아도 됩니다.</p>
+<figure class="highlight js"><figcaption><span>.storybook/config.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; configure &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadStories</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// You can require as many stories as you need.</span></span><br><span class="line">  <span class="keyword">const</span> load = <span class="function"><span class="params">req</span> =&gt;</span> req.keys().map(req)</span><br><span class="line"></span><br><span class="line">  load(<span class="built_in">require</span>.context(<span class="string">&#x27;../src/stories&#x27;</span>, <span class="literal">true</span>, <span class="regexp">/\.story\.js$/</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">configure(loadStories, <span class="built_in">module</span>);</span><br></pre></td></tr></table></figure>
+
+<p>이전 <code>index.js</code> 파일명을 <code>App.story.js</code>로 변경합니다.</p>
+<figure class="highlight js"><figcaption><span>src/stories/App.story.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; storiesOf &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;../App.vue&#x27;</span></span><br><span class="line"></span><br><span class="line">storiesOf(<span class="string">&#x27;App&#x27;</span>, <span class="built_in">module</span>)</span><br><span class="line">  .add(<span class="string">&#x27;welcome&#x27;</span>, <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    components: &#123; App &#125;,</span><br><span class="line">    template: <span class="string">&#x27;&lt;app&gt;&lt;/app&gt;&#x27;</span></span><br><span class="line">  &#125;))</span><br></pre></td></tr></table></figure>
+
+<p>이제 파일명이 <code>.story.js</code> 끝나는 파일을 추가하면 자동으로 스토리에 추가될 것입니다.</p>
+<h2 id="storybook-addon-vue-info"><a href="#storybook-addon-vue-info" class="headerlink" title="storybook-addon-vue-info"></a>storybook-addon-vue-info</h2><p>Storybook의 <a target="_blank" rel="noopener" href="https://storybook.js.org/addons/introduction/">Addon</a> 기능을 이용해서 Vue 컴포넌트의 정보를 잘 표현해 주는 <a target="_blank" rel="noopener" href="https://github.com/pocka/storybook-addon-vue-info/">storybook-addon-vue-info</a> Addon이 있습니다.</p>
+<p>현재는 Usage, Preview, Props를 표시해주고 있지만, 아직 개발 초기 단계라서 앞으로 어떻게 변할지 기대가 큽니다.</p>
+<p><a target="_blank" rel="noopener" href="https://storybook-addon-vue-info.netlify.com/">여기</a>에 들어가면 샘플 페이지를 볼 수 있습니다.</p>
+<p>먼저 설치를 합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D storybook-addon-vue-info</span><br><span class="line">+ storybook-addon-vue-info@0.1.5</span><br></pre></td></tr></table></figure>
+
+<p>props를 받는 예제를 하나 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>src/components/Card.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=<span class="string">&quot;html&quot;</span>&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;card&quot;</span>&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123;message&#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">&#x27;card&#x27;</span></span><br><span class="line">  props: &#123;</span><br><span class="line">    title: &#123;</span><br><span class="line">      type: <span class="built_in">String</span>,</span><br><span class="line">      required: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    message: <span class="built_in">String</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>스토리를 작성할때 <code>template</code>은 필수입니다.</p>
+<figure class="highlight js"><figcaption><span>src/stories/components/Card.story.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; storiesOf &#125; <span class="keyword">from</span> <span class="string">&#x27;@storybook/vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> VueInfoAddon <span class="keyword">from</span> <span class="string">&#x27;storybook-addon-vue-info&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Card <span class="keyword">from</span> <span class="string">&#x27;../../components/Card.vue&#x27;</span></span><br><span class="line"></span><br><span class="line">storiesOf(<span class="string">&#x27;Card&#x27;</span>, <span class="built_in">module</span>)</span><br><span class="line">  .addDecorator(VueInfoAddon)</span><br><span class="line">  .add(<span class="string">&#x27;only title&#x27;</span>, <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    components: &#123; Card &#125;,</span><br><span class="line">    template: <span class="string">&#x27;&lt;card title=&quot;Card Title&quot;&gt;&lt;/card&gt;&#x27;</span></span><br><span class="line">  &#125;))</span><br><span class="line">  .add(<span class="string">&#x27;with message&#x27;</span>, <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    components: &#123; Card &#125;,</span><br><span class="line">    template: <span class="string">&#x27;&lt;card title=&quot;Card Title&quot; message=&quot;With Message&quot;&gt;&lt;/card&gt;&#x27;</span></span><br><span class="line">  &#125;))</span><br></pre></td></tr></table></figure>
+
+<p>서버 재시작도 필요 없이 파일을 추가하면, 화면이 자동으로 갱신되면서 추가되는 것을 확인할 수 있습니다.</p>
+<p><img src="/images/javascript/vuejs/storybook-addon-vue-info-sample.png" alt="storybook-addon-vue-info-sample"></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>하나의 UI 컴포넌트를 집중해서 개발할 수 있는 환경을 구축할 수 있어서 좋은 것 같습니다.<br>그리고 만들어진 UI 컴포넌트들의 사용법을 쉽게 파악할 수 있어서 한층 더 빠른 개발이 가능할 것 같습니다.</p>
+<p>storybook의 영감을 받아서 만든 Vue 친화적인 <a target="_blank" rel="noopener" href="https://github.com/vue-play/vue-play">vue-play</a>도 있는데요. 마지막 커밋이 May 23 인걸로 봐서는 더 이상 개발은 하지 않는 것 같습니다.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://storybook.js.org/">https://storybook.js.org</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/pocka/storybook-addon-vue-info/">https://github.com/pocka/storybook-addon-vue-info/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vue-play/vue-play">https://github.com/vue-play/vue-play</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/vuejs/storybook-for-vue/" data-id="cklexwucb002apypvc1d4anf9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Storybook for Vue",
+        "image": "https://gongzza.github.io/images/javascript/vuejs/storybook-demo.gif",
+        "keywords": "vue.js storybook",
+        "genre": "Javascript Vue.js",
+        "datePublished": "2017-12-09",
+        "dateCreated": "2017-12-09",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/vuejs/storybook-for-vue/",
+        "description": "StorybookStorybook은 UI 컴포넌트를 위한 개발 환경을 만들수 있습니다.App이랑 상관없이 돌아가며, UI 컴포넌트들의 여러 상태들을 예제로 작성해서 볼 수 있습니다.App에서 사용하는 UI 컴포넌트들의 바이블이라고 보시면 될 것 같습니다.
+
+Getting StartedStorybook for Vue에 들어가 보시면 단계별로 설명이 나와있습니",
+        "wordCount": 1165
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/nodejs/adonisjs-swagger/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            AdonisJs + Swagger-ui
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/vuejs/vue-lazy-loading-with-webpack/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Vue Component Lazy Loading with Webpack</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/vuejs/storybook-for-vue/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

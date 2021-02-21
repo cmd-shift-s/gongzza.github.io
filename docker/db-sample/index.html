@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Docker로 개발용 DB 만들기 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="mysql,docker,oracle,mariadb,postgres,mongodb,mssql" />
+    
+    <meta name="description" content="IntroductionDocker로 개발용 DB 생성 및 간단한 node 기반 접속 샘플을 작성해 보았습니다.  Oracle MySQL &amp; MariaDB PostgreSQL MongoDB MSSQL   OracleImage: https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;wnameless&#x2F;oracle-xe-11g&#x2F; 1$ docker run --name">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker로 개발용 DB 만들기">
+<meta property="og:url" content="https://gongzza.github.io/docker/db-sample/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="IntroductionDocker로 개발용 DB 생성 및 간단한 node 기반 접속 샘플을 작성해 보았습니다.  Oracle MySQL &amp; MariaDB PostgreSQL MongoDB MSSQL   OracleImage: https:&#x2F;&#x2F;hub.docker.com&#x2F;r&#x2F;wnameless&#x2F;oracle-xe-11g&#x2F; 1$ docker run --name">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-17T15:05:47.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.608Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="mariadb">
+<meta property="article:tag" content="postgres">
+<meta property="article:tag" content="mongodb">
+<meta property="article:tag" content="mssql">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Docker/">Docker</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-docker/db-sample" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Docker로 개발용 DB 만들기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/docker/db-sample/" class="article-date">
+       <time datetime="2018-05-17T15:05:47.000Z" itemprop="datePublished">2018-05-18</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/docker/db-sample/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.608Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link-link" href="/tags/mariadb/" rel="tag">mariadb</a>, <a class="tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="tag-link-link" href="/tags/mssql/" rel="tag">mssql</a>, <a class="tag-link-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link-link" href="/tags/oracle/" rel="tag">oracle</a>, <a class="tag-link-link" href="/tags/postgres/" rel="tag">postgres</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Docker로 개발용 DB 생성 및 간단한 node 기반 접속 샘플을 작성해 보았습니다.</p>
+<ul>
+<li><a href="#oracle">Oracle</a></li>
+<li><a href="#mysql_mariadb">MySQL &amp; MariaDB</a></li>
+<li><a href="#postgres">PostgreSQL</a></li>
+<li><a href="#mongo">MongoDB</a></li>
+<li><a href="#mssql">MSSQL</a></li>
+</ul>
+<p><a name="oracle"></a></p>
+<h2 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h2><p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/r/wnameless/oracle-xe-11g/">https://hub.docker.com/r/wnameless/oracle-xe-11g/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name oracle-db -p 1521:1521 -d wnameless/oracle-xe-11g</span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><ul>
+<li><code>ORACLE_ALLOW_REMOTE(Y/N)</code>: 원격 접속 여부</li>
+<li><code>ORACLE_DISABLE_ASYNCH_IO</code>: For performance concern, you may want to disable the disk asynch IO</li>
+</ul>
+<h3 id="Check-Version"><a href="#Check-Version" class="headerlink" title="Check Version"></a>Check Version</h3><figure class="highlight js"><figcaption><span>oracle.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/oracle/node-oracledb/blob/master/examples/version.js</span></span><br><span class="line"><span class="keyword">var</span> oracledb = <span class="built_in">require</span>(<span class="string">&#x27;oracledb&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Run at: &quot;</span> + <span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Node.js version: &quot;</span> + process.version + <span class="string">&quot; (&quot;</span> + process.platform, process.arch + <span class="string">&quot;)&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// console.log(&quot;Node-oracledb version:&quot;, oracledb.version); // numeric version format is useful for comparisons</span></span><br><span class="line"><span class="comment">// console.log(&quot;Node-oracledb version suffix:&quot;, oracledb.versionSuffix); // e.g. &quot;-beta.1&quot;, or empty for production releases</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Node-oracledb version:&quot;</span>, oracledb.versionString); <span class="comment">// version (including the suffix)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//console.log(&quot;Oracle Client library version:&quot;, oracledb.oracleClientVersion); // numeric version format</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Oracle Client library version:&quot;</span>, oracledb.oracleClientVersionString);</span><br><span class="line"></span><br><span class="line">oracledb.getConnection(</span><br><span class="line">  &#123;</span><br><span class="line">    user          : <span class="string">&quot;system&quot;</span>,</span><br><span class="line">    password      : <span class="string">&quot;oracle&quot;</span>,</span><br><span class="line">    connectString : <span class="string">&quot;localhost/XE&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">err, connection</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(err.message);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// console.log(&quot;Oracle Database version:&quot;, connection.oracleServerVersion); // numeric version format</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Oracle Database version:&quot;</span>, connection.oracleServerVersionString);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ npm install oracledb</span><br><span class="line">$ node oracle.js</span><br><span class="line">Run at: Wed May 16 2018 21:37:30 GMT+0900 (KST)</span><br><span class="line">Node.js version: v8.5.0 (darwin x64)</span><br><span class="line">Node-oracledb version: 2.2.0</span><br><span class="line">Oracle Client library version: 12.2.0.1.0</span><br><span class="line">Oracle Database version: 11.2.0.2.0</span><br></pre></td></tr></table></figure>
+
+<p><a name="mysql_mariadb"></a></p>
+<h2 id="MySQL-amp-MariaDB"><a href="#MySQL-amp-MariaDB" class="headerlink" title="MySQL &amp; MariaDB"></a>MySQL &amp; MariaDB</h2><p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/_/mysql/">https://hub.docker.com/_/mysql/</a></p>
+<p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/_/mariadb/">https://hub.docker.com/_/mariadb/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql</span></span><br><span class="line">$ docker run --name mysql-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secure -d mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># mariadb</span></span><br><span class="line">$ docker run --name maria-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secure -d mariadb</span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment-Variables-1"><a href="#Environment-Variables-1" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><ul>
+<li><code>MYSQL_ROOT_PASSWORD(required)</code>: 루트 패스워드</li>
+<li><code>MYSQL_DATABASE</code>: database 생성 시 사용된다.</li>
+<li><code>MYSQL_USER, MYSQL_PASSWORD</code>: 사용자 생성 및 <code>MYSQL_DATABASE</code> 로 생성 된 database의 권한을 받는다.</li>
+<li><code>MYSQL_ONETIME_PASSWORD</code>: MySQL 5.6+ only. 1회성 비밀번호를 생성한다.</li>
+</ul>
+<h3 id="SHA-256-Pluggable-Authentication"><a href="#SHA-256-Pluggable-Authentication" class="headerlink" title="SHA-256 Pluggable Authentication"></a>SHA-256 Pluggable Authentication</h3><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password">https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password</a></p>
+<p>MySQL 8.0+부터 사용자 암호화 방식이 <code>caching_sha2_password</code>가 되면서 이전 방식으로 로그인이 불가능하다.</p>
+<p>다음과 같이 사용자의 비밀번호 암호화 방식을 이전 방식으로 수정하거나 <a target="_blank" rel="noopener" href="https://github.com/sidorares/node-mysql2/blob/master/documentation/Authentication-Switch.md">Authentication switch request</a>방식을 이용해서 접속할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it mysql-db mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 8</span><br><span class="line">Server version: 8.0.11 MySQL Community Server - GPL</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">&#x27;help;&#x27;</span> or <span class="string">&#x27;\h&#x27;</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">&#x27;\c&#x27;</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; alter user <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified with mysql_native_password by <span class="string">&#x27;secure&#x27;</span>;</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Check-Version-1"><a href="#Check-Version-1" class="headerlink" title="Check Version"></a>Check Version</h3><figure class="highlight js"><figcaption><span>mysql.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mysql = <span class="built_in">require</span>(<span class="string">&#x27;mysql2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> connection = mysql.createConnection(&#123;</span><br><span class="line">  host: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">  user: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">  password: <span class="string">&#x27;secure&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">connection.query(</span><br><span class="line">  <span class="string">&#x27;SELECT VERSION() as version&#x27;</span>,</span><br><span class="line">  (err, results) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err</span><br><span class="line">    <span class="built_in">console</span>.log(results)</span><br><span class="line">    connection.end()</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npm install mysql2</span><br><span class="line">$ node mysql.js</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysql 8+</span></span><br><span class="line">[ TextRow &#123; version: <span class="string">&#x27;8.0.11&#x27;</span> &#125; ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># mariadb</span></span><br><span class="line">[ TextRow &#123; version: <span class="string">&#x27;10.2.14-MariaDB-10.2.14+maria~jessie&#x27;</span> &#125; ]</span><br></pre></td></tr></table></figure>
+
+<p><a name="postgres"></a></p>
+<h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/_/postgres/">https://hub.docker.com/_/postgres/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name postgres-db -p 5432:5432 -d postgres</span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment-Variables-2"><a href="#Environment-Variables-2" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><ul>
+<li><code>POSTGRES_PASSWORD</code>: <code>localhost</code>로 접근 할 경우 비밀번호가 필요하지 않음.</li>
+<li><code>POSTGRES_USER(default: postgres)</code>: superuser와 같은 이름의 database를 생성한다.</li>
+<li><code>PGDATA(default: /var/lib/postgresql/data)</code>: database file</li>
+<li><code>POSTGRES_DB</code>: 기본 database 생성, <code>POSTGRES_USER</code> 가 사용한다.</li>
+<li><code>POSTGRES_INITDB_ARGS</code>: <code>postgres initdb</code> 아규먼트로 사용된다.</li>
+</ul>
+<h3 id="Check-Version-2"><a href="#Check-Version-2" class="headerlink" title="Check Version"></a>Check Version</h3><figure class="highlight js"><figcaption><span>postgres.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; Client &#125; = <span class="built_in">require</span>(<span class="string">&#x27;pg&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> client = <span class="keyword">new</span> Client(&#123;</span><br><span class="line">  user: <span class="string">&#x27;postgres&#x27;</span>,</span><br><span class="line">  database: <span class="string">&#x27;postgres&#x27;</span>,</span><br><span class="line">  port: <span class="number">5432</span>,</span><br><span class="line">&#125;)</span><br><span class="line">client.connect()</span><br><span class="line"></span><br><span class="line">client.query(<span class="string">&#x27;SELECT version()&#x27;</span>, <span class="function">(<span class="params">err, &#123;rows&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(err, rows[<span class="number">0</span>].version)</span><br><span class="line">  client.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install pg</span><br><span class="line">$ node postgres.js</span><br><span class="line">null <span class="string">&#x27;PostgreSQL 10.3 (Debian 10.3-1.pgdg90+1) on x86_64-pc-linux-gnu, compiled by</span></span><br><span class="line"><span class="string"> gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516, 64-bit&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><a name="mongo"></a></p>
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/_/mongo/">https://hub.docker.com/_/mongo/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name mongo-db -p 27017:27017 -d mongo</span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment-Variables-3"><a href="#Environment-Variables-3" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><ul>
+<li><code>MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD</code>: <code>admin</code> 인증 database와 <code>root</code> 권한을 갖는 유저를 생성한다. mongodb는 <code>mongod --auth</code> 명령어로 시작된다.</li>
+<li><code>MONGO_INITDB_DATABASE(default: test)</code>: <code>/docker-entrypoint-initdb.d</code> 디렉토리안에 있는 .sh 또는 .js가 실행 될 때 바라보게 될 database를 설정한다.</li>
+</ul>
+<h3 id="Initializing-a-fresh-instance"><a href="#Initializing-a-fresh-instance" class="headerlink" title="Initializing a fresh instance"></a>Initializing a fresh instance</h3><p>컨테이너가 처음 실행 될 때 <code>/docker-entrypoint-initdb.d</code> 디렉토리에서 <code>.sh</code> 또는 <code>.js</code> 파일을 찾아서 실행한다.</p>
+<p>이때 <code>MONGO_INITDB_DATABASE</code>가 가리키는 database를 사용하게 된다.</p>
+<figure class="highlight js"><figcaption><span>/mongo/seed/todos.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.todos.save(&#123;<span class="attr">text</span>: <span class="string">&#x27;study mongodb&#x27;</span>, <span class="attr">done</span>: <span class="literal">false</span>&#125;)</span><br><span class="line">db.todos.save(&#123;<span class="attr">text</span>: <span class="string">&#x27;study docker&#x27;</span>, <span class="attr">done</span>: <span class="literal">true</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker --name mongo-init-db -v /mongo/seed:/docker-entrypoint-initdb.d -e MONGO_INITDB_DATABASE=todo -d mongo</span><br><span class="line">$ docker <span class="built_in">exec</span> -it mongo-init-db mongo todo</span><br><span class="line">&gt; db.todos.find(&#123;&#125;)</span><br><span class="line">&#123; <span class="string">&quot;_id&quot;</span> : ObjectId(<span class="string">&quot;5afd973adae4958f3c43f2d6&quot;</span>), <span class="string">&quot;text&quot;</span> : <span class="string">&quot;study mongodb&quot;</span>, <span class="string">&quot;done&quot;</span> :</span><br><span class="line"> <span class="literal">false</span> &#125;</span><br><span class="line">&#123; <span class="string">&quot;_id&quot;</span> : ObjectId(<span class="string">&quot;5afd973adae4958f3c43f2d7&quot;</span>), <span class="string">&quot;text&quot;</span> : <span class="string">&quot;study docker&quot;</span>, <span class="string">&quot;done&quot;</span> :</span><br><span class="line"><span class="literal">true</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/configuration-options/">custom configuration file</a>을 사용 할 경우 <code>mongod.conf</code> 파일을 복사 하고 <code>--config</code> 옵션을 주면 된다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mongo -v /my/custom:/etc/mongo -d mongo --config /etc/mongo/mongod.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="Check-Version-3"><a href="#Check-Version-3" class="headerlink" title="Check Version"></a>Check Version</h3><figure class="highlight js"><figcaption><span>mongo.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// http://mongodb.github.io/node-mongodb-native/3.0/api/Admin.html#serverInfo</span></span><br><span class="line"><span class="comment">// https://github.com/mongodb/node-mongodb-native/blob/master/lib/admin.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MongoClient = <span class="built_in">require</span>(<span class="string">&#x27;mongodb&#x27;</span>).MongoClient;</span><br><span class="line"><span class="keyword">const</span> test = <span class="built_in">require</span>(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Connection url</span></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&#x27;mongodb://localhost:27017&#x27;</span>;</span><br><span class="line"><span class="comment">// Database Name</span></span><br><span class="line"><span class="keyword">const</span> dbName = <span class="string">&#x27;test&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect using MongoClient</span></span><br><span class="line">MongoClient.connect(url, &#123;<span class="attr">useNewUrlParser</span>: <span class="literal">true</span>&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">err, client</span>) </span>&#123;</span><br><span class="line">  client.db(dbName).admin().serverInfo().then(<span class="function"><span class="params">info</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(info.version)</span><br><span class="line">    client.close()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install mongodb</span><br><span class="line">$ node mongo.js</span><br><span class="line">3.6.4</span><br></pre></td></tr></table></figure>
+
+<p><a name="mssql"></a></p>
+<h2 id="MSSQL"><a href="#MSSQL" class="headerlink" title="MSSQL"></a>MSSQL</h2><p>Image: <a target="_blank" rel="noopener" href="https://hub.docker.com/r/microsoft/mssql-server-linux/">https://hub.docker.com/r/microsoft/mssql-server-linux/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name mssql-db -e <span class="string">&#x27;ACCEPT_EULA=Y&#x27;</span> -e <span class="string">&#x27;SA_PASSWORD=mssql@secure.pw&#x27;</span> -p 1433:1433 -d microsoft/mssql-server-linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="Environment-Variables-4"><a href="#Environment-Variables-4" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><ul>
+<li><code>ACCEPT_EULA(required)</code>: Y로 설정해 주어야 한다.</li>
+<li><code>SA_PASSWORD</code>: 대/소문자, 숫자, 특수문자 중 3가지가 포함된 8글자 이상의 비밀번호를 지정해야 한다.</li>
+<li><code>MSSQL_PID</code>: (default: Developer): Edition name</li>
+</ul>
+<h3 id="Check-Version-4"><a href="#Check-Version-4" class="headerlink" title="Check Version"></a>Check Version</h3><figure class="highlight js"><figcaption><span>mssql.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/tediousjs/node-mssql#promises</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sql = <span class="built_in">require</span>(<span class="string">&#x27;mssql&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sql.connect(&#123;</span><br><span class="line">  user: <span class="string">&#x27;sa&#x27;</span>,</span><br><span class="line">  password: <span class="string">&#x27;mssql@secure.pw&#x27;</span>,</span><br><span class="line">  server: <span class="string">&#x27;localhost&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> sql.query<span class="string">`SELECT @@VERSION as version`</span></span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(result.recordset[<span class="number">0</span>].version)</span><br><span class="line">  sql.close()</span><br><span class="line">&#125;)</span><br><span class="line">.catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(err)</span><br><span class="line">  sql.close()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ npm install mssql</span><br><span class="line">$ node mssql.js</span><br><span class="line">Microsoft SQL Server 2017 (RTM-CU6) (KB4101464) - 14.0.3025.34 (X64)</span><br><span class="line">        Apr  9 2018 18:00:41</span><br><span class="line">        Copyright (C) 2017 Microsoft Corporation</span><br><span class="line">        Developer Edition (64-bit) on Linux (Ubuntu 16.04.4 LTS)</span><br></pre></td></tr></table></figure>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/docker/db-sample/" data-id="cklexwu670006pypvesyi0lrk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Docker로 개발용 DB 만들기",
+        "image": "https://gongzza.github.io",
+        "keywords": "mysql docker oracle mariadb postgres mongodb mssql",
+        "genre": "Docker",
+        "datePublished": "2018-05-18",
+        "dateCreated": "2018-05-18",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/docker/db-sample/",
+        "description": "IntroductionDocker로 개발용 DB 생성 및 간단한 node 기반 접속 샘플을 작성해 보았습니다.
+
+Oracle
+MySQL &amp; MariaDB
+PostgreSQL
+MongoDB
+MSSQL
+
+
+OracleImage: https://hub.docker.com/r/wnameless/oracle-xe-11g/
+1$ docker run --name",
+        "wordCount": 1451
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/database/postgres-trigger/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            PostgreSQL의 Trigger를 이용한 자동 chunk 생성
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/linux/how-to-control-nginx/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">명령어로 NGINX 컨트롤하기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/docker/db-sample/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

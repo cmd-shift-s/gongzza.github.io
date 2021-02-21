@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>TypeScript로 Nuxt.js 시작하기 - 1 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="typescript,nuxt.js,nuxt-typescript" />
+    
+    <meta name="description" content="IntroductionUpdate: 2019-03-21  Nuxt.js가 v2.5.0로 릴리즈 되면서 nuxt-ts를 설치하지 않고 @nuxt&#x2F;typescript로 TypeScript를 공식적으로 지원하기 시작하였습니다.  릴리즈 소식은 여기를 확인해 주세요. nuxt-typescript 예제는 여기를 확인해 주세요. Create Projectnpx cre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript로 Nuxt.js 시작하기 - 1">
+<meta property="og:url" content="https://gongzza.github.io/nuxtjs/nuxt-ts-1/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="IntroductionUpdate: 2019-03-21  Nuxt.js가 v2.5.0로 릴리즈 되면서 nuxt-ts를 설치하지 않고 @nuxt&#x2F;typescript로 TypeScript를 공식적으로 지원하기 시작하였습니다.  릴리즈 소식은 여기를 확인해 주세요. nuxt-typescript 예제는 여기를 확인해 주세요. Create Projectnpx cre">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/nuxt/hello-nuxt-ts.png">
+<meta property="article:published_time" content="2019-02-16T15:23:29.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.658Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="nuxt.js">
+<meta property="article:tag" content="nuxt-typescript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/nuxt/hello-nuxt-ts.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Nuxt-js/">Nuxt.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-nuxtjs/nuxt-ts-1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        TypeScript로 Nuxt.js 시작하기 - 1
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/nuxtjs/nuxt-ts-1/" class="article-date">
+       <time datetime="2019-02-16T15:23:29.000Z" itemprop="datePublished">2019-02-17</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/nuxtjs/nuxt-ts-1/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.658Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/nuxt-typescript/" rel="tag">nuxt-typescript</a>, <a class="tag-link-link" href="/tags/nuxt-js/" rel="tag">nuxt.js</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Update: 2019-03-21</p>
+<blockquote>
+<p>Nuxt.js가 v2.5.0로 릴리즈 되면서 <code>nuxt-ts</code>를 설치하지 않고 <code>@nuxt/typescript</code>로 TypeScript를 공식적으로 지원하기 시작하였습니다.</p>
+</blockquote>
+<p>릴리즈 소식은 <a target="_blank" rel="noopener" href="https://github.com/nuxt/nuxt.js/releases">여기</a>를 확인해 주세요.</p>
+<p><code>nuxt-typescript</code> 예제는 <a target="_blank" rel="noopener" href="https://codesandbox.io/s/github/nuxt/nuxt.js/tree/dev/examples/typescript">여기</a>를 확인해 주세요.</p>
+<h2 id="Create-Project"><a href="#Create-Project" class="headerlink" title="Create Project"></a>Create Project</h2><p><code>npx create-nuxt-app</code> 명령어로 프로젝트를 생성합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ npx create-nuxt-app hello-nuxt-ts</span><br><span class="line">&gt; Generating Nuxt.js project <span class="keyword">in</span> hello-nuxt-ts</span><br><span class="line">? Project name: hello-nuxt-ts</span><br><span class="line">? Project description: My marvelous Nuxt.js project</span><br><span class="line">? Use a custom server framework: none</span><br><span class="line">? Choose features to install: Linter / Formatter</span><br><span class="line">? Use a custom UI framework: none</span><br><span class="line">? Use a custom <span class="built_in">test</span> framework: jest</span><br><span class="line">? Choose rendering mode: Single Page App</span><br><span class="line">? Author name: Gz</span><br><span class="line">? Choose a package manager: npm</span><br><span class="line"></span><br><span class="line">&gt; hello-nuxt-ts@1.0.0 lint hello-nuxt-ts</span><br><span class="line">&gt; eslint --ext .js,.vue --ignore-path .gitignore . <span class="string">&quot;--fix&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  To get started:</span><br><span class="line"></span><br><span class="line">  	<span class="built_in">cd</span> hello-nuxt-ts</span><br><span class="line">  	npm run dev</span><br><span class="line"></span><br><span class="line">  To build &amp; start <span class="keyword">for</span> production:</span><br><span class="line"></span><br><span class="line">  	<span class="built_in">cd</span> hello-nuxt-ts</span><br><span class="line">  	npm run build</span><br><span class="line">  	npm start</span><br><span class="line"></span><br><span class="line">  To <span class="built_in">test</span>:</span><br><span class="line"></span><br><span class="line">  	<span class="built_in">cd</span> hello-nuxt-ts</span><br><span class="line">  	npm run <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p><code>cd hello-nuxt-ts &amp;&amp; npm run dev</code> 명령어로 서버를 실행하고 <a target="_blank" rel="noopener" href="http://localhost:3000/">http://localhost:3000</a> 주소로 접속하면 다음 화면을 볼 수 있습니다.</p>
+<p><img src="/images/nuxt/hello-nuxt-ts.png" alt="Nuxt.js Index Page"></p>
+<h2 id="Migrating-to-TypeScript"><a href="#Migrating-to-TypeScript" class="headerlink" title="Migrating to TypeScript"></a>Migrating to TypeScript</h2><p><code>@nuxt/typescript</code>를 설치하고 <code>tsconfig.json</code> 파일을 생성합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Install dependency</span></span><br><span class="line">$ npm i -D @nuxt/typescript</span><br><span class="line">+ @nuxt/typescript@2.5.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate tsconfig.json</span></span><br><span class="line">$ <span class="built_in">echo</span> &#123;&#125; &gt; tsconfig.json</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>tsconfig.json</code> 파일 내용은 <code>nuxt</code> 실행 시 자동으로 채워집니다.</p>
+</blockquote>
+<p>그 다음 <code>nuxt.config.js</code> 파일을 <code>.ts</code> 파일로 변경합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv nuxt.config.js nuxt.config.ts</span><br></pre></td></tr></table></figure>
+
+<p>그리고 <code>nuxt.config.ts</code> 에 타입을 선언합니다.</p>
+<figure class="highlight ts"><figcaption><span>nuxt.config.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ts에서 .json 파일을 불러오기 위해서는 compilerOptions.resolveJsonModule를 활성화 시키면 됩니다.</span></span><br><span class="line">- <span class="keyword">import</span> pkg <span class="keyword">from</span> <span class="string">&#x27;package&#x27;</span></span><br><span class="line">+ <span class="keyword">const</span> pkg = &#123; <span class="attr">name</span>: <span class="string">&#x27;hello-nuxt-ts&#x27;</span>, <span class="attr">description</span>: <span class="string">&#x27;My marvelous Nuxt.js project&#x27;</span> &#125;</span><br><span class="line">+ <span class="keyword">import</span> NuxtConfiguration <span class="keyword">from</span> <span class="string">&#x27;@nuxt/config&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  mode: <span class="string">&#x27;spa&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  ** Build configuration</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  build: &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    ** You can extend webpack config here</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="title">extend</span>(<span class="params">config, ctx</span>)</span> &#123;</span><br><span class="line">      <span class="comment">// Run ESLint on save</span></span><br><span class="line">      <span class="keyword">if</span> (ctx.isDev &amp;&amp; ctx.isClient) &#123;</span><br><span class="line">        <span class="comment">// config.module이 null일 수 있어서 타입 체크가 필요합니다.</span></span><br><span class="line">+       <span class="keyword">if</span> (!config.module) config.module = &#123; <span class="attr">rules</span>: [] &#125;</span><br><span class="line">        config.module.rules.push(&#123;</span><br><span class="line">          enforce: <span class="string">&#x27;pre&#x27;</span>,</span><br><span class="line">          test: <span class="regexp">/\.(js|vue)$/</span>,</span><br><span class="line">          loader: <span class="string">&#x27;eslint-loader&#x27;</span>,</span><br><span class="line">          exclude: <span class="regexp">/(node_modules)/</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">as</span> NuxtConfiguration</span><br></pre></td></tr></table></figure>
+
+<p><code>npx nuxt</code> 명령어를 실행해서 정상 작동을 확인해 봅니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ npx nuxt</span><br><span class="line">ℹ tsconfig.json found, enabling TypeScript runtime support</span><br><span class="line"></span><br><span class="line">   ╭─────────────────────────────────────────╮</span><br><span class="line">   │                                         │</span><br><span class="line">   │   Nuxt.js v2.5.1                        │</span><br><span class="line">   │   Running <span class="keyword">in</span> development mode (spa)     │</span><br><span class="line">   │   Memory usage: 97.1 MB (RSS: 157 MB)   │</span><br><span class="line">   │                                         │</span><br><span class="line">   │   Listening on: http://localhost:3000   │</span><br><span class="line">   │                                         │</span><br><span class="line">   ╰─────────────────────────────────────────╯</span><br><span class="line"></span><br><span class="line">ℹ Preparing project <span class="keyword">for</span> development</span><br><span class="line">ℹ Initial build may take a <span class="keyword">while</span></span><br><span class="line">✔ Builder initialized</span><br><span class="line">✔ Nuxt files generated</span><br><span class="line">ℹ Starting <span class="built_in">type</span> checking service...</span><br><span class="line">ℹ Using 1 worker with 2048MB memory <span class="built_in">limit</span></span><br><span class="line"></span><br><span class="line">✔ Client</span><br><span class="line">  Compiled successfully <span class="keyword">in</span> 4.00s</span><br><span class="line"></span><br><span class="line">ℹ Type checking <span class="keyword">in</span> progress...</span><br><span class="line">ℹ Waiting <span class="keyword">for</span> file changes</span><br><span class="line">ℹ No <span class="built_in">type</span> errors found</span><br><span class="line">ℹ Version: typescript 3.3.4000</span><br><span class="line">ℹ Time: 4943ms</span><br></pre></td></tr></table></figure>
+
+<p>서버를 실행하고 <code>tsconfig.json</code> 파일을 확인해 보면 설정 옵션이 추가된 것을 확인할 수 있습니다.</p>
+<p>그리고 서버가 실행중인 상태에서 <code>pages/index.vue</code>의 script를 <code>&lt;script lang=&quot;ts&quot;&gt;</code>로 바꿔봅니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">↻ Updated pages/index.vue</span><br><span class="line"></span><br><span class="line">✔ Client</span><br><span class="line">  Compiled successfully <span class="keyword">in</span> 688.54ms</span><br><span class="line"></span><br><span class="line">ℹ Type checking <span class="keyword">in</span> progress...</span><br><span class="line">ℹ No <span class="built_in">type</span> errors found</span><br><span class="line">ℹ Version: typescript 3.3.4000</span><br><span class="line">ℹ Time: 1598ms</span><br></pre></td></tr></table></figure>
+
+<p>정상적으로 동작하는 것을 확인할 수 있습니다.</p>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>다음은 <code>nuxt-property-decorator</code>를 사용해서 Component를 Class Base로 작성하는 방법을 살펴볼 것입니다. 그리고 <code>jest</code>로 테스트를 추가해볼 것입니다.</p>
+<p><a href="../nuxt-ts-2">다음 포스트</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/nuxt/nuxt.js/releases">https://github.com/nuxt/nuxt.js/releases</a></li>
+<li><a target="_blank" rel="noopener" href="https://codesandbox.io/s/github/nuxt/nuxt.js/tree/dev/examples/typescript">https://codesandbox.io/s/github/nuxt/nuxt.js/tree/dev/examples/typescript</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/nuxtjs/nuxt-ts-1/" data-id="cklexwu7j000qpypvb0pt43zv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "TypeScript로 Nuxt.js 시작하기 - 1",
+        "image": "https://gongzza.github.io/images/nuxt/hello-nuxt-ts.png",
+        "keywords": "typescript nuxt.js nuxt-typescript",
+        "genre": "Javascript Nuxt.js",
+        "datePublished": "2019-02-17",
+        "dateCreated": "2019-02-17",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/nuxtjs/nuxt-ts-1/",
+        "description": "IntroductionUpdate: 2019-03-21
+
+Nuxt.js가 v2.5.0로 릴리즈 되면서 nuxt-ts를 설치하지 않고 @nuxt/typescript로 TypeScript를 공식적으로 지원하기 시작하였습니다.
+
+릴리즈 소식은 여기를 확인해 주세요.
+nuxt-typescript 예제는 여기를 확인해 주세요.
+Create Projectnpx cre",
+        "wordCount": 1043
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/nuxtjs/nuxt-ts-2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            TypeScript로 Nuxt.js 실행하기 - 2
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/mac/open-current-folder-in-finder-from-iterm2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Open Current Folder in Finder from iTerm2 of Mac OS X</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/nuxtjs/nuxt-ts-1/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

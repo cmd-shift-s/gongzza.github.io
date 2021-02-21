@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Jest로 TypeScript 학습테스트 환경 만들기 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="test,typescript,learning,jest" />
+    
+    <meta name="description" content="소개Jest로 TypeScript를 테스트 하면서 학습해 나가는 환경을 만들어 볼 것입니다. 프로젝트 생성12345678910111213141516171819# make dir and change dir$ mkdir learning-typescript-with-jest &amp;&amp; cd $_# initialize package.json$ npm in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jest로 TypeScript 학습테스트 환경 만들기">
+<meta property="og:url" content="https://gongzza.github.io/javascript/learning-typescript-with-jest/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="소개Jest로 TypeScript를 테스트 하면서 학습해 나가는 환경을 만들어 볼 것입니다. 프로젝트 생성12345678910111213141516171819# make dir and change dir$ mkdir learning-typescript-with-jest &amp;&amp; cd $_# initialize package.json$ npm in">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-03-19T11:03:48.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.619Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="learning">
+<meta property="article:tag" content="jest">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/learning-typescript-with-jest" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Jest로 TypeScript 학습테스트 환경 만들기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/learning-typescript-with-jest/" class="article-date">
+       <time datetime="2018-03-19T11:03:48.000Z" itemprop="datePublished">2018-03-19</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/learning-typescript-with-jest/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.619Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/jest/" rel="tag">jest</a>, <a class="tag-link-link" href="/tags/learning/" rel="tag">learning</a>, <a class="tag-link-link" href="/tags/test/" rel="tag">test</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h1><p><a target="_blank" rel="noopener" href="https://facebook.github.io/jest/">Jest</a>로 <a target="_blank" rel="noopener" href="http://www.typescriptlang.org/">TypeScript</a>를 테스트 하면서 학습해 나가는 환경을 만들어 볼 것입니다.</p>
+<h2 id="프로젝트-생성"><a href="#프로젝트-생성" class="headerlink" title="프로젝트 생성"></a>프로젝트 생성</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># make dir and change dir</span></span><br><span class="line">$ mkdir learning-typescript-with-jest &amp;&amp; <span class="built_in">cd</span> <span class="variable">$_</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize package.json</span></span><br><span class="line">$ npm init -y</span><br><span class="line">Wrote to learning-typescript-with-jest/package.json:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;learning-typescript-with-jest&quot;</span>,</span><br><span class="line">  <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="string">&quot;description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;main&quot;</span>: <span class="string">&quot;index.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;test&quot;</span>: <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;keywords&quot;</span>: [],</span><br><span class="line">  <span class="string">&quot;author&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;license&quot;</span>: <span class="string">&quot;ISC&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>TypeScript와 Jest를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D typescript jest @types/jest</span><br><span class="line">+ typescript@2.7.2</span><br><span class="line">+ jest@22.4.2</span><br><span class="line">+ @types/jest@22.2.0</span><br></pre></td></tr></table></figure>
+
+<p>Jest는 JavaScript로 작성 되었기 때문에 TypeScript에서 타입 정보를 알 수 없습니다. 그래서 Jest의 타입 정보가 담겨져 있는 <code>@types/jest</code>를 설치해 주어야 합니다.</p>
+<p>그리고 Jest에서 TypeScript를 실행하기 위해서 <a target="_blank" rel="noopener" href="https://github.com/kulshekhar/ts-jest">ts-jest</a>를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D ts-jest</span><br><span class="line">+ ts-jest@22.4.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="설정"><a href="#설정" class="headerlink" title="설정"></a>설정</h2><p>test script를 작성합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;script&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;jest&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>jest를 설정합니다.</p>
+<p>여기서 ts-jest를 사용합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;jest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;transform&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;^.+\\.ts$&quot;</span>: <span class="string">&quot;ts-jest&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;testRegex&quot;</span>: <span class="string">&quot;\\.test\\.ts$&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;moduleFileExtensions&quot;</span>: [</span><br><span class="line">      <span class="string">&quot;ts&quot;</span>, <span class="string">&quot;js&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;globals&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;ts-jest&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;enableTsDiagnostics&quot;</span>: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>testRegex에서 테스트할 파일명을 정규화 표현식으로 찾습니다.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kulshekhar/ts-jest#ts-compiler--error-reporting">ts-jest.enableTsDiagnostics</a>은 컴파일 시 에러가 있을 경우 무시하지 않고 테스트를 실패하게 하는 옵션입니다. 기본값이 false이기 때문에 true로 바꿔주었습니다.</p>
+<p>그리고 ts-jest에서 필요로 하는 <code>tsconfig.json</code>을 추가합니다.</p>
+<figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>우선 필요한 옵션은 없기 때문에 모든 값을 기본 값으로 설정합니다.</p>
+<h2 id="테스트"><a href="#테스트" class="headerlink" title="테스트"></a>테스트</h2><p>이제 테스트를 작성해 봅니다.</p>
+<p><a target="_blank" rel="noopener" href="http://www.typescriptlang.org/docs/handbook/basic-types.html">TypeScript#Hanbook</a>을 참고해서 Enum을 테스트해 봅니다.</p>
+<figure class="highlight js"><figcaption><span>test/basic-types.test.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">&#x27;Basic Types&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  test(<span class="string">&#x27;Enum#number&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    enum Color &#123;Red, Green, Blue&#125;</span><br><span class="line">    <span class="keyword">let</span> c: Color = Color.Green</span><br><span class="line">    expect(c).toBe(<span class="number">1</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  test(<span class="string">&#x27;Enum#name&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    enum Color &#123;Red = <span class="number">1</span>, Green, Blue&#125;</span><br><span class="line">    <span class="keyword">let</span> colorName: string = Color[<span class="number">2</span>]</span><br><span class="line">    expect(colorName).toBe(<span class="string">&#x27;Green&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 수행해 보면 통과하는 것을 볼 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line">&gt; learning-typescript-with-jest@1.0.0 <span class="built_in">test</span> learning-typescript-with-jest</span><br><span class="line">&gt; jest</span><br><span class="line">PASS  <span class="built_in">test</span>/basic-types.test.ts</span><br><span class="line"> Basic Types</span><br><span class="line">   ✓ Enum<span class="comment">#number (3ms)</span></span><br><span class="line">   ✓ Enum<span class="comment">#name (1ms)</span></span><br><span class="line"></span><br><span class="line">Test Suites: 1 passed, 1 total</span><br><span class="line">Tests:       2 passed, 2 total</span><br><span class="line">Snapshots:   0 total</span><br><span class="line">Time:        3.585s</span><br></pre></td></tr></table></figure>
+
+<p><code>npm test -- --watch</code> 명령어로 파일의 변경을 감지하여 테스트를 수행할 수 있습니다.</p>
+<h2 id="검증-테스트"><a href="#검증-테스트" class="headerlink" title="검증 테스트"></a>검증 테스트</h2><p><a target="_blank" rel="noopener" href="https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API">Using the Compiler API</a>를 참고해서 TypeScript 검증 테스트를 작성해 볼 것입니다.</p>
+<p>검증을 하기 위해서는 소스코드가 파일로 존재해야 합니다.</p>
+<p>그래서 임시파일을 만들어 주는 <a target="_blank" rel="noopener" href="https://github.com/raszi/node-tmp">node-tmp</a>를 사용할 것입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D tmp @types/node</span><br><span class="line">+ tmp@0.0.33</span><br><span class="line">+ @types/node@9.4.7</span><br></pre></td></tr></table></figure>
+
+<p><code>@types/node</code>는 node에서 기본으로 제공하고 있는 fs 모듈을 사용하기 위해서 설치합니다.</p>
+<p>검증 후 에러 메시지들을 리턴하는 함수를 작성합니다.</p>
+<figure class="highlight ts"><figcaption><span>utils.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> fs <span class="keyword">from</span> <span class="string">&#x27;fs&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> ts <span class="keyword">from</span> <span class="string">&#x27;typescript&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> tmp <span class="keyword">from</span> <span class="string">&#x27;tmp&#x27;</span></span><br><span class="line"></span><br><span class="line">tmp.setGracefulCleanup()</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">compile</span>(<span class="params">code: <span class="built_in">string</span>, options?: ts.CompilerOptions</span>): <span class="title">string</span>[] </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> file = tmp.fileSync(&#123;<span class="attr">postfix</span>: <span class="string">&#x27;.ts&#x27;</span>&#125;)</span><br><span class="line">  fs.writeSync(file.fd, code)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> servicesHost: ts.LanguageServiceHost = &#123;</span><br><span class="line">    getScriptFileNames: <span class="function">() =&gt;</span> [file.name],</span><br><span class="line">    getScriptVersion: <span class="function">() =&gt;</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">    getScriptSnapshot: <span class="function">(<span class="params">fileName</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!fs.existsSync(fileName)) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> ts.ScriptSnapshot.fromString(fs.readFileSync(fileName).toString());</span><br><span class="line">    &#125;,</span><br><span class="line">    getCurrentDirectory: <span class="function">() =&gt;</span> process.cwd(),</span><br><span class="line">    getCompilationSettings: <span class="function">() =&gt;</span> options,</span><br><span class="line">    getDefaultLibFileName: <span class="function">(<span class="params">options</span>) =&gt;</span> ts.getDefaultLibFilePath(options),</span><br><span class="line">    fileExists: ts.sys.fileExists,</span><br><span class="line">    readFile: ts.sys.readFile,</span><br><span class="line">    readDirectory: ts.sys.readDirectory,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> service = ts.createLanguageService(servicesHost)</span><br><span class="line">  <span class="keyword">return</span> service.getCompilerOptionsDiagnostics()</span><br><span class="line">    .concat(service.getSemanticDiagnostics(file.name))</span><br><span class="line">    .map(<span class="function"><span class="params">diagnostic</span> =&gt;</span> ts.flattenDiagnosticMessageText(diagnostic.messageText, <span class="string">&#x27;\n&#x27;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>ts.createProgram</code> 메소드를 사용하면 코드가 매우 짧아 질 수 있지만, 속도가 3배 정도 차이가 나서 <code>ts.createLanguageService</code> 메소드를 사용하였습니다.</p>
+</blockquote>
+<p>에러 메시지를 확인해보는 테스트 코드를 작성해봅니다.</p>
+<figure class="highlight ts"><figcaption><span>test/basic-types.test.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;compile&#125; <span class="keyword">from</span> <span class="string">&#x27;../utils&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;Basic Types&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  test(<span class="string">&#x27;Boolean&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> isDone: <span class="built_in">boolean</span> = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">export</span>(<span class="keyword">typeof</span> isDone).toBe(<span class="string">&#x27;boolean&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> diagnostics = compile(<span class="string">`</span></span><br><span class="line"><span class="string">      let isDone: boolean = 1</span></span><br><span class="line"><span class="string">    `</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(diagnostics)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 수행해 보면 다음과 같은 메시지를 확인할 수 있습니다.</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PASS  test/basic-types.test.ts (5.799s)</span><br><span class="line">  Basic Types</span><br><span class="line">    ✓ Boolean (528ms)</span><br><span class="line">    ✓ Enum#number (1ms)</span><br><span class="line">    ✓ Enum#name</span><br><span class="line"></span><br><span class="line">  console.log test/basic-types.test.ts:11</span><br><span class="line">    [ &#x27;Type \&#x27;1\&#x27; is not assignable to type \&#x27;boolean\&#x27;.&#x27; ]</span><br><span class="line"></span><br><span class="line">Test Suites: 1 passed, 1 total</span><br><span class="line">Tests:       3 passed, 3 total</span><br><span class="line">Snapshots:   0 total</span><br><span class="line">Time:        6.508s</span><br></pre></td></tr></table></figure>
+
+<p><code>console.log</code>를 지우고 <code>expect</code>로 변경하고 테스트를 수행하면 통과하는 것을 볼 수 있습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="built_in">console</span>.log(diagnostics)</span><br><span class="line">+ expect(diagnostics[<span class="number">0</span>]).toEqual(<span class="string">`Type &#x27;1&#x27; is not assignable to type &#x27;boolean&#x27;.`</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p><a target="_blank" rel="noopener" href="http://www.typescriptlang.org/docs/handbook/basic-types.html">TypeScript#Hanbook</a>을 보면서 차근차근 테스트 케이스를 만들다 보면 어느새 익숙해져 있을 것입니다.</p>
+<p>검증 테스트는 수행 시간을 너무 많이 잡아 먹는 단점이 있습니다. 그래서 저는 <code>expect</code>로 에러 메시지를 확인하는 방법 보다는 에러 메시지를 주석으로 달아 놓는 것이 더 좋을 것 같다고 생각합니다. 왜냐하면 테스트 속도가 길면 공부를 집중하는데 방해가 될 수 있기 때문입니다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API">TypeScript#Using the Compiler API</a></li>
+<li><a target="_blank" rel="noopener" href="https://facebook.github.io/jest/docs/en/configuration.html">Jest#Configuration</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kulshekhar/ts-jest">ts-jest</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/learning-typescript-with-jest/" data-id="cklexwu6x000epypv9njr1ck4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Jest로 TypeScript 학습테스트 환경 만들기",
+        "image": "https://gongzza.github.io",
+        "keywords": "test typescript learning jest",
+        "genre": "Javascript",
+        "datePublished": "2018-03-19",
+        "dateCreated": "2018-03-19",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/learning-typescript-with-jest/",
+        "description": "소개Jest로 TypeScript를 테스트 하면서 학습해 나가는 환경을 만들어 볼 것입니다.
+프로젝트 생성12345678910111213141516171819# make dir and change dir$ mkdir learning-typescript-with-jest &amp;&amp; cd $_# initialize package.json$ npm in",
+        "wordCount": 1265
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/linux/how-to-control-nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            명령어로 NGINX 컨트롤하기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/java/spring/spring-mybatis-h2-localtest/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/learning-typescript-with-jest/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

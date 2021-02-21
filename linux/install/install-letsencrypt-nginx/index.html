@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Let&#39;s Encrypt - 무료 SSL 인증서 발급받기 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="install,nginx,centos,https,letsencrypt" />
+    
+    <meta name="description" content="Let’s Encrypt를 적용하는 방법을 알아볼 것입니다. 다행히 문서화가 잘 되어 있어서 (한글은 아니지만…) 다른 환경에서도 적용하는데 큰 문제는 없을 것입니다. 서버 환경OS: CentOS7NGINX: 1.10.2 InstallCertbot을 이용해서 아주 간단하게 설치할 수 있습니다.“I’m using (Software) on (System)”을">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Let&#39;s Encrypt - 무료 SSL 인증서 발급받기">
+<meta property="og:url" content="https://gongzza.github.io/linux/install/install-letsencrypt-nginx/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Let’s Encrypt를 적용하는 방법을 알아볼 것입니다. 다행히 문서화가 잘 되어 있어서 (한글은 아니지만…) 다른 환경에서도 적용하는데 큰 문제는 없을 것입니다. 서버 환경OS: CentOS7NGINX: 1.10.2 InstallCertbot을 이용해서 아주 간단하게 설치할 수 있습니다.“I’m using (Software) on (System)”을">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/linux/install/certbot_main.png">
+<meta property="article:published_time" content="2017-05-22T16:45:28.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.653Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="install">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="centos">
+<meta property="article:tag" content="https">
+<meta property="article:tag" content="letsencrypt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/linux/install/certbot_main.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Linux/">Linux</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Linux/Install/">Install</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-linux/install/install-letsencrypt-nginx" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Let&#39;s Encrypt - 무료 SSL 인증서 발급받기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/linux/install/install-letsencrypt-nginx/" class="article-date">
+       <time datetime="2017-05-22T16:45:28.000Z" itemprop="datePublished">2017-05-23</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/linux/install/install-letsencrypt-nginx/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.653Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/centos/" rel="tag">centos</a>, <a class="tag-link-link" href="/tags/https/" rel="tag">https</a>, <a class="tag-link-link" href="/tags/install/" rel="tag">install</a>, <a class="tag-link-link" href="/tags/letsencrypt/" rel="tag">letsencrypt</a>, <a class="tag-link-link" href="/tags/nginx/" rel="tag">nginx</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>를 적용하는 방법을 알아볼 것입니다. 다행히 문서화가 잘 되어 있어서 (한글은 아니지만…) 다른 환경에서도 적용하는데 큰 문제는 없을 것입니다.</p>
+<p><strong>서버 환경</strong><br>OS: CentOS7<br>NGINX: 1.10.2</p>
+<h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><p><a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a>을 이용해서 아주 간단하게 설치할 수 있습니다.<br><img src="/images/linux/install/certbot_main.png" alt="Certbot 메인"><br>“I’m using (Software) on (System)”을 시스템에 맞게 선택 하면은 설치 방법을 알려줍니다.<br>저는 위에 적힌 서버 환경대로 Software에서 Nginx를 선택 하고 System에서 CentOS/RHEL 7를 선택하였습니다.</p>
+<p><strong>주의</strong><br>설치하기에 앞서 반듯이 <a target="_blank" rel="noopener" href="https://zetawiki.com/wiki/YUM_epel_%EC%A0%80%EC%9E%A5%EC%86%8C_%EC%B6%94%EA%B0%80">EPEL repository</a>가 활성화 되어 있어야 합니다.<br>만약 설치 하지 않았다면, <code>sudo yum install epel-release</code>로 설치하면 됩니다.</p>
+<p><a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a>을 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install certbot</span><br></pre></td></tr></table></figure>
+
+<p>인증서를 생성하는 방법은 다음과 같습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certonly --standalone -d www.example.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>주의</strong><br><a target="_blank" rel="noopener" href="https://certbot.eff.org/">Certbot</a>이 인증을 하면서 443 포트를 사용합니다. (80 포트를 사용할 수도 있습니다.) 그래서 443 포트를 열어주어야 합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo firewall-cmd --permanent --add-service=https</span><br><span class="line">$ sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p><strong>주의</strong><br>만약 Nginx 또는 다른 어떤 프로그램이 443 포트가 사용중이라면, 다음과 같은 에러를 볼 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certonly --standalone -d www.example.com</span><br><span class="line">Saving debug <span class="built_in">log</span> to /var/<span class="built_in">log</span>/letsencrypt/letsencrypt.log</span><br><span class="line">Starting new HTTPS connection (1): acme-v01.api.letsencrypt.org</span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">tls-sni-01 challenge <span class="keyword">for</span> www.example.com</span><br><span class="line"></span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">Could not <span class="built_in">bind</span> TCP port 443 because it is already <span class="keyword">in</span> use by another process on</span><br><span class="line">this system (such as a web server). Please stop the program <span class="keyword">in</span> question and <span class="keyword">then</span></span><br><span class="line">try again.</span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">(R)etry/(C)ancel:</span><br></pre></td></tr></table></figure>
+<p>443포트를 비워두고 Retry 또는 다시 명령어를 실행하면 됩니다.</p>
+<p>nginx를 사용할 경우 다음과 같이 hook를 이용할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certonly --standalone -d gz.us.to --pre-hook &quot;systemctl stop nginx&quot; --post-hook &quot;systemctl start nginx&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Nginx-configuration"><a href="#Nginx-configuration" class="headerlink" title="Nginx configuration"></a>Nginx configuration</h3><p>Nginx에 위에서 발급받은 SSL 인증서를 설정합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  server_name www.example.com;</span><br><span class="line"></span><br><span class="line">  ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.example.com&#x2F;fullchain.pem;</span><br><span class="line">  ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.example.com&#x2F;privkey.pem;</span><br><span class="line"></span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>설정 정보를 적용합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
+<p>아무런 메시지 없이 프롬프트로 떨어졌다면, 정상적으로 설정이 적용된 것입니다.</p>
+<h5 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h5><p>API서버를 따로 두었을 경우 proxy를 이용하여 요청정보를 넘길 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">server &#123;</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  location &#x2F;api &#123;</span><br><span class="line">    proxy_set_header Host $http_host;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header X-Forwarded-Proto $scheme;</span><br><span class="line">    proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;localhost:3000&#x2F;api;</span><br><span class="line">    proxy_redirect off;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이제 /api로 호출되는 모든 요청은 내부서버로 넘어가게 됩니다.</p>
+<h3 id="Renewing-certificates"><a href="#Renewing-certificates" class="headerlink" title="Renewing certificates"></a>Renewing certificates</h3><p><a target="_blank" rel="noopener" href="https://letsencrypt.org/">Let’s Encrypt</a>로 발급받은 SSL 인증서는 유효기간이 90일 입니다.<br>그리고 재발급이 가능한 기간은 60일 이후 부터입니다.</p>
+<p>먼저 <code>--dry-run</code> 옵션으로 재발급이 가능한지 테스트를 할 수 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot renew --dry-run</span><br><span class="line">...</span><br><span class="line">Congratulations, all renewals succeeded. The following certs have been renewed:</span><br><span class="line">  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;www.example.com&#x2F;fullchain.pem (success)</span><br></pre></td></tr></table></figure>
+<p>위와 같이 success가 나온다면 60일 이후 <code>certbot renew</code> 명령으로 재발급을 받을 수 있습니다.</p>
+<p>여기서도 문제가 발생할 수 있습니다.<br>처음에 인증서를 발급하면서 hook을 이용하지 않으셧을 경우 nginx가 켜져 있으면, 위에서 발생했던 443 포트 문제가 다시 발생하게 됩니다.<br>그럴 경우 renewal파일에 hook을 추가해줍니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi &#x2F;etc&#x2F;letsencrypt&#x2F;renewal&#x2F;www.example.com.conf</span><br><span class="line">...</span><br><span class="line"># Options used in the renewal process</span><br><span class="line">[renewalparams]</span><br><span class="line">pre_hook &#x3D; systemctl stop nginx</span><br><span class="line">post_hook &#x3D; systemctl start nginx</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>다시 명령어를 실행하면 성공으로 떨어지는 것을 확인할 수 있을 것입니다.</p>
+<h5 id="Crontab"><a href="#Crontab" class="headerlink" title="Crontab"></a>Crontab</h5><p>Linux의 스케줄러인 Crontab에 등록해서 3달에 한번씩 자동 갱신하도록 작업을 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo crontab -e</span><br><span class="line">0 4 1 *&#x2F;3 * certbot renew</span><br></pre></td></tr></table></figure>
+<p>1월, 4월, 7월, 10월 1일 4시 0분에 위 명령어가 실행됩니다.</p>
+<h3 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h3><p>정보가 중요한 시대인 만큼 보안은 필수입니다.<br>SSL을 적용함으로 써 속도가 느려지는 부분도 존재하지만, 그 부분은 매우 미미하다고 생각합니다.<br>옛날에는 SSL인증서 발급이 비싸서 주로 개인서명(Self Signed)를 많이 사용했지만, 고맙게도 이렇게 무료로 인증서를 발급해주니 꼭 서버에 적용해서 안전한 서비스를 제공하시기 바랍니다.</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://letsencrypt.org/">https://letsencrypt.org/</a></li>
+<li><a target="_blank" rel="noopener" href="https://certbot.eff.org/">https://certbot.eff.org/</a></li>
+<li><a target="_blank" rel="noopener" href="https://zetawiki.com/wiki/YUM_epel_%EC%A0%80%EC%9E%A5%EC%86%8C_%EC%B6%94%EA%B0%80">https://zetawiki.com/wiki/YUM_epel_%EC%A0%80%EC%9E%A5%EC%86%8C_%EC%B6%94%EA%B0%80</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.upcloud.com/support/install-lets-encrypt-nginx/">https://www.upcloud.com/support/install-lets-encrypt-nginx/</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/linux/install/install-letsencrypt-nginx/" data-id="cklexwufi003mpypvbclr8jgk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Let&#39;s Encrypt - 무료 SSL 인증서 발급받기",
+        "image": "https://gongzza.github.io/images/linux/install/certbot_main.png",
+        "keywords": "install nginx centos https letsencrypt",
+        "genre": "Linux Install",
+        "datePublished": "2017-05-23",
+        "dateCreated": "2017-05-23",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/linux/install/install-letsencrypt-nginx/",
+        "description": "Let’s Encrypt를 적용하는 방법을 알아볼 것입니다. 다행히 문서화가 잘 되어 있어서 (한글은 아니지만…) 다른 환경에서도 적용하는데 큰 문제는 없을 것입니다.
+서버 환경OS: CentOS7NGINX: 1.10.2
+InstallCertbot을 이용해서 아주 간단하게 설치할 수 있습니다.“I’m using (Software) on (System)”을 ",
+        "wordCount": 694
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/nodejs/swagger-node-express/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Express에 Swagger 붙이기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/nodejs/express-test-structure-2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Express 테스트 환경 만들기(2)</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/linux/install/install-letsencrypt-nginx/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

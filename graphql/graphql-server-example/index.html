@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>GraphQL Server - Example | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="graphql,express,apollo" />
+    
+    <meta name="description" content="GraphQL Server - ExampleApolloServer Getting started를 참고하여 TypeScript로 예제를 작성하였습니다. Initialize12$ mkdir graphql-server-example &amp;&amp; cd $_$ npm init -y  Install1234567891011# dependencies$ npm i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL Server - Example">
+<meta property="og:url" content="https://gongzza.github.io/graphql/graphql-server-example/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="GraphQL Server - ExampleApolloServer Getting started를 참고하여 TypeScript로 예제를 작성하였습니다. Initialize12$ mkdir graphql-server-example &amp;&amp; cd $_$ npm init -y  Install1234567891011# dependencies$ npm i">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/graphql/graphql-playground.png">
+<meta property="article:published_time" content="2018-09-18T13:39:05.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.610Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="apollo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/graphql/graphql-playground.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/GraphQL/">GraphQL</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-graphql/graphql-server-example" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        GraphQL Server - Example
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/graphql/graphql-server-example/" class="article-date">
+       <time datetime="2018-09-18T13:39:05.000Z" itemprop="datePublished">2018-09-18</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/graphql/graphql-server-example/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.610Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/apollo/" rel="tag">apollo</a>, <a class="tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="GraphQL-Server-Example"><a href="#GraphQL-Server-Example" class="headerlink" title="GraphQL Server - Example"></a>GraphQL Server - Example</h1><p><a target="_blank" rel="noopener" href="https://www.apollographql.com/docs/apollo-server/v2/getting-started.html">ApolloServer Getting started</a>를 참고하여 TypeScript로 예제를 작성하였습니다.</p>
+<h2 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir graphql-server-example &amp;&amp; <span class="built_in">cd</span> <span class="variable">$_</span></span><br><span class="line">$ npm init -y</span><br></pre></td></tr></table></figure>
+
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dependencies</span></span><br><span class="line">$ npm i -S express graphql apollo-server-express</span><br><span class="line">+ express@4.16.3</span><br><span class="line">+ apollo-server-express@2.0.7</span><br><span class="line">+ graphql@14.0.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># devDependencies</span></span><br><span class="line">$ npm i -D typescript @types/express @types/graphql</span><br><span class="line">+ @types/express@4.16.0</span><br><span class="line">+ @types/graphql@14.0.0</span><br><span class="line">+ typescript@3.0.3</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>graphql은 직접 사용하진 않지만, Apollo Server에서 peer dependency로 필요합니다.</p>
+</blockquote>
+<h2 id="TypeScript-Config"><a href="#TypeScript-Config" class="headerlink" title="TypeScript Config"></a>TypeScript Config</h2><p><code>tsconfig.json</code>을 작성합니다.</p>
+<figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;target&quot;</span>: <span class="string">&quot;esnext&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;module&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;moduleResolution&quot;</span>: <span class="string">&quot;node&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span>: <span class="string">&quot;dist&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;baseUrl&quot;</span>: <span class="string">&quot;./&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;paths&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;~/*&quot;</span>: [<span class="string">&quot;./src/*&quot;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Scripts"><a href="#Scripts" class="headerlink" title="Scripts"></a>Scripts</h2><p><code>package.json</code>에 컴파일 및 서버 실행 스크립트를 추가합니다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dev&quot;</span>: <span class="string">&quot;npm run build &amp;&amp; npm start&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;start&quot;</span>: <span class="string">&quot;node dist/server&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;prebuild&quot;</span>: <span class="string">&quot;rm -rf dist&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;build&quot;</span>: <span class="string">&quot;tsc&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>개발 서버는 <code>npm run dev</code> 명령어로 실행시킬 수 있습니다.</p>
+<h2 id="GraphQL-Server-for-Express"><a href="#GraphQL-Server-for-Express" class="headerlink" title="GraphQL Server for Express"></a>GraphQL Server for Express</h2><p><a target="_blank" rel="noopener" href="https://github.com/apollographql/apollo-server">apollo-server-express</a>를 사용해서 GraphQL을 주고받을 수 있는 <a target="_blank" rel="noopener" href="http://expressjs.com/">express</a> 서버를 작성합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/app.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&#x27;express&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; ApolloServer, gql &#125; <span class="keyword">from</span> <span class="string">&#x27;apollo-server-express&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// This is a (sample) collection of books we&#x27;ll be able to query</span></span><br><span class="line"><span class="comment">// the GraphQL server for.  A more complete example might fetch</span></span><br><span class="line"><span class="comment">// from an existing data source like a REST API or database.</span></span><br><span class="line"><span class="keyword">const</span> books = [</span><br><span class="line">  &#123;</span><br><span class="line">    title: <span class="string">&#x27;Harry Potter and the Chamber of Secrets&#x27;</span>,</span><br><span class="line">    author: <span class="string">&#x27;J.K. Rowling&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    title: <span class="string">&#x27;Jurassic Park&#x27;</span>,</span><br><span class="line">    author: <span class="string">&#x27;Michael Crichton&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// Type definitions define the &quot;shape&quot; of your data and specify</span></span><br><span class="line"><span class="comment">// which ways the data can be fetched from the GraphQL server.</span></span><br><span class="line"><span class="keyword">const</span> typeDefs = gql<span class="string">`</span></span><br><span class="line"><span class="string">  # Comments in GraphQL are defined with the hash (#) symbol.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  # This &quot;Book&quot; type can be used in other type declarations.</span></span><br><span class="line"><span class="string">  type Book &#123;</span></span><br><span class="line"><span class="string">    title: String</span></span><br><span class="line"><span class="string">    author: String</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  # The &quot;Query&quot; type is the root of all GraphQL queries.</span></span><br><span class="line"><span class="string">  # (A &quot;Mutation&quot; type will be covered later on.)</span></span><br><span class="line"><span class="string">  type Query &#123;</span></span><br><span class="line"><span class="string">    books: [Book]</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Resolvers define the technique for fetching the types in the</span></span><br><span class="line"><span class="comment">// schema.  We&#x27;ll retrieve books from the &quot;books&quot; array above.</span></span><br><span class="line"><span class="keyword">const</span> resolvers = &#123;</span><br><span class="line">  Query: &#123;</span><br><span class="line">    books: <span class="function">() =&gt;</span> books</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line"><span class="comment">// In the most basic sense, the ApolloServer can be started</span></span><br><span class="line"><span class="comment">// by passing type definitions (typeDefs) and the resolvers</span></span><br><span class="line"><span class="comment">// responsible for fetching the data for those types.</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123; typeDefs, resolvers &#125;)</span><br><span class="line"></span><br><span class="line">server.applyMiddleware(&#123; app &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>서버를 실행시키는 <code>server.ts</code>를 추가합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/server.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; app, server &#125; <span class="keyword">from</span> <span class="string">&#x27;./app&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> PORT = <span class="number">3000</span></span><br><span class="line"></span><br><span class="line">app.listen(PORT, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`🚀 Server ready at http://localhost:<span class="subst">$&#123;PORT&#125;</span><span class="subst">$&#123;server.graphqlPath&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>서버 실행 부분을 따로 작성한 이유는 <a target="_blank" rel="noopener" href="https://github.com/visionmedia/supertest">supertest</a>로 express 테스트를 작성하기 위해서 입니다.</p>
+<h2 id="Playground"><a href="#Playground" class="headerlink" title="Playground"></a>Playground</h2><p>서버를 실행합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ npm run dev</span><br><span class="line"></span><br><span class="line">&gt; graphql-server-example@1.0.0 dev</span><br><span class="line">&gt; npm run build &amp;&amp; npm start</span><br><span class="line"></span><br><span class="line">&gt; graphql-server-example@1.0.0 prebuild</span><br><span class="line">&gt; rm -rf dist</span><br><span class="line"></span><br><span class="line">&gt; graphql-server-example@1.0.0 build</span><br><span class="line">&gt; tsc</span><br><span class="line"></span><br><span class="line">&gt; graphql-server-example@1.0.0 start</span><br><span class="line">&gt; node dist/server</span><br><span class="line"></span><br><span class="line">🚀 Server ready at http://localhost:3000/graphql</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://localhost:3000/graphql">http://localhost:3000/graphql</a> 이 주소에 접근 하면 playground 화면을 볼 수 있습니다.</p>
+<p><img src="/images/graphql/graphql-playground.png" alt="graphql-playground"></p>
+<h2 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h2><p>왼쪽은 요청 화면이고 오른쪽은 응답 화면입니다.</p>
+<p>요청 화면에 쿼리를 입력하고 요청을 보내면 응답을 받을 수 있습니다.</p>
+<p><img src="/images/graphql/graphql-playground-response.png" alt="graphql-playground-response"></p>
+<h2 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h2><p>Query는 데이터를 가져오기에 초점을 맞춰있다면, Mutation은 데이터를 수정하거나 쓰는 역할을 담당합니다.</p>
+<p>Query와 마찬가지로 Mutation이 객체 타입을 반환하면 필드를 요청할 수 있습니다.</p>
+<p>Book을 등록하는 Mutation을 작성해봅니다.</p>
+<figure class="highlight ts"><figcaption><span>src/app.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> typeDefs = gql<span class="string">`</span></span><br><span class="line"><span class="string">  ...</span></span><br><span class="line"><span class="string">  type Mutation &#123;</span></span><br><span class="line"><span class="string">    createBook(title: String, author: String): Book</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resolvers = &#123;</span><br><span class="line">  ...</span><br><span class="line">  Mutation: &#123;</span><br><span class="line">    createBook: <span class="function">(<span class="params">root, args</span>) =&gt;</span> &#123;</span><br><span class="line">      books.push(args)</span><br><span class="line">      <span class="keyword">return</span> args</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>서버를 재시작 후 Mutation을 요청해보면 응답으로 저장된 Book을 받을 수 있습니다.</p>
+<p><img src="/images/graphql/graphql-playground-mutation.png" alt="graphql-playground-mutation"></p>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p><a href="../graphql-server-test">다음 포스트</a>에서는 지금까지 작성한 소스 코드를 <a target="_blank" rel="noopener" href="https://mochajs.org/">mocha</a>와 <a target="_blank" rel="noopener" href="https://github.com/visionmedia/supertest">supertest</a>로 테스트 코드를 작성 해 볼 것입니다.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.apollographql.com/docs/apollo-server/v2/getting-started.html">ApolloServer Getting started</a></li>
+<li><a target="_blank" rel="noopener" href="https://graphql-kr.github.io/learn/">GraphQL(KR) - 배우기</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/graphql/graphql-server-example/" data-id="cklexwu6b0008pypv8c2cdvx5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "GraphQL Server - Example",
+        "image": "https://gongzza.github.io/images/graphql/graphql-playground.png",
+        "keywords": "graphql express apollo",
+        "genre": "GraphQL",
+        "datePublished": "2018-09-18",
+        "dateCreated": "2018-09-18",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/graphql/graphql-server-example/",
+        "description": "GraphQL Server - ExampleApolloServer Getting started를 참고하여 TypeScript로 예제를 작성하였습니다.
+Initialize12$ mkdir graphql-server-example &amp;&amp; cd $_$ npm init -y
+
+Install1234567891011# dependencies$ npm i ",
+        "wordCount": 1046
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/graphql/graphql-server-test/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            GraphQL Server - Test
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/database/postgres-trigger/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">PostgreSQL의 Trigger를 이용한 자동 chunk 생성</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/graphql/graphql-server-example/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

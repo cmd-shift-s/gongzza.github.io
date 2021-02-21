@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Express에 Swagger 붙이기 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="swagger-jsdoc,node.js,swagger-ui-express" />
+    
+    <meta name="description" content="Express에 Swagger를 붙여보려고 합니다. Install언제나 시작은 설치부터죠 1$ npm install --save-dev swagger-ui-express swagger-jsdoc   swagger-ui-express: express에 swagger ui를 쉽게 붙일 수 있습니다. swagger-jsdoc: Comment 형식으로 문서를 작성">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Express에 Swagger 붙이기">
+<meta property="og:url" content="https://gongzza.github.io/javascript/nodejs/swagger-node-express/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Express에 Swagger를 붙여보려고 합니다. Install언제나 시작은 설치부터죠 1$ npm install --save-dev swagger-ui-express swagger-jsdoc   swagger-ui-express: express에 swagger ui를 쉽게 붙일 수 있습니다. swagger-jsdoc: Comment 형식으로 문서를 작성">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/javascript/nodejs/swagger_todo_list.png">
+<meta property="article:published_time" content="2017-07-18T11:16:30.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.624Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="swagger-jsdoc">
+<meta property="article:tag" content="node.js">
+<meta property="article:tag" content="swagger-ui-express">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/javascript/nodejs/swagger_todo_list.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Node-js/">Node.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/nodejs/swagger-node-express" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Express에 Swagger 붙이기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/nodejs/swagger-node-express/" class="article-date">
+       <time datetime="2017-07-18T11:16:30.000Z" itemprop="datePublished">2017-07-18</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/nodejs/swagger-node-express/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.624Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/node-js/" rel="tag">node.js</a>, <a class="tag-link-link" href="/tags/swagger-jsdoc/" rel="tag">swagger-jsdoc</a>, <a class="tag-link-link" href="/tags/swagger-ui-express/" rel="tag">swagger-ui-express</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="http://expressjs.com/ko/">Express</a>에 <a target="_blank" rel="noopener" href="https://swagger.io/">Swagger</a>를 붙여보려고 합니다.</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>언제나 시작은 설치부터죠</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev swagger-ui-express swagger-jsdoc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/scottie1984/swagger-ui-express">swagger-ui-express</a>: express에 swagger ui를 쉽게 붙일 수 있습니다.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Surnet/swagger-jsdoc">swagger-jsdoc</a>: Comment 형식으로 문서를 작성할 수 있습니다.</li>
+</ul>
+<h2 id="Swagger-Specification"><a href="#Swagger-Specification" class="headerlink" title="Swagger Specification"></a>Swagger Specification</h2><p><a target="_blank" rel="noopener" href="https://github.com/Surnet/swagger-jsdoc">swagger-jsdoc</a>를 이용해서 Swagger 명세서를 생성합니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> swaggerJSDoc = <span class="built_in">require</span>(<span class="string">&#x27;swagger-jsdoc&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Swagger definition</span></span><br><span class="line"><span class="comment">// You can set every attribute except paths and swagger</span></span><br><span class="line"><span class="comment">// https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md</span></span><br><span class="line"><span class="keyword">var</span> swaggerDefinition = &#123;</span><br><span class="line">  info: &#123; <span class="comment">// API informations (required)</span></span><br><span class="line">    title: <span class="string">&#x27;Hello World&#x27;</span>, <span class="comment">// Title (required)</span></span><br><span class="line">    version: <span class="string">&#x27;1.0.0&#x27;</span>, <span class="comment">// Version (required)</span></span><br><span class="line">    description: <span class="string">&#x27;A sample API&#x27;</span>, <span class="comment">// Description (optional)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  host: <span class="string">&#x27;localhost:3000&#x27;</span>, <span class="comment">// Host (optional)</span></span><br><span class="line">  basePath: <span class="string">&#x27;/&#x27;</span>, <span class="comment">// Base path (optional)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Options for the swagger docs</span></span><br><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">  <span class="comment">// Import swaggerDefinitions</span></span><br><span class="line">  swaggerDefinition: swaggerDefinition,</span><br><span class="line">  <span class="comment">// Path to the API docs</span></span><br><span class="line">  apis: [<span class="string">&#x27;./example/routes*.js&#x27;</span>, <span class="string">&#x27;./example/parameters.yaml&#x27;</span>],</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Initialize swagger-jsdoc -&gt; returns validated swagger spec in json format</span></span><br><span class="line"><span class="keyword">var</span> swaggerSpec = swaggerJSDoc(options)</span><br></pre></td></tr></table></figure>
+
+<p><code>apis</code> 배열에 들어간 파일들의 주석을 분석합니다.</p>
+<p><code>swaggerDefinition</code>는 json이기 때문에 파일로 따로 분리할 수도 있고, <code>production</code>일 경우 <code>basePath</code>를 변경할 수 있습니다. 상세 정보는 <a target="_blank" rel="noopener" href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#swagger-object">여기</a>를 참고하시면 됩니다.</p>
+<p><code>host</code>는 변경하지 않으면 현재 Domain을 따라서 갑니다.</p>
+<h5 id="Security-Definitions"><a href="#Security-Definitions" class="headerlink" title="Security Definitions"></a>Security Definitions</h5><p>JWT 인증을 사용할 경우 다음과 같이 <code>swaggerDefinition</code>을 수정합니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> swaggerDefinition = &#123;</span><br><span class="line">  ...</span><br><span class="line">  securityDefinitions: &#123;</span><br><span class="line">    jwt: &#123;</span><br><span class="line">      type: <span class="string">&#x27;apiKey&#x27;</span>,</span><br><span class="line">      name: <span class="string">&#x27;Authorization&#x27;</span>,</span><br><span class="line">      <span class="keyword">in</span>: <span class="string">&#x27;header&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  security: [</span><br><span class="line">    &#123; <span class="attr">jwt</span>: [] &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>security</code>를 API마다 따로 적용할 수도 있지만, 여기서는 로그인 기반 서비스이기 때문에 전역으로 설정하였습니다.<br>자세한 사항은 <a target="_blank" rel="noopener" href="https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-6-defining-security/">여기</a> 를 참고하시기 바랍니다.</p>
+<h2 id="Writing-the-documentation"><a href="#Writing-the-documentation" class="headerlink" title="Writing the documentation"></a>Writing the documentation</h2><p><a target="_blank" rel="noopener" href="https://ko.wikipedia.org/wiki/YAML">YAML</a>형식으로 문서를 작성합니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@swagger</span></span></span><br><span class="line"><span class="comment"> * tags:</span></span><br><span class="line"><span class="comment"> *   name: Todo</span></span><br><span class="line"><span class="comment"> *   description: Todo management</span></span><br><span class="line"><span class="comment"> * definitions:</span></span><br><span class="line"><span class="comment"> *   Todo:</span></span><br><span class="line"><span class="comment"> *     type: object</span></span><br><span class="line"><span class="comment"> *     required:</span></span><br><span class="line"><span class="comment"> *       - content</span></span><br><span class="line"><span class="comment"> *     properties:</span></span><br><span class="line"><span class="comment"> *       _id:</span></span><br><span class="line"><span class="comment"> *         type: string</span></span><br><span class="line"><span class="comment"> *         description: ObjectID</span></span><br><span class="line"><span class="comment"> *       content:</span></span><br><span class="line"><span class="comment"> *         type: string</span></span><br><span class="line"><span class="comment"> *         description: 할일 내용</span></span><br><span class="line"><span class="comment"> *       done:</span></span><br><span class="line"><span class="comment"> *         type: boolean</span></span><br><span class="line"><span class="comment"> *         description: 완료 여부</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@swagger</span></span></span><br><span class="line"><span class="comment"> * /todo:</span></span><br><span class="line"><span class="comment"> *   get:</span></span><br><span class="line"><span class="comment"> *     summary: Returns Todo list</span></span><br><span class="line"><span class="comment"> *     tags: [Todo]</span></span><br><span class="line"><span class="comment"> *     responses:</span></span><br><span class="line"><span class="comment"> *       200:</span></span><br><span class="line"><span class="comment"> *         description: todo list</span></span><br><span class="line"><span class="comment"> *         schema:</span></span><br><span class="line"><span class="comment"> *           type: object</span></span><br><span class="line"><span class="comment"> *           properties:</span></span><br><span class="line"><span class="comment"> *             todos:</span></span><br><span class="line"><span class="comment"> *               type: array</span></span><br><span class="line"><span class="comment"> *               items:</span></span><br><span class="line"><span class="comment"> *                 $ref: &#x27;#/definitions/Todo&#x27;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">router.put(<span class="string">&#x27;/&#x27;</span>, isAuthenticated, todoList);</span><br></pre></td></tr></table></figure>
+<p>위 문서를 파싱할 경우 아래와 같은 화면을 보실 수 있습니다.</p>
+<p><img src="/images/javascript/nodejs/swagger_todo_list.png" alt="Todo List"></p>
+<h2 id="Swagger-UI-Express"><a href="#Swagger-UI-Express" class="headerlink" title="Swagger UI Express"></a>Swagger UI Express</h2><p>Express에 Swagger UI를 추가합니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> swaggerUi = <span class="built_in">require</span>(<span class="string">&#x27;swagger-ui-express&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> swaggerSpec = swaggerJSDoc(options);</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">&#x27;/api-docs&#x27;</span>, swaggerUi.serve, swaggerUi.setup(swaggerSpec));</span><br></pre></td></tr></table></figure>
+
+<p>설정이 정말 간단하죠?<br>이제 <a target="_blank" rel="noopener" href="http://localhost:3000/api-docs">http://localhost:3000/api-docs</a> 로 접속하면 위에서 봤던 화면을 보실 수 있습니다.</p>
+<p><code>/api-docs</code>는 얼마든지 변경하셔서 사용하시면 됩니다.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://swagger.io/specification/">https://swagger.io/specification/</a></li>
+<li><a target="_blank" rel="noopener" href="https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-1-introduction/">https://apihandyman.io/writing-openapi-swagger-specification-tutorial-part-1-introduction/</a></li>
+<li><a target="_blank" rel="noopener" href="http://joliv.me/2016/10/15/express-api-swagger/">http://joliv.me/2016/10/15/express-api-swagger/</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/nodejs/swagger-node-express/" data-id="cklexwu92001dpypveqxs8pfl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Express에 Swagger 붙이기",
+        "image": "https://gongzza.github.io/images/javascript/nodejs/swagger_todo_list.png",
+        "keywords": "swagger-jsdoc node.js swagger-ui-express",
+        "genre": "Javascript Node.js",
+        "datePublished": "2017-07-18",
+        "dateCreated": "2017-07-18",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/nodejs/swagger-node-express/",
+        "description": "Express에 Swagger를 붙여보려고 합니다.
+Install언제나 시작은 설치부터죠
+1$ npm install --save-dev swagger-ui-express swagger-jsdoc
+
+
+swagger-ui-express: express에 swagger ui를 쉽게 붙일 수 있습니다.
+swagger-jsdoc: Comment 형식으로 문서를 작성",
+        "wordCount": 903
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/vuejs/getting-started-vuejs-with-typescript-1/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Typescript로 Vue.js 시작하기 - 1
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/linux/install/install-letsencrypt-nginx/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Let&#39;s Encrypt - 무료 SSL 인증서 발급받기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/nodejs/swagger-node-express/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

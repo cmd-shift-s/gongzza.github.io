@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Typescript로 Vue.js 시작하기 - 6 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="typescript,javascript,vue.js" />
+    
+    <meta name="description" content="이전 포스트 axios와 axios-mock-adapter를 이용해서 개발 및 테스트 케이스를 작성 해볼 것입니다. 설치1$ npm i -D axios axios-mock-adapter  axios baseURLaxios는 baseURL를 지정할 수 있습니다. baseURL은 요청 URL 앞에 prefix처럼 붙어서 요청을 하게 됩니다. API는 Fake">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typescript로 Vue.js 시작하기 - 6">
+<meta property="og:url" content="https://gongzza.github.io/javascript/vuejs/getting-started-vuejs-with-typescript-6/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="이전 포스트 axios와 axios-mock-adapter를 이용해서 개발 및 테스트 케이스를 작성 해볼 것입니다. 설치1$ npm i -D axios axios-mock-adapter  axios baseURLaxios는 baseURL를 지정할 수 있습니다. baseURL은 요청 URL 앞에 prefix처럼 붙어서 요청을 하게 됩니다. API는 Fake">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/javascript/vuejs/fake-todo-list.png">
+<meta property="article:published_time" content="2017-08-25T15:17:00.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.635Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="vue.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/javascript/vuejs/fake-todo-list.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Vue-js/">Vue.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/vuejs/getting-started-vuejs-with-typescript-6" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Typescript로 Vue.js 시작하기 - 6
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/vuejs/getting-started-vuejs-with-typescript-6/" class="article-date">
+       <time datetime="2017-08-25T15:17:00.000Z" itemprop="datePublished">2017-08-26</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/vuejs/getting-started-vuejs-with-typescript-6/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.635Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>, <a class="tag-link-link" href="/tags/vue-js/" rel="tag">vue.js</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a href="../getting-started-vuejs-with-typescript-5">이전 포스트</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mzabriskie/axios">axios</a>와 <a target="_blank" rel="noopener" href="https://github.com/ctimmerm/axios-mock-adapter">axios-mock-adapter</a>를 이용해서 개발 및 테스트 케이스를 작성 해볼 것입니다.</p>
+<h3 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D axios axios-mock-adapter</span><br></pre></td></tr></table></figure>
+
+<h3 id="axios-baseURL"><a href="#axios-baseURL" class="headerlink" title="axios baseURL"></a>axios baseURL</h3><p>axios는 baseURL를 지정할 수 있습니다.</p>
+<p>baseURL은 요청 URL 앞에 prefix처럼 붙어서 요청을 하게 됩니다.</p>
+<p>API는 Fake Online REST API를 제공해주는 <a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com/">https://jsonplaceholder.typicode.com</a> 를 사용하였습니다.</p>
+<figure class="highlight ts"><figcaption><span>src/index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line">axios.defaults.baseURL = <span class="string">&#x27;https://jsonplaceholder.typicode.com&#x27;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="컴포넌트-추가"><a href="#컴포넌트-추가" class="headerlink" title="컴포넌트 추가"></a>컴포넌트 추가</h3><p><code>TodoList</code> 컴포넌트를 추가할 것입니다.</p>
+<p>이름에서도 알 수 있듯이 <code>/todos</code>를 호출 후 결과값을 리스트로 보여주기만 하는 컴포넌트입니다.</p>
+<h5 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h5><figure class="highlight ts"><figcaption><span>src/components/TodoList/index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">&#x27;vue-property-decorator&#x27;</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Todo &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  userId: <span class="built_in">number</span></span><br><span class="line">  title: <span class="built_in">string</span></span><br><span class="line">  completed: <span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">TodoList</span> <span class="keyword">extends</span> <span class="title">Vue</span> </span>&#123;</span><br><span class="line">  todos: <span class="built_in">Array</span>&lt;Todo&gt; = []</span><br><span class="line"></span><br><span class="line">  created(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.asyncData()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  asyncData(): <span class="built_in">void</span> &#123;</span><br><span class="line">    axios.get(<span class="string">&#x27;/todos&#x27;</span>)</span><br><span class="line">      .then(<span class="function">(<span class="params">&#123;data: todos&#125;</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.todos = todos <span class="keyword">as</span> <span class="built_in">Array</span>&lt;Todo&gt;</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>interface Todo</code>를 선언한 이유는 TypeScript의 장점을 잘 살리기 위해서 입니다.</p>
+<p>지금은 컴포넌트 내에서 선언하였지만, 모델이 많아질 경우 디렉토리를 따로 만들어서 <code>import &#123; Todo &#125; from &#39;@/models&#39;</code> 처럼 불러오면 좋을 것 같습니다.</p>
+<h5 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h5><p>화면은 심플하게 <code>ul li</code>로 리스트를 나열하였습니다.</p>
+<figure class="highlight html"><figcaption><span>src/components/TodoList/index.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Todo List<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;todo of todos&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;todo.id&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">class</span>=<span class="string">&quot;clickable&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">v-model</span>=<span class="string">&quot;todo.completed&quot;</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;todo-title&quot;</span>&gt;</span></span><br><span class="line">            &#123;&#123;todo.title&#125;&#125;</span><br><span class="line">          <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">lang</span>=<span class="string">&quot;ts&quot;</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> TodoList <span class="keyword">from</span> <span class="string">&#x27;./index.ts&#x27;</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> TodoList</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span></span><br><span class="line"><span class="css"><span class="selector-tag">ul</span> <span class="selector-tag">li</span> &#123; <span class="attribute">list-style-type</span>: none; &#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.clickable</span> &#123; <span class="attribute">cursor</span>: pointer; &#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.todo-title</span> &#123; <span class="attribute">display</span>: inline; &#125;</span></span><br><span class="line"><span class="css"><span class="selector-tag">input</span><span class="selector-pseudo">:checked</span> ~ <span class="selector-class">.todo-title</span> &#123; <span class="attribute">text-decoration</span>: line-through; &#125;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="App"><a href="#App" class="headerlink" title="App"></a>App</h5><p>메인 화면에 위에서 만든 <code>TodoList</code> 컴포넌트를 추가합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> TodoList <span class="keyword">from</span> <span class="string">&#x27;@/components/TodoList&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">  template: <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;div&gt;</span></span><br><span class="line"><span class="string">      &lt;todo-list /&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;</span></span><br><span class="line"><span class="string">  `</span>,</span><br><span class="line">  components: &#123;</span><br><span class="line">    TodoList</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>개발 서버를 실행 후 화면을 확인해보면, 다음과 같이 리스트를 볼 수 있습니다.<br><img src="/images/javascript/vuejs/fake-todo-list.png" alt="Fake Todo list"></p>
+<h3 id="Test-추가"><a href="#Test-추가" class="headerlink" title="Test 추가"></a>Test 추가</h3><p>위에 작성한 <code>TodoList</code> 컴포넌트의 테스트 케이스를 작성할 것입니다.</p>
+<p>axios로 /todos를 요청하는데요. 이 부분을 axios-mock-adapter로 응답을 만들어서 내려 줄 것입니다.</p>
+<figure class="highlight js"><figcaption><span>test/unit/components/TodoList.spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> TodoList <span class="keyword">from</span> <span class="string">&#x27;@/components/TodoList&#x27;</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"><span class="keyword">import</span> MockAdapter <span class="keyword">from</span> <span class="string">&#x27;axios-mock-adapter&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;TodoList.vue&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> mock = <span class="keyword">new</span> MockAdapter(axios)</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    mock.onGet(<span class="string">&#x27;/todos&#x27;</span>)</span><br><span class="line">    .reply(<span class="number">200</span>, [</span><br><span class="line">      &#123;</span><br><span class="line">        id: <span class="number">1</span>,</span><br><span class="line">        userId: <span class="number">1</span>,</span><br><span class="line">        title: <span class="string">&#x27;todo title&#x27;</span>,</span><br><span class="line">        completed: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    ])</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    mock.restore()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;#asyncData&#x27;</span>, <span class="function"><span class="params">done</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> vm = <span class="keyword">new</span> TodoList(&#123;</span><br><span class="line">      el: <span class="built_in">document</span>.createElement(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    expect(vm.todos).to.have.lengthOf(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    process.nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      expect(vm.todos).to.have.lengthOf(<span class="number">1</span>)</span><br><span class="line">      done()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 돌려보면은 성공하는 것을 볼 수 있습니다.</p>
+<p>하지만, axios-mockadapter가 typescript를 지원하고 있지 않아서 컴파일 에러도 같이 보입니다.  <a target="_blank" rel="noopener" href="https://github.com/ctimmerm/axios-mock-adapter/issues/11">issue</a>로 남겨있으며, <a target="_blank" rel="noopener" href="https://github.com/andrepinguim/axios-mock-adapter">@andrepinguim</a>이 작업하던 소스를 참고하여 다음과 같이 추가하여 컴파일 에러를 제거할 수 있습니다.</p>
+<figure class="highlight js"><figcaption><span>test/unit/@types/axios-mock-adapter/index.d.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">declare <span class="built_in">module</span> <span class="string">&quot;axios-mock-adapter&quot;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">import</span> &#123; AxiosStatic, AxiosRequestConfig, AxiosPromise, AxiosAdapter &#125; <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">MockAdapter</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span>(<span class="params">axios?: AxiosStatic, config?: MockAdapter.IMockConfig</span>);</span><br><span class="line"></span><br><span class="line">    restore(): <span class="keyword">void</span>;</span><br><span class="line">    reset(): <span class="keyword">void</span>;</span><br><span class="line">    passThrough(): <span class="keyword">void</span>;</span><br><span class="line">    adapter(): AxiosAdapter;</span><br><span class="line"></span><br><span class="line">    reply(func: <span class="function">(<span class="params">config: AxiosRequestConfig</span>) =&gt;</span> MockAdapter.MockResponse | AxiosPromise): MockAdapter;</span><br><span class="line">    reply(status: number, data?: any): MockAdapter;</span><br><span class="line"></span><br><span class="line">    replyOnce(func: <span class="function">(<span class="params">config: AxiosRequestConfig</span>) =&gt;</span> MockAdapter.MockResponse | AxiosPromise): MockAdapter;</span><br><span class="line">    replyOnce(status: number, data?: any): MockAdapter;</span><br><span class="line"></span><br><span class="line">    onGet: MockAdapter.defaultVerb;</span><br><span class="line">    onPost: MockAdapter.defaultVerb;</span><br><span class="line">    onPut: MockAdapter.defaultVerb;</span><br><span class="line">    onHead: MockAdapter.defaultVerb;</span><br><span class="line">    onDelete: MockAdapter.defaultVerb;</span><br><span class="line">    onPatch: MockAdapter.defaultVerb;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">export</span> namespace MockAdapter &#123;</span><br><span class="line">    <span class="keyword">export</span> type MockResponse = [number, any, any];</span><br><span class="line">    <span class="keyword">export</span> interface IMockConfig &#123; <span class="attr">delayResponse</span>: number &#125;</span><br><span class="line"></span><br><span class="line">    interface defaultVerb &#123; (path?: string | <span class="built_in">RegExp</span>, body?: any): MockAdapter &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span> MockAdapter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>다시 테스트를 수행해 보면, 컴파일이 성공적으로 된 것을 확인할 수 있습니다.</p>
+<h3 id="다음은"><a href="#다음은" class="headerlink" title="다음은?"></a>다음은?</h3><p>위에서 작성한 테스트 케이스를 <a target="_blank" rel="noopener" href="https://github.com/marak/Faker.js/">faker.js</a>와 <code>utils.ts</code>를 추가하여 보강하도록 하겠습니다.</p>
+<p><a href="../getting-started-vuejs-with-typescript-7">다음 이동</a></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/vuejs/getting-started-vuejs-with-typescript-6/" data-id="cklexwubq0023pypv5ae9h8aa" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Typescript로 Vue.js 시작하기 - 6",
+        "image": "https://gongzza.github.io/images/javascript/vuejs/fake-todo-list.png",
+        "keywords": "typescript javascript vue.js",
+        "genre": "Javascript Vue.js",
+        "datePublished": "2017-08-26",
+        "dateCreated": "2017-08-26",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/vuejs/getting-started-vuejs-with-typescript-6/",
+        "description": "이전 포스트
+axios와 axios-mock-adapter를 이용해서 개발 및 테스트 케이스를 작성 해볼 것입니다.
+설치1$ npm i -D axios axios-mock-adapter
+
+axios baseURLaxios는 baseURL를 지정할 수 있습니다.
+baseURL은 요청 URL 앞에 prefix처럼 붙어서 요청을 하게 됩니다.
+API는 Fake ",
+        "wordCount": 1277
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/vuejs/getting-started-vuejs-with-typescript-7/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Typescript로 Vue.js 시작하기 - 7
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/vuejs/getting-started-vuejs-with-typescript-5/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Typescript로 Vue.js 시작하기 - 5</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/vuejs/getting-started-vuejs-with-typescript-6/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

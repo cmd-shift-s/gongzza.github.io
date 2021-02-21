@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Open Current Folder in Finder from iTerm2 of Mac OS X | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="iterm2,finder" />
+    
+    <meta name="description" content="IntroductioniTerm2을 사용하다 보면 현재 폴더를 Finder에서 봐야할 때가 있는데요. 이럴때 현재 프롬프트에 커서가 있다면 open . 명령으로 간단하게 현재 폴더를 Finder로 열 수 있습니다. 하지만, iTerm2에서는 단축키를 지원해 주지 않고, 현재 프로세스가 실행중인 상태라면은 세션을 새로 열고 오픈 명령어를 실행해야 합니다. 이">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Open Current Folder in Finder from iTerm2 of Mac OS X">
+<meta property="og:url" content="https://gongzza.github.io/mac/open-current-folder-in-finder-from-iterm2/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="IntroductioniTerm2을 사용하다 보면 현재 폴더를 Finder에서 봐야할 때가 있는데요. 이럴때 현재 프롬프트에 커서가 있다면 open . 명령으로 간단하게 현재 폴더를 Finder로 열 수 있습니다. 하지만, iTerm2에서는 단축키를 지원해 주지 않고, 현재 프로세스가 실행중인 상태라면은 세션을 새로 열고 오픈 명령어를 실행해야 합니다. 이">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/mac/iterm2-preferences-profile.png">
+<meta property="article:published_time" content="2018-12-21T22:57:14.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.655Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="iterm2">
+<meta property="article:tag" content="finder">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/mac/iterm2-preferences-profile.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-mac/open-current-folder-in-finder-from-iterm2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Open Current Folder in Finder from iTerm2 of Mac OS X
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/mac/open-current-folder-in-finder-from-iterm2/" class="article-date">
+       <time datetime="2018-12-21T22:57:14.000Z" itemprop="datePublished">2018-12-22</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/mac/open-current-folder-in-finder-from-iterm2/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.655Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/finder/" rel="tag">finder</a>, <a class="tag-link-link" href="/tags/iterm2/" rel="tag">iterm2</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p><a target="_blank" rel="noopener" href="https://www.iterm2.com/">iTerm2</a>을 사용하다 보면 현재 폴더를 Finder에서 봐야할 때가 있는데요.</p>
+<p>이럴때 현재 프롬프트에 커서가 있다면 <code>open .</code> 명령으로 간단하게 현재 폴더를 Finder로 열 수 있습니다.</p>
+<p>하지만, iTerm2에서는 단축키를 지원해 주지 않고, 현재 프로세스가 실행중인 상태라면은 세션을 새로 열고 오픈 명령어를 실행해야 합니다.</p>
+<p>이런 번거로운 작업을 Profile을 이용해서 단축키로 한번에 여는 방법을 소개합니다.</p>
+<h1 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h1><p>iTerm2에서는 세션을 새로 열 때 프로필 개념을 사용하는데, 단축키를 지정해서 원하는 프로필로 세션을 생성할 수 있습니다.</p>
+<p>먼저, <code>cmd + ,</code> 단축키로 Preferences를 엽니다. 그리고 Profile 탭으로 이동합니다.</p>
+<p><img src="/images/mac/iterm2-preferences-profile.png" alt="iTerm2 Preferences"></p>
+<p>보시면은 현재 Default 프로필만 존재하는데요. Finder를 오픈 할 프로필을 하나 추가합니다.</p>
+<p>그리고 다음과 같이 입력합니다.</p>
+<p><img src="/images/mac/iterm2-preferences-profile-open-finder.png" alt="iTerm2 Preferences"></p>
+<ul>
+<li>Basics -&gt; Shortcut key 지정 (저는 여기서 ctrl+cmd+f를 지정하였습니다.)</li>
+<li>Command 에서 Command 란에 <code>open .</code>를 입력</li>
+<li>Working Directory -&gt; Reuse previous session’s directory 선택</li>
+</ul>
+<h1 id="Open-Finder"><a href="#Open-Finder" class="headerlink" title="Open Finder"></a>Open Finder</h1><p>이제 단축키를 누르면 Finder가 오픈이 되는데요. iTerm2의 경고도 같이 나오게 됩니다.</p>
+<img src="/images/mac/iterm2-warning-session-ended.png" width="300" alt="iTerm2 Warning" title="iTerm2 Warning">
+
+<p>Session을 시작했는데, 바로 종료 된다는 알림입니다. 체크박스에 체크를 하고 확인을 누르면, 다시 나와서 귀찮게 하지 않을 것입니다.</p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>이제 프로세스가 실행중 이여도 단축키를 누르면 현재 폴더를 Finder에서 열 수 있게 되었습니다.</p>
+<p>새로 세션을 열고 <code>open .</code> 명령어를 직접 칠 수도 있지만, 새로 세션을 열 때 딜레이가 많아서 단축키를 사용하는 것이 훨신 빠르게 작업을 할 수 있는 방법입니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/mac/open-current-folder-in-finder-from-iterm2/" data-id="cklexwu7a000kpypv8hht6r57" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Open Current Folder in Finder from iTerm2 of Mac OS X",
+        "image": "https://gongzza.github.io/images/mac/iterm2-preferences-profile.png",
+        "keywords": "iterm2 finder",
+        "genre": "",
+        "datePublished": "2018-12-22",
+        "dateCreated": "2018-12-22",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/mac/open-current-folder-in-finder-from-iterm2/",
+        "description": "IntroductioniTerm2을 사용하다 보면 현재 폴더를 Finder에서 봐야할 때가 있는데요.
+이럴때 현재 프롬프트에 커서가 있다면 open . 명령으로 간단하게 현재 폴더를 Finder로 열 수 있습니다.
+하지만, iTerm2에서는 단축키를 지원해 주지 않고, 현재 프로세스가 실행중인 상태라면은 세션을 새로 열고 오픈 명령어를 실행해야 합니다.
+이",
+        "wordCount": 201
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/nuxtjs/nuxt-ts-1/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            TypeScript로 Nuxt.js 시작하기 - 1
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/graphql/graphql-server-type/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">GraphQL Server - TypeGraphQL</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/mac/open-current-folder-in-finder-from-iterm2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Getting Started Laravel On Windows | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="install,php,laravel" />
+    
+    <meta name="description" content="Laracasts#Learn Vue 2: Step By Step을 보면서 Laravel을 한번 해보고 싶어 졌다. Windows8 64bit에서 작업을 진행 하였다. Laravel 은 PHP Framework이다. 그래서 PHP를 먼저 설치해 주어야 한다. InstallAPMSETUP을 사용하면 Apache + PHP + Mysql을 한방에 손쉽게 설치하고">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Getting Started Laravel On Windows">
+<meta property="og:url" content="https://gongzza.github.io/php/laravel/getting-started-laravel-on-windows/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Laracasts#Learn Vue 2: Step By Step을 보면서 Laravel을 한번 해보고 싶어 졌다. Windows8 64bit에서 작업을 진행 하였다. Laravel 은 PHP Framework이다. 그래서 PHP를 먼저 설치해 주어야 한다. InstallAPMSETUP을 사용하면 Apache + PHP + Mysql을 한방에 손쉽게 설치하고">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/php/laravel/install/composer-install-on-windows.png">
+<meta property="article:published_time" content="2017-02-03T09:03:21.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.662Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="install">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/php/laravel/install/composer-install-on-windows.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/PHP/">PHP</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/PHP/Laravel/">Laravel</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-php/laravel/getting-started-laravel-on-windows" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Getting Started Laravel On Windows
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/php/laravel/getting-started-laravel-on-windows/" class="article-date">
+       <time datetime="2017-02-03T09:03:21.000Z" itemprop="datePublished">2017-02-03</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/php/laravel/getting-started-laravel-on-windows/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.662Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/install/" rel="tag">install</a>, <a class="tag-link-link" href="/tags/laravel/" rel="tag">laravel</a>, <a class="tag-link-link" href="/tags/php/" rel="tag">php</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="https://laracasts.com/series/learn-vue-2-step-by-step">Laracasts#Learn Vue 2: Step By Step</a>을 보면서 <a target="_blank" rel="noopener" href="https://laravel.com/">Laravel</a>을 한번 해보고 싶어 졌다.</p>
+<p>Windows8 64bit에서 작업을 진행 하였다.</p>
+<p><strong>Laravel</strong> 은 PHP Framework이다. 그래서 PHP를 먼저 설치해 주어야 한다.</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p><a target="_blank" rel="noopener" href="http://www.apmsetup.com/">APMSETUP</a>을 사용하면 Apache + PHP + Mysql을 한방에 손쉽게 설치하고 관리할 수 있다.<br>하지만 나는 PHP만 필요하기 때문에 사용하지 않았다.</p>
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>먼저 자신의 CPU bit에 맞춰서 아래 사이트에서 다운로드 한다.</p>
+<p><a target="_blank" rel="noopener" href="http://windows.php.net/download/">http://windows.php.net/download/</a></p>
+<p>들어가보면 <strong>Thread Safe</strong> 와 <strong>Non Thread Safe</strong> 가 있는데,<br><a target="_blank" rel="noopener" href="http://auctionpro.co.kr/?p=773">Thread Safe와 Non Thread Safe 차이점</a>에서 확인하기 바란다.<br>나는 <strong><a target="_blank" rel="noopener" href="http://windows.php.net/downloads/releases/php-7.1.1-nts-Win32-VC14-x64.zip">VC14 x64 Non Thread Safe (2017-Jan-18 21:06:20)</a></strong> 를 받았다.</p>
+<p>단순 zip파일이라서 원하는 곳에 압축을 풀면 된다.</p>
+<p>압축을 풀고 실행이 잘 되는지 확인해 보자.<br>나는 단순하게 <code>c:\php</code>에 설치하였다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c:\php&gt;php -v</span><br><span class="line">PHP 7.1.1 (cli) (built: Jan 18 2017 18:38:28) ( NTS MSVC14 (Visual C++ 2015) x64 )</span><br><span class="line">Copyright (c) 1997-2017 The PHP Group</span><br><span class="line">Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies</span><br></pre></td></tr></table></figure>
+<p>위와 같이 나오면 된다.</p>
+<h4 id="php-ini"><a href="#php-ini" class="headerlink" title="php.ini"></a>php.ini</h4><p>Laravel을 사용하기 위해서는 다음과 같이 필수요소를 갖춰야 한다.</p>
+<ul>
+<li>PHP &gt;= 5.6.4</li>
+<li>OpenSSL PHP Extension</li>
+<li>PDO PHP Extension</li>
+<li>Mbstring PHP Extension</li>
+<li>Tokenizer PHP Extension</li>
+<li>XML PHP Extension</li>
+</ul>
+<p>먼저 <code>c:\php</code> 폴더에서 <code>php.ini-development</code>를 <code>php.ini</code>으로 복사한다.</p>
+<p>그리고 다음과 같이 파일 내용을 수정한다.</p>
+<figure class="highlight text"><figcaption><span>php.ini</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; On windows:</span><br><span class="line">extension_dir = &quot;ext&quot;</span><br><span class="line">...</span><br><span class="line">extension=php_mbstring.dll</span><br><span class="line">extension=php_openssl.dll</span><br></pre></td></tr></table></figure>
+<p>mbstring과 openssl을 제외하고는 기본 내장인 것 같다.</p>
+<p>자세한 사항은 <a target="_blank" rel="noopener" href="http://php.net/manual">php manual</a>에서 찾아보기 바란다.</p>
+<h3 id="Composer"><a href="#Composer" class="headerlink" title="Composer"></a>Composer</h3><p>Composer는 의존성 관리도구로 haruair님이 번역해주신 <a target="_blank" rel="noopener" href="http://www.haruair.com/blog/1860">PHP 의존성 관리도구 – Composer 시작하기</a>를 읽어보기 바란다.</p>
+<p>이제 Composer를 설치한다.</p>
+<p><a target="_blank" rel="noopener" href="https://getcomposer.org/Composer-Setup.exe">Composer-Setup.exe</a>를 받는다.</p>
+<p>설치를 진행하면 다음과 같이 php가 설치된 디렉토리를 자동으로 찾는다.<br>못찾을 경우 Browse…를 눌러서 직접 <code>php.exe</code>를 지정해 주기 바란다.</p>
+<p><img src="/images/php/laravel/install/composer-install-on-windows.png" alt="Composer Install on Windows"></p>
+<p>그다음은 그냥 Next만 누르면 설치가 완료 된다.</p>
+<p>설치가 완료되면 고맙게도 <code>c:\php</code>를 PATH에 자동 등록해 준다.</p>
+<p>이제 어디서든 <code>php</code>명령어를 사용할 수 있게 되었다.</p>
+<h3 id="Laravel"><a href="#Laravel" class="headerlink" title="Laravel"></a>Laravel</h3><p>먼저 프로젝트를 생성한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ composer create-project --prefer-dist laravel&#x2F;laravel blog</span><br><span class="line">Installing laravel&#x2F;laravel (v5.4.3)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>서버를 실행 시켜서 화면을 띄워보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cd blog</span><br><span class="line">$ php artisan serve</span><br><span class="line">Laravel development server started on http:&#x2F;&#x2F;127.0.0.1:8000&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>위 URL로 접속해서 Laravel이 딱 보이면 정상적으로 서버가 실행된 것이다.</p>
+<p>자세한 사항은 <a target="_blank" rel="noopener" href="https://laravel.com/docs">Laravel#Documentation</a>를 읽어보기 바란다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/php/laravel/getting-started-laravel-on-windows/" data-id="cklexwug3003vpypvdmn6gjxt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Getting Started Laravel On Windows",
+        "image": "https://gongzza.github.io/images/php/laravel/install/composer-install-on-windows.png",
+        "keywords": "install php laravel",
+        "genre": "PHP Laravel",
+        "datePublished": "2017-02-03",
+        "dateCreated": "2017-02-03",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/php/laravel/getting-started-laravel-on-windows/",
+        "description": "Laracasts#Learn Vue 2: Step By Step을 보면서 Laravel을 한번 해보고 싶어 졌다.
+Windows8 64bit에서 작업을 진행 하였다.
+Laravel 은 PHP Framework이다. 그래서 PHP를 먼저 설치해 주어야 한다.
+InstallAPMSETUP을 사용하면 Apache + PHP + Mysql을 한방에 손쉽게 설치하고",
+        "wordCount": 332
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/vuejs/vuejs-todomvc-template/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Vue.js TodoMVC Template
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/getting-started-hubot/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Slack에 Hubot 붙이기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/php/laravel/getting-started-laravel-on-windows/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

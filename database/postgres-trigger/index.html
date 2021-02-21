@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>PostgreSQL의 Trigger를 이용한 자동 chunk 생성 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="postgresql,trigger" />
+    
+    <meta name="description" content="IntroductionPostgreSQL의 Trigger를 이용해서 chunk id를 자동으로 생성하거나 기존의 chunk의 날짜를 갱신하는 로직을 작성해 볼 것입니다. 간단히 테스트 해보기 위해서 Docker를 사용하시면 편합니다. Docker로 개발용 DB 만들기를 참고해 주시기 바랍니다. Table테이블을 생성합니다. schema.sql12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostgreSQL의 Trigger를 이용한 자동 chunk 생성">
+<meta property="og:url" content="https://gongzza.github.io/database/postgres-trigger/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="IntroductionPostgreSQL의 Trigger를 이용해서 chunk id를 자동으로 생성하거나 기존의 chunk의 날짜를 갱신하는 로직을 작성해 볼 것입니다. 간단히 테스트 해보기 위해서 Docker를 사용하시면 편합니다. Docker로 개발용 DB 만들기를 참고해 주시기 바랍니다. Table테이블을 생성합니다. schema.sql12345678">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-06-28T11:11:54.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.606Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="postgresql">
+<meta property="article:tag" content="trigger">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Database/">Database</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-database/postgres-trigger" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        PostgreSQL의 Trigger를 이용한 자동 chunk 생성
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/database/postgres-trigger/" class="article-date">
+       <time datetime="2018-06-28T11:11:54.000Z" itemprop="datePublished">2018-06-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/database/postgres-trigger/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.606Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/postgresql/" rel="tag">postgresql</a>, <a class="tag-link-link" href="/tags/trigger/" rel="tag">trigger</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>PostgreSQL의 Trigger를 이용해서 chunk id를 자동으로 생성하거나 기존의 chunk의 날짜를 갱신하는 로직을 작성해 볼 것입니다.</p>
+<p>간단히 테스트 해보기 위해서 Docker를 사용하시면 편합니다. <a href="/docker/db-sample">Docker로 개발용 DB 만들기</a>를 참고해 주시기 바랍니다.</p>
+<h2 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h2><p>테이블을 생성합니다.</p>
+<figure class="highlight sql"><figcaption><span>schema.sql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Table</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> item;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> item_chunk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> item_chunk (</span><br><span class="line">    id serial,</span><br><span class="line">    updated_at <span class="type">timestamp</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    <span class="keyword">primary</span> key(id)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> item (</span><br><span class="line">    id serial,</span><br><span class="line">    chunk_id <span class="type">int</span> <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    name <span class="type">varchar</span>(<span class="number">100</span>),</span><br><span class="line">    created_at <span class="type">timestamp</span> <span class="keyword">default</span> <span class="built_in">current_timestamp</span>(<span class="number">2</span>) <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">    updated_at <span class="type">timestamp</span>,</span><br><span class="line">    <span class="keyword">foreign</span> key(chunk_id) <span class="keyword">references</span> item_chunk(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h2><p>item 테이블에서 chunk_id와 id를 primary key로 잡은 이유는 chunk_id로 가져올 때 index를 타게 하기 위해서 입니다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postgres<span class="operator">=</span># explain <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> item <span class="keyword">where</span> chunk_id <span class="operator">=</span> <span class="number">1</span> ;</span><br><span class="line"></span><br><span class="line">&quot;Bitmap Heap Scan on item  (cost=4.16..9.50 rows=2 width=242)&quot;</span><br><span class="line">&quot;  Recheck Cond: (chunk_id = 1)&quot;</span><br><span class="line">&quot;  -&gt;  Bitmap Index Scan on item_pkey  (cost=0.00..4.16 rows=2 width=0)&quot;</span><br><span class="line">&quot;        Index Cond: (chunk_id = 1)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>처음에 데이터를 넣고 explain을 돌려 보면은 sequential scan으로 동작을 합니다.</p>
+<p>이유는 select가 전체 row수의 5-10% 이상을 가져올 경우 sequential scan이 더 빠르다고 합니다. <a target="_blank" rel="noopener" href="https://hashcode.co.kr/questions/1558/postgres%EC%97%90%EC%84%9C-index%EA%B0%80-%EC%83%9D%EC%84%B1%EB%90%98%EC%96%B4-%EC%9E%88%EB%8A%94%EB%8D%B0-index-scan%EC%9D%B4-%EC%95%84%EB%8B%88%EB%9D%BC-seq-scan%EC%9D%84-%ED%95%98%EB%8A%94%EC%A7%80-%EA%B6%81%EA%B8%88%ED%95%A9%EB%8B%88%EB%8B%A4">참고</a></p>
+<p>그래도 분포된 chunk_id를 가지게 되면 optimizer에 의해서 다시 index scan을 하게 됩니다.</p>
+<h2 id="Function-amp-amp-Trigger"><a href="#Function-amp-amp-Trigger" class="headerlink" title="Function &amp;&amp; Trigger"></a>Function &amp;&amp; Trigger</h2><p>Trigger 시 동작 할 함수를 작성합니다.</p>
+<p>함수는 item의 id를 이용해서 chunk id를 5개 단위로 증가시킵니다.<br>그리고 item이 update 되면 item이 포함되어 있는 chunk의 update를 갱신합니다.</p>
+<figure class="highlight sql"><figcaption><span>schema.sql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Table</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">-- Trigger</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">trigger</span> if <span class="keyword">exists</span> item_chunk_upsert;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">function</span> if <span class="keyword">exists</span> item_chunk_upsert();</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">function</span> item_chunk_upsert()</span><br><span class="line"><span class="keyword">returns</span> <span class="keyword">trigger</span> <span class="keyword">as</span> $$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">    chunk_id <span class="type">integer</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">    if (tg_op <span class="operator">=</span> <span class="string">&#x27;INSERT&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- id는 1부터 시작하므로 -1을 해서 0부터 시작하도록 한다.</span></span><br><span class="line">        <span class="comment">-- chunk_id가 1부터 시작하도록 +1을 한다.</span></span><br><span class="line">        new.chunk_id <span class="operator">=</span> div(new.id <span class="operator">-</span> <span class="number">1</span>, <span class="number">5</span>) <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">-- 중복 등록일 경우 날짜를 갱신한다.</span></span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> item_chunk(id) <span class="keyword">values</span>(new.chunk_id)</span><br><span class="line">        <span class="keyword">on</span> conflict (id) do update <span class="keyword">set</span> updated_at <span class="operator">=</span> new.created_at;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        new.updated_at <span class="operator">=</span> <span class="built_in">current_timestamp</span>(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">        update item_chunk</span><br><span class="line">        <span class="keyword">set</span> updated_at <span class="operator">=</span> new.updated_at</span><br><span class="line">        <span class="keyword">where</span> id <span class="operator">=</span> new.chunk_id;</span><br><span class="line">    <span class="keyword">end</span> if;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$$ <span class="keyword">language</span> plpgsql;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 입력과 수정 전에 트리거를 발생시킨다.</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">trigger</span> &quot;item_chunk_upsert&quot;</span><br><span class="line">    before <span class="keyword">insert</span> <span class="keyword">or</span> update <span class="keyword">on</span> &quot;item&quot;</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">each</span> <span class="type">row</span></span><br><span class="line">    <span class="keyword">execute</span> <span class="keyword">procedure</span> item_chunk_upsert();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2><p>테스트에 필요한 모듈을 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -S pg &amp;&amp; npm i -D mocha chai</span><br></pre></td></tr></table></figure>
+
+<p>테스트 시나리오는 item을 등록 또는 수정 시 자동으로 item_chunk에 영향이 있는지를 확인합니다.</p>
+<figure class="highlight js"><figcaption><span>test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; Client, types &#125; = <span class="built_in">require</span>(<span class="string">&#x27;pg&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; readFileSync &#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; expect &#125; = <span class="built_in">require</span>(<span class="string">&#x27;chai&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> connectionString = process.env.DB_URL || <span class="string">&#x27;postgresql://postgres@localhost/postgres&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> schema = readFileSync(<span class="string">&#x27;./schema.sql&#x27;</span>).toString()</span><br><span class="line"></span><br><span class="line"><span class="comment">// timestamp object를 string으로 변환한다.</span></span><br><span class="line"><span class="keyword">const</span> TIMESTAMPTZ_OID = <span class="number">1184</span></span><br><span class="line"><span class="keyword">const</span> TIMESTAMP_OID = <span class="number">1114</span></span><br><span class="line"><span class="keyword">const</span> parseFn = <span class="function">(<span class="params">val</span>) =&gt;</span> &#123;</span><br><span class="line">   <span class="keyword">return</span> val === <span class="literal">null</span> ? <span class="literal">null</span> : val.toString()</span><br><span class="line">&#125;</span><br><span class="line">types.setTypeParser(TIMESTAMPTZ_OID, parseFn)</span><br><span class="line">types.setTypeParser(TIMESTAMP_OID, parseFn)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 비동기 딜레이 처리</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">ms</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="literal">true</span>), ms))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;postgres trigger test&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> client</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    client = <span class="keyword">new</span> Client(&#123;connectionString&#125;)</span><br><span class="line">    <span class="keyword">await</span> client.connect()</span><br><span class="line">    <span class="keyword">await</span> client.query(schema) <span class="comment">// DB 초기화</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> client.end()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;item chunk upsert #1&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// insert item</span></span><br><span class="line">    <span class="keyword">let</span> result = <span class="keyword">await</span> client.query(<span class="string">`insert into item (name) values (&#x27;name1&#x27;) returning *`</span>)</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> item = result.rows[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// select item chunk</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">&#x27;select * from item_chunk&#x27;</span>)</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> chunk = result.rows[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check</span></span><br><span class="line">    expect(item.chunk_id).to.equal(chunk.id)</span><br><span class="line">    expect(item.created_at).to.equal(chunk.updated_at)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// update item</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">`update item set name = $2 where id = $1 returning *`</span>, [item.id, <span class="string">&#x27;Updated name&#x27;</span>])</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> updatedItem = result.rows[<span class="number">0</span>]</span><br><span class="line">    expect(updatedItem.name).to.equal(<span class="string">&#x27;Updated name&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// select item chunk</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">&#x27;select * from item_chunk&#x27;</span>)</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check</span></span><br><span class="line">    <span class="keyword">const</span> updatedChunk = result.rows[<span class="number">0</span>]</span><br><span class="line">    expect(updatedItem.chunk_id).to.equal(updatedChunk.id)</span><br><span class="line">    expect(updatedItem.created_at).not.to.equal(updatedChunk.updated_at)</span><br><span class="line">    expect(updatedItem.updated_at).to.equal(updatedChunk.updated_at)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;item chunk upsert #2&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// insert item</span></span><br><span class="line">    <span class="keyword">let</span> result = <span class="keyword">await</span> client.query(<span class="string">`insert into item (name) values (&#x27;name1&#x27;), (&#x27;name2&#x27;), (&#x27;name3&#x27;), (&#x27;name4&#x27;), (&#x27;name5&#x27;), (&#x27;name6&#x27;) returning *`</span>)</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">6</span>)</span><br><span class="line">    <span class="keyword">const</span> item1 = result.rows[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">const</span> item6 = result.rows[<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// select item chunk</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">&#x27;select * from item_chunk&#x27;</span>)</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">const</span> chunk1 = result.rows[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">const</span> chunk2 = result.rows[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check</span></span><br><span class="line">    expect(item1.chunk_id).to.equal(chunk1.id)</span><br><span class="line">    expect(item1.created_at).to.equal(chunk1.updated_at)</span><br><span class="line"></span><br><span class="line">    expect(item6.chunk_id).to.equal(chunk2.id)</span><br><span class="line">    expect(item6.created_at).to.equal(chunk2.updated_at)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// update item</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">`update item set name = $2 where id = $1 returning *`</span>, [item1.id, <span class="string">&#x27;Updated name&#x27;</span>])</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> updatedItem = result.rows[<span class="number">0</span>]</span><br><span class="line">    expect(updatedItem.name).to.equal(<span class="string">&#x27;Updated name&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// select item chunk</span></span><br><span class="line">    result = <span class="keyword">await</span> client.query(<span class="string">&#x27;select * from item_chunk where id = $1&#x27;</span>, [updatedItem.chunk_id])</span><br><span class="line">    expect(result.rowCount).to.equal(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// check</span></span><br><span class="line">    <span class="keyword">const</span> updatedChunk = result.rows[<span class="number">0</span>]</span><br><span class="line">    expect(updatedItem.chunk_id).to.equal(updatedChunk.id)</span><br><span class="line">    expect(updatedItem.created_at).not.to.equal(updatedChunk.updated_at)</span><br><span class="line">    expect(updatedItem.updated_at).to.equal(updatedChunk.updated_at)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>types를 이용해서 timestamp object를 string으로 리턴하도록 하였습니다.</p>
+<p>그리고 등록 후 바로 수정을 하게 되면 시간 차이가 나지 않아서 테스트가 실패하는 경우가 발생합니다. 그래서 10ms 대기 후 수정하도록 하였습니다.</p>
+<p>잘 동작 하는지 확인해 봅니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ npx mocha</span><br><span class="line">postgres trigger <span class="built_in">test</span></span><br><span class="line">  ✓ item chunk upsert <span class="comment">#1</span></span><br><span class="line">  ✓ item chunk upsert <span class="comment">#2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2 passing (91ms)</span><br></pre></td></tr></table></figure>
+
+<p>정상적으로 잘 동작하는 것을 확인 할 수 있습니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>Trigger를 이용해서 item의 name에만 신경쓰고 작업을 할 수 있게 되었습니다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.sqlines.com/postgresql/datatypes/serial">PostgreSQL - SERIAL - Generate IDs</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/plpgsql-trigger.html">PostgreSQL - Trigger PRocedures</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/static/sql-insert.html">PostgreSQL - CREATE INSERT</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/current/static/sql-createfunction.html">PostgreSQL - CREATE FUNCTION</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/brianc/node-pg-types">node-pg-types</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/database/postgres-trigger/" data-id="cklexwu600004pypv9t3n0c4r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "PostgreSQL의 Trigger를 이용한 자동 chunk 생성",
+        "image": "https://gongzza.github.io",
+        "keywords": "postgresql trigger",
+        "genre": "Database",
+        "datePublished": "2018-06-28",
+        "dateCreated": "2018-06-28",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/database/postgres-trigger/",
+        "description": "IntroductionPostgreSQL의 Trigger를 이용해서 chunk id를 자동으로 생성하거나 기존의 chunk의 날짜를 갱신하는 로직을 작성해 볼 것입니다.
+간단히 테스트 해보기 위해서 Docker를 사용하시면 편합니다. Docker로 개발용 DB 만들기를 참고해 주시기 바랍니다.
+Table테이블을 생성합니다.
+schema.sql12345678",
+        "wordCount": 1661
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/graphql/graphql-server-example/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            GraphQL Server - Example
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/docker/db-sample/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Docker로 개발용 DB 만들기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/database/postgres-trigger/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

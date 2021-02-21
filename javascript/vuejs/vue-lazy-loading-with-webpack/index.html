@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Vue Component Lazy Loading with Webpack | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="vuejs,webpack,lazy-loading,component,vue-router" />
+    
+    <meta name="description" content="Vue-Router#지연된 로딩과 Vue#비동기 컴포넌트를 참고하여 작성하였습니다. Vue 컴포넌트를 필요한 시점에 호출하는 방법에 대해서 알아보도록 하겠습니다. Lazy loading지연 로딩(lazy loading)이란 데이터를 필요한 시점에 서버에 요청해서 가져오는 방법으로 웹 사이트와 서버를 최적화 할 때 많이 사용됩니다. 웹 사이트는 초기 랜더링에">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue Component Lazy Loading with Webpack">
+<meta property="og:url" content="https://gongzza.github.io/javascript/vuejs/vue-lazy-loading-with-webpack/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Vue-Router#지연된 로딩과 Vue#비동기 컴포넌트를 참고하여 작성하였습니다. Vue 컴포넌트를 필요한 시점에 호출하는 방법에 대해서 알아보도록 하겠습니다. Lazy loading지연 로딩(lazy loading)이란 데이터를 필요한 시점에 서버에 요청해서 가져오는 방법으로 웹 사이트와 서버를 최적화 할 때 많이 사용됩니다. 웹 사이트는 초기 랜더링에">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/javascript/vuejs/vue-router-lazy-loading.gif">
+<meta property="article:published_time" content="2017-11-30T16:02:40.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.641Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="vuejs">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="lazy-loading">
+<meta property="article:tag" content="component">
+<meta property="article:tag" content="vue-router">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/javascript/vuejs/vue-router-lazy-loading.gif">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Vue-js/">Vue.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/vuejs/vue-lazy-loading-with-webpack" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Vue Component Lazy Loading with Webpack
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/vuejs/vue-lazy-loading-with-webpack/" class="article-date">
+       <time datetime="2017-11-30T16:02:40.000Z" itemprop="datePublished">2017-12-01</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/vuejs/vue-lazy-loading-with-webpack/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.641Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/component/" rel="tag">component</a>, <a class="tag-link-link" href="/tags/lazy-loading/" rel="tag">lazy-loading</a>, <a class="tag-link-link" href="/tags/vue-router/" rel="tag">vue-router</a>, <a class="tag-link-link" href="/tags/vuejs/" rel="tag">vuejs</a>, <a class="tag-link-link" href="/tags/webpack/" rel="tag">webpack</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a target="_blank" rel="noopener" href="https://router.vuejs.org/kr/advanced/lazy-loading.html">Vue-Router#지연된 로딩</a>과 <a target="_blank" rel="noopener" href="https://kr.vuejs.org/v2/guide/components.html#%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8">Vue#비동기 컴포넌트</a>를 참고하여 작성하였습니다.</p>
+<p>Vue 컴포넌트를 필요한 시점에 호출하는 방법에 대해서 알아보도록 하겠습니다.</p>
+<h1 id="Lazy-loading"><a href="#Lazy-loading" class="headerlink" title="Lazy loading"></a>Lazy loading</h1><p>지연 로딩(lazy loading)이란 데이터를 필요한 시점에 서버에 요청해서 가져오는 방법으로 웹 사이트와 서버를 최적화 할 때 많이 사용됩니다.</p>
+<p>웹 사이트는 초기 랜더링에 필요한 데이터만 받기 때문에 빠르게 랜더링을 시작해서 사용자에게 보다 빠르게 화면을 보여줄 수 있게 됩니다.</p>
+<p>서버는 큰 데이터를 한번에 내려주면서 대역폭을 모두 차지하는 것이 아니라 작게 나누어진 데이터를 내려주기 때문에 더 많은 요청을 처리할 수 있게 됩니다.</p>
+<h2 id="시작하기"><a href="#시작하기" class="headerlink" title="시작하기"></a>시작하기</h2><p>먼저 <code>vue-cli</code>를 이용해서 개발 환경을 구축합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -g vue-cli</span><br><span class="line">+ vue-cli@2.9.1</span><br><span class="line"></span><br><span class="line">$ vue init webpack-simple simple-vue-lazy-component</span><br><span class="line">? Project name simple-vue-lazy-component</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author gongzza &lt;gz.us.to@gmail.com&gt;</span><br><span class="line">? License MIT</span><br><span class="line">? Use sass? No</span><br><span class="line"></span><br><span class="line">   vue-cli · Generated <span class="string">&quot;simple-vue-lazy-component&quot;</span>.</span><br><span class="line"></span><br><span class="line">   To get started:</span><br><span class="line"></span><br><span class="line">     <span class="built_in">cd</span> simple-vue-lazy-component</span><br><span class="line">     npm install</span><br><span class="line">     npm run dev</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> simple-vue-lazy-component &amp;&amp; npm install</span><br><span class="line">...</span><br><span class="line">added 804 packages <span class="keyword">in</span> 75.235s</span><br></pre></td></tr></table></figure>
+
+<h2 id="Code-splitting"><a href="#Code-splitting" class="headerlink" title="Code splitting"></a>Code splitting</h2><p>지연 로딩을 하기 위해서는 먼저 하나의 큰 파일을 작게 나누어야 합니다. 그러기 위해서 webpack의 <code>import()</code> 구문을 사용합니다.</p>
+<p><code>import()</code>는 내부적으로 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>를 사용합니다. 따라서 오래된 브라우저는  Promise polyfill을 사용해야 합니다. (<a target="_blank" rel="noopener" href="https://github.com/stefanpenner/es6-promise">es6-promise</a> or <a target="_blank" rel="noopener" href="https://github.com/taylorhakes/promise-polyfill">promise-polyfill</a>)</p>
+<h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p><code>import()</code> 구문을 사용하기 위해서는 <a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/syntax-dynamic-import/">syntax-dynamic-import</a>를 추가해 줘야 합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev babel-plugin-syntax-dynamic-import</span><br><span class="line">+ babel-plugin-syntax-dynamic-import@6.18.0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><figcaption><span>.babelrc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span>: [<span class="string">&quot;syntax-dynamic-import&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h3><p>단순히 dynamic import만 하면은 <code>number.filename</code> 형식으로 파일명이 자동으로 생성됩니다.<br>ex) 0.bundle.js</p>
+<p>다음과 같이 주석으로 이름을 지정하게 되면 그룹으로도 지정할 수 있게 됩니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &quot;lodash&quot; */</span> <span class="string">&#x27;lodash&#x27;</span>).then(<span class="function"><span class="params">_</span> =&gt;</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>그리고 <code>output.chunkFilename</code>을 추가해서 지정한 파일명으로 저장되도록 합니다.</p>
+<figure class="highlight js"><figcaption><span>webpack.config.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    chunkFilename: <span class="string">&#x27;[name].js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>production으로 배포할 때에는 <code>chunkFilename: [name].[chunkhash:7].js</code> 식으로 지정하는 것이 좋습니다.</p>
+</blockquote>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>홈 화면에서 Vue Logo를 보여주고 클릭하면, “Welcome To Your Vue.js App”을 보여주는 페이지로 이동하는 예제를 작성해 보겠습니다.</p>
+<p>먼저 <a target="_blank" rel="noopener" href="https://router.vuejs.org/kr/">vue-router</a>를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev vue-router</span><br><span class="line">+ vue-router@3.0.1</span><br></pre></td></tr></table></figure>
+
+<p>그 다음 페이지들을 작성합니다.</p>
+<figure class="highlight html"><figcaption><span>pages/Home.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/welcome&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;../assets/logo.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;logo&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;home-page&#x27;</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><figcaption><span>pages/Welcome.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    &#123;&#123; msg &#125;&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;welcome-page&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="title">data</span>(<span class="params"></span>)</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">      msg: <span class="string">&#x27;Welcome to Your Vue.js App&#x27;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>그 다음 라우터를 설정합니다.</p>
+<figure class="highlight js"><figcaption><span>router.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">&#x27;vue-router&#x27;</span></span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;home&#x27; */</span><span class="string">&#x27;./pages/Home.vue&#x27;</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">&#x27;/welcome&#x27;</span>,</span><br><span class="line">    component: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;welcome&#x27; */</span><span class="string">&#x27;./pages/Welcome.vue&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  routes</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><figcaption><span>main.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;./router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">  router,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>앱 화면에서 페이지를 보여주도록 <code>&lt;router-view&gt;</code>를 추가합니다.</p>
+<figure class="highlight html"><figcaption><span>App.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;app&#x27;</span>,</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>npm run dev</code>로 서버를 실행해서 보면 <code>build.js</code>가 먼저 호출되고 <code>home.js</code>가 호출 됩니다. 그리고 <code>/welcome</code> 페이지로 이동하면서 <code>welcome.js</code>를 호출하는 것을 볼 수 있습니다.</p>
+<p><img src="/images/javascript/vuejs/vue-router-lazy-loading.gif" alt="vue-router-lazy-loading"></p>
+<h2 id="Advanced-Async-Components"><a href="#Advanced-Async-Components" class="headerlink" title="Advanced Async Components"></a>Advanced Async Components</h2><p><a target="_blank" rel="noopener" href="https://kr.vuejs.org/v2/guide/components.html#%EA%B3%A0%EA%B8%89-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8">컴포넌트#고급 비동기 컴포넌트</a>를 보면은 다음과 같이 비동기 컴포넌트를 선언할 수 있다고 합니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> AsyncComp = <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">  <span class="comment">// 로드하는 컴포넌트입니다. 반드시 Promise이어야합니다.</span></span><br><span class="line">  component: <span class="keyword">import</span>(<span class="string">&#x27;./MyComp.vue&#x27;</span>),</span><br><span class="line">  <span class="comment">// 비동기 컴포넌트가 로드되는 동안 사용할 컴포넌트</span></span><br><span class="line">  loading: LoadingComp,</span><br><span class="line">  <span class="comment">// 실패했을 경우 사용하는 컴포넌트</span></span><br><span class="line">  error: ErrorComp,</span><br><span class="line">  <span class="comment">// 로딩 컴포넌트를 보여주기전 지연하는 정도. 기본값: 200ms.</span></span><br><span class="line">  delay: <span class="number">200</span>,</span><br><span class="line">  <span class="comment">// 시간이 초과되면 에러용 컴포넌트가 표시됩니다.</span></span><br><span class="line">  <span class="comment">// 기본값: Infinity.</span></span><br><span class="line">  timeout: <span class="number">3000</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><p>예제를 만들어서 확인해 보겠습니다.</p>
+<p>홈 화면의 Vue logo를 <code>Logo.vue</code> 컴포넌트로 만들어서 비동기로 호출해 보도록 하겠습니다.</p>
+<p>먼저 로딩 컴포넌트를 만듭니다.</p>
+<figure class="highlight html"><figcaption><span>components/Loading.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;loader&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;loading&#x27;</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">&quot;css&quot;</span>&gt;</span></span><br><span class="line">.loader &#123;</span><br><span class="line"><span class="css">    <span class="attribute">border</span>: <span class="number">16px</span> solid <span class="number">#f3f3f3</span>; <span class="comment">/* Light grey */</span></span></span><br><span class="line"><span class="css">    <span class="attribute">border-top</span>: <span class="number">16px</span> solid <span class="number">#3498db</span>; <span class="comment">/* Blue */</span></span></span><br><span class="line"><span class="css">    <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span></span><br><span class="line"><span class="css">    <span class="attribute">width</span>: <span class="number">60px</span>;</span></span><br><span class="line"><span class="css">    <span class="attribute">height</span>: <span class="number">60px</span>;</span></span><br><span class="line"><span class="css">    <span class="attribute">animation</span>: spin <span class="number">2s</span> linear infinite;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="css"><span class="keyword">@keyframes</span> spin &#123;</span></span><br><span class="line"><span class="css">    <span class="number">0%</span> &#123; <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">0deg</span>); &#125;</span></span><br><span class="line"><span class="css">    <span class="number">100%</span> &#123; <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">360deg</span>); &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><figcaption><span>components/Logo.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;../assets/logo.png&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;logo&#x27;</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>홈 화면에서 <code>Logo.vue</code> 비동기 컴포넌트를 추가합니다.</p>
+<figure class="highlight html"><figcaption><span>pages/Home.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">lang</span>=<span class="string">&quot;html&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">&quot;/welcome&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">logo</span>&gt;</span><span class="tag">&lt;/<span class="name">logo</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">import</span> Loading <span class="keyword">from</span> <span class="string">&#x27;../components/Loading.vue&#x27;</span></span></span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">  name: <span class="string">&#x27;home-page&#x27;</span>,</span></span><br><span class="line">  components: &#123;</span><br><span class="line"><span class="javascript">    Logo: <span class="function">() =&gt;</span> (&#123;</span></span><br><span class="line"><span class="javascript">      component: <span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;logo&#x27; */</span><span class="string">&#x27;../components/Logo.vue&#x27;</span>),</span></span><br><span class="line">      loading: Loading</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>하지만 데이터 양이 너무 적어서 <code>Loading.vue</code>가 정상적으로 동작하는지 확인하기 어려울 것입니다.</p>
+<p>이럴 경우 component가 Promise라는 점을 이용해서 다음과 같이 지연 로딩을 시킬 수 있습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    Logo: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">      component: <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="keyword">import</span>(<span class="comment">/* webpackChunkName: &#x27;logo&#x27; */</span><span class="string">&#x27;../components/Logo.vue&#x27;</span>)), <span class="number">5000</span>)),</span><br><span class="line">      loading: Loading</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>확인해 보면 5초동안 로딩 컴포넌트가 보인 후 로고가 나타나는 것을 확인하실 수 있습니다.</p>
+<h3 id="Vue-router"><a href="#Vue-router" class="headerlink" title="Vue-router"></a>Vue-router</h3><p>안타깝게도 위에서 사용한 형식을 <code>vue-router</code>에서는 사용할 수 없었습니다. 홈페이지에 다음과 같은 문구가 적혀 있습니다.</p>
+<blockquote>
+<p><code>vue-router</code>에서 라우트 컴포넌트로 사용하는 경우 라우트 네비게이션이 발생하기전에 비동기 컴포넌트가 먼저 작동하기때문에 이러한 특성은 무시됩니다.</p>
+</blockquote>
+<p><code>vue-router</code> 2.4.0 상위 버전을 사용할 경우 위 구문에서 component 속성은 해석이 가능하지만, loading 같은 속성은 정상동작 하지 않았습니다.</p>
+<p><a target="_blank" rel="noopener" href="https://router.vuejs.org/kr/advanced/navigation-guards.html">Vue-router#네비게이션 가드</a>를 이용하면 구현이 가능할 것 같습니다.</p>
+<p><code>router.beforeResolve</code>의 설명에 다음과 같이 적혀 있습니다.</p>
+<blockquote>
+<p>모든 컴포넌트 가드와 비동기 라우트 컴포넌트를 불러온 후 네비게이션 가드를 확인하기 전에 호출된다.</p>
+</blockquote>
+<p>즉, <code>router.beforeEach</code>에서 로딩을 시작하고 비동기 라우트 컴포넌트 로딩이 완료된 후 <code>router.beforeResolve</code>가 호출되서 로딩을 완료하면 될 것 같습니다.</p>
+<iframe width="100%" height="300" src="//jsfiddle.net/gongzza/qgujfsy0/embedded/result,html,css,js/" allowpaymentrequest allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>코드를 나누게 되면은 캐시에도 큰 영향을 주게 됩니다. 즉 재배포를 할 때마다 전체 배포가 아닌 변화가 생긴 파일만 배포를 하게 되면서 서버의 부하를 크게 줄일 수 있고 사용자 입장에서도 업데이트 되는 시간이 크게 줄어들 것입니다.</p>
+<p>적용하기가 크게 어렵지 않아서 나중에 한번에 나누는 것 보다는 처음부터 차근차근 나누면서 시작하는 것이 좋을 것 같습니다.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://router.vuejs.org/kr/advanced/lazy-loading.html">https://router.vuejs.org/kr/advanced/lazy-loading.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://kr.vuejs.org/v2/guide/components.html#%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8">https://kr.vuejs.org/v2/guide/components.html#비동기-컴포넌트</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.js.org/guides/code-splitting/">https://webpack.js.org/guides/code-splitting/</a></li>
+<li><a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/syntax-dynamic-import/">http://babeljs.io/docs/plugins/syntax-dynamic-import/</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/vuejs/vue-lazy-loading-with-webpack/" data-id="cklexwucj002cpypv423jc4uj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Vue Component Lazy Loading with Webpack",
+        "image": "https://gongzza.github.io/images/javascript/vuejs/vue-router-lazy-loading.gif",
+        "keywords": "vuejs webpack lazy-loading component vue-router",
+        "genre": "Javascript Vue.js",
+        "datePublished": "2017-12-01",
+        "dateCreated": "2017-12-01",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/vuejs/vue-lazy-loading-with-webpack/",
+        "description": "Vue-Router#지연된 로딩과 Vue#비동기 컴포넌트를 참고하여 작성하였습니다.
+Vue 컴포넌트를 필요한 시점에 호출하는 방법에 대해서 알아보도록 하겠습니다.
+Lazy loading지연 로딩(lazy loading)이란 데이터를 필요한 시점에 서버에 요청해서 가져오는 방법으로 웹 사이트와 서버를 최적화 할 때 많이 사용됩니다.
+웹 사이트는 초기 랜더링에",
+        "wordCount": 1627
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/vuejs/storybook-for-vue/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Storybook for Vue
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/vuejs/vue-unit-testing-with-jest/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Vue.js Unit Testing with Jest</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/vuejs/vue-lazy-loading-with-webpack/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

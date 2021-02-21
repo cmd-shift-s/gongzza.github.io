@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Yeoman generator 따라하기 - 1 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="javascript,yeoman-generator,generator-v" />
+    
+    <meta name="description" content="요즘 한창 vue.js를 공부중이다. 그래서 매번 컴포넌트를 만들기 귀찮아서 제너레이터를 만들려고 한다. 제너레이터를 직접 만들면 좋은 점이 많다.원하는 위치에 원하는 탬플릿을 가공해서 생성할 수 있기 때문이다.그리고 yeoman-generator를 사용하면 후 처리 작업도 가능하다.(예를 들어 index.html 파일에 script tag 추가) 처음이">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yeoman generator 따라하기 - 1">
+<meta property="og:url" content="https://gongzza.github.io/javascript/yeoman/generator-v-1/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="요즘 한창 vue.js를 공부중이다. 그래서 매번 컴포넌트를 만들기 귀찮아서 제너레이터를 만들려고 한다. 제너레이터를 직접 만들면 좋은 점이 많다.원하는 위치에 원하는 탬플릿을 가공해서 생성할 수 있기 때문이다.그리고 yeoman-generator를 사용하면 후 처리 작업도 가능하다.(예를 들어 index.html 파일에 script tag 추가) 처음이">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-01-11T05:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.649Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="yeoman-generator">
+<meta property="article:tag" content="generator-v">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Yeoman/">Yeoman</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/yeoman/generator-v-1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Yeoman generator 따라하기 - 1
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/yeoman/generator-v-1/" class="article-date">
+       <time datetime="2017-01-11T05:00:00.000Z" itemprop="datePublished">2017-01-11</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/yeoman/generator-v-1/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.649Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/generator-v/" rel="tag">generator-v</a>, <a class="tag-link-link" href="/tags/javascript/" rel="tag">javascript</a>, <a class="tag-link-link" href="/tags/yeoman-generator/" rel="tag">yeoman-generator</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p>요즘 한창 vue.js를 공부중이다. 그래서 매번 컴포넌트를 만들기 귀찮아서 제너레이터를 만들려고 한다.</p>
+<p>제너레이터를 직접 만들면 좋은 점이 많다.<br>원하는 위치에 원하는 탬플릿을 가공해서 생성할 수 있기 때문이다.<br>그리고 yeoman-generator를 사용하면 후 처리 작업도 가능하다.<br>(예를 들어 index.html 파일에 script tag 추가)</p>
+<p>처음이 어렵지 한번 만들고 나면 다음부터는 복붙 아니겠는가?</p>
+<p><a target="_blank" rel="noopener" href="http://yeoman.io/authoring/">Yeoman - Creating a generator</a>를 보면서 작업을 진행할 계획이다.<br>yeoman의 version은 1.0.1로 작업 하였다.</p>
+<p>제너레이터 이름은 <a target="_blank" rel="noopener" href="https://github.com/gongzza/generator-v">generator-v</a>이다.</p>
+<h1 id="Getting-started"><a href="#Getting-started" class="headerlink" title="Getting started"></a>Getting started</h1><p>기본적으로 <code>npm install --global yo</code>는 설치 하고 시작하자.</p>
+<h3 id="Setting"><a href="#Setting" class="headerlink" title="Setting"></a>Setting</h3><p>먼저 package.json을 생성한다.<br><code>npm init -y</code>명령으로 간단하게 생성할 수 있다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;generator-v&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;description&quot;</span>: <span class="string">&quot;yeoman generator for vue.js&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;main&quot;</span>: <span class="string">&quot;index.js&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;repository&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;git&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;git+https://github.com/gongzza/generator-v.git&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;keywords&quot;</span>: [],</span><br><span class="line">  <span class="attr">&quot;author&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;license&quot;</span>: <span class="string">&quot;ISC&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;bugs&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://github.com/gongzza/generator-v/issues&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span>: <span class="string">&quot;https://github.com/gongzza/generator-v#readme&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>name은 반듯이 <code>generator-</code>로 시작해야 한다.<br>뒤에 따라오는 <code>v</code>는 나중에 <code>yo v</code>으로 사용 된다.</p>
+<p>가장 중요한 yeoman-generator를 설치한다.</p>
+<figure class="highlight bash"><figcaption><span>Install</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save yeoman-generator</span><br></pre></td></tr></table></figure>
+
+<h3 id="Folder-tree"><a href="#Folder-tree" class="headerlink" title="Folder tree"></a>Folder tree</h3><p>기본적으로 <code>yo name</code>은 generators/app/index.js를 호출한다.<br>좀 더 새분화를 시키고 싶으면, 폴더를 추가하면 된다.<br>예를 들어 <code>yo name:component</code>는 generators/component/index.js를 호출한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">├─package.json</span><br><span class="line">└─generators&#x2F;</span><br><span class="line">  ├─app&#x2F;</span><br><span class="line">  │ └─index.js</span><br><span class="line">  └─component&#x2F;</span><br><span class="line">    └─index.js</span><br></pre></td></tr></table></figure>
+<p>사실 generators에 넣지 않아도 된다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├─package.json</span><br><span class="line">├─app&#x2F;</span><br><span class="line">│   └─index.js</span><br><span class="line">└─component&#x2F;</span><br><span class="line">    └─index.js</span><br></pre></td></tr></table></figure>
+<p>이렇게 구조를 잡아도 위에서 실행 했던 명령어는 이전과 똑같이 실행 된다.</p>
+<h3 id="Extending-generator"><a href="#Extending-generator" class="headerlink" title="Extending generator"></a>Extending generator</h3><p>이제 제너레이터를 만들어 보자.</p>
+<p>기본적으로 <code>yeoman-generator</code>를 확장해서 만들게 된다.</p>
+<figure class="highlight js"><figcaption><span>generators/app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Generator = <span class="built_in">require</span>(<span class="string">&#x27;yeoman-generator&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Generator</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>여기서 주의해야 할 부분이 있다.<br>ECMAScript2015부터 적용된 class 문법이다.<br>class이다 보니 생성자가 있다.</p>
+<figure class="highlight js"><figcaption><span>generators/app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Generator</span> </span>&#123;</span><br><span class="line">  <span class="comment">// The name `constructor` is important here</span></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">args, opts</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// Calling the super constructor is important so our generator is correctly set up</span></span><br><span class="line">    <span class="built_in">super</span>(args, opts);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Next, add your custom code</span></span><br><span class="line">    <span class="built_in">this</span>.option(<span class="string">&#x27;babel&#x27;</span>); <span class="comment">// This method adds support for a `--babel` flag</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>생성자는 구지 만들지 않아도 되지만, 만약 만든다면 부모 생성자를 꼭 호출해 주어야 한다. (args와 opts도 같이)</p>
+<h3 id="Adding-your-own-functionality"><a href="#Adding-your-own-functionality" class="headerlink" title="Adding your own functionality"></a>Adding your own functionality</h3><p>이제 메소드를 만들어 보자</p>
+<p>es6문법대로 메소드를 추가하면 된다.</p>
+<figure class="highlight js"><figcaption><span>generators/app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Generator</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">method1</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;method 1 just ran&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">method2</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;method 2 just ran&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>위에서 봤던 생성자(<code>constructor</code>)처럼 메소드도 우선순위가 정해진 예약어가 존재한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. initializing - 초기화</span><br><span class="line">2. prompting - 사용자로부터 대화식으로 옵션을 받는 프롬프트 생성</span><br><span class="line">3. configuring - 설정 저장</span><br><span class="line">4. default - 기본 그룹</span><br><span class="line">5. writing - 파일 생성</span><br><span class="line">6. conflicts - 충돌 해결</span><br><span class="line">7. install - 설치 실행</span><br><span class="line">8. end - 클린업 등등..</span><br></pre></td></tr></table></figure>
+<p>위 예약어에 속하지 않은 메소드들은 모두 <code>4. default</code>그룹에 속하게 되고 작성된 순서대로 호출이 된다.<br>위 규칙을 따르지 않아도 되지만, 따라서 하는 것이 유지보수에 더 좋을 것 같다.</p>
+<h3 id="Running-the-generator"><a href="#Running-the-generator" class="headerlink" title="Running the generator"></a>Running the generator</h3><p>만든 generator를 global 모듈 디렉토리에 링크를 걸어줘야 한다.<br>(global 모듈 디렉토리는 <code>$npm config get prefix</code>으로 알 수 있다.)</p>
+<p>다음 명령으로 간단하게 링크를 걸 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm link</span><br></pre></td></tr></table></figure>
+
+<p>콘솔이 잘 나오는지 실행해서 확인해 보자</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yo v</span><br><span class="line">method 1 just ran</span><br><span class="line">method 2 just ran</span><br></pre></td></tr></table></figure>
+
+<p>다음 포스팅에서는 탬플릿을 만들고 테스트를 하겠다.</p>
+<p><a href="../generator-v-2">Yeoman generator 따라하기 - 2</a></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/yeoman/generator-v-1/" data-id="cklexwueo0038pypv9qm9ba22" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Yeoman generator 따라하기 - 1",
+        "image": "https://gongzza.github.io",
+        "keywords": "javascript yeoman-generator generator-v",
+        "genre": "Javascript Yeoman",
+        "datePublished": "2017-01-11",
+        "dateCreated": "2017-01-11",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/yeoman/generator-v-1/",
+        "description": "요즘 한창 vue.js를 공부중이다. 그래서 매번 컴포넌트를 만들기 귀찮아서 제너레이터를 만들려고 한다.
+제너레이터를 직접 만들면 좋은 점이 많다.원하는 위치에 원하는 탬플릿을 가공해서 생성할 수 있기 때문이다.그리고 yeoman-generator를 사용하면 후 처리 작업도 가능하다.(예를 들어 index.html 파일에 script tag 추가)
+처음이 ",
+        "wordCount": 737
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/yeoman/generator-v-2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Yeoman generator 따라하기 - 2
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/webpack/webpack2-add-eslint/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">webpack2에 eslint 붙이기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/yeoman/generator-v-1/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

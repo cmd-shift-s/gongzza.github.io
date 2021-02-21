@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>TypeScript definition for process.env | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="typescript,dotenv" />
+    
+    <meta name="description" content="IntroductionNode.js 환경변수로 process.env를 사용하실 것입니다. TypeScript에서는 process.env도 타입을 선언해서 자동완성 기능을 사용할 수 있습니다. @types&#x2F;nodeprocess를 그냥 쓰게 되면 찾을 수 없는 이름이라고 에러메시지가 나옵니다.  process도 타입 선언이 필요한데요. 위 설명에도 나와 있듯이">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript definition for process.env">
+<meta property="og:url" content="https://gongzza.github.io/javascript/nodejs/typescript-definition-for-process-env/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="IntroductionNode.js 환경변수로 process.env를 사용하실 것입니다. TypeScript에서는 process.env도 타입을 선언해서 자동완성 기능을 사용할 수 있습니다. @types&#x2F;nodeprocess를 그냥 쓰게 되면 찾을 수 없는 이름이라고 에러메시지가 나옵니다.  process도 타입 선언이 필요한데요. 위 설명에도 나와 있듯이">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gongzza.github.io/images/typescript/cannot-find-name-process.png">
+<meta property="article:published_time" content="2019-03-03T09:21:38.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.624Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="dotenv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gongzza.github.io/images/typescript/cannot-find-name-process.png">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Javascript/">Javascript</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Javascript/Node-js/">Node.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-javascript/nodejs/typescript-definition-for-process-env" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        TypeScript definition for process.env
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/javascript/nodejs/typescript-definition-for-process-env/" class="article-date">
+       <time datetime="2019-03-03T09:21:38.000Z" itemprop="datePublished">2019-03-03</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/javascript/nodejs/typescript-definition-for-process-env/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.624Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/dotenv/" rel="tag">dotenv</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Node.js 환경변수로 <code>process.env</code>를 사용하실 것입니다. TypeScript에서는 <code>process.env</code>도 타입을 선언해서 자동완성 기능을 사용할 수 있습니다.</p>
+<h2 id="types-node"><a href="#types-node" class="headerlink" title="@types/node"></a>@types/node</h2><p><code>process</code>를 그냥 쓰게 되면 찾을 수 없는 이름이라고 에러메시지가 나옵니다.</p>
+<p><img src="/images/typescript/cannot-find-name-process.png" alt="cannot find name &#39;process&#39;"></p>
+<p><code>process</code>도 타입 선언이 필요한데요. 위 설명에도 나와 있듯이 <code>@types/node</code>를 설치해서 Node.js의 타입들을 사용할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D typescript @types/node</span><br><span class="line">+ @types/node@11.10.4</span><br><span class="line">+ typescript@3.3.3333</span><br></pre></td></tr></table></figure>
+
+<p><code>process.env</code>는 다음과 같이 선언되어 있습니다.</p>
+<figure class="highlight ts"><figcaption><span>@types/node/globals.d.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> NodeJS &#123;</span><br><span class="line">  <span class="keyword">interface</span> Process &#123;</span><br><span class="line">    env: ProcessEnv</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">interface</span> ProcessEnv &#123;</span><br><span class="line">    [key: <span class="built_in">string</span>]: <span class="built_in">string</span> | <span class="literal">undefined</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>보시는 것처럼 <code>process.env</code>에 대해서 어떤 key라도 사용이 가능하기 때문에 자동완성 기능이 없는 것입니다.</p>
+<h2 id="Extends-NodeJS-Process-interface"><a href="#Extends-NodeJS-Process-interface" class="headerlink" title="Extends NodeJS.Process interface"></a>Extends NodeJS.Process interface</h2><p>다음과 같이 definition file에 타입을 선언하면, <code>process.env</code>의 자동완성 기능을 사용할 수 있습니다.</p>
+<figure class="highlight ts"><figcaption><span>node.d.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> NodeJS &#123;</span><br><span class="line">  <span class="keyword">interface</span> Process &#123;</span><br><span class="line">    <span class="comment">/** running on server */</span></span><br><span class="line">    isServer: <span class="built_in">boolean</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">interface</span> ProcessEnv &#123;</span><br><span class="line">    <span class="comment">/** node environment */</span></span><br><span class="line">    NODE_ENV: <span class="built_in">string</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AutoComplete"><a href="#AutoComplete" class="headerlink" title="AutoComplete"></a>AutoComplete</h3><p><img src="/images/typescript/process-isServer-autocomplete.png" alt="process.isServer autocomplete"><br><img src="/images/typescript/process-env-NODE_ENV-autocomplete.png" alt="process.env.NODE_ENV autocomplete"></p>
+<h2 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h2><p><a target="_blank" rel="noopener" href="https://github.com/motdotla/dotenv">dotenv</a>를 이용하면 <code>.env</code> 파일을 읽어서 자동으로 <code>process.env</code>에 설정할 수 있습니다.</p>
+<p>먼저 <a target="_blank" rel="noopener" href="https://github.com/motdotla/dotenv">dotenv</a>를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i dotenv</span><br><span class="line">+ dotenv@6.2.0</span><br></pre></td></tr></table></figure>
+
+<p>그리고 <code>.env</code> 파일에 환경변수를 작성합니다.</p>
+<figure class="highlight bash"><figcaption><span>.env</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=development</span><br></pre></td></tr></table></figure>
+
+<p><code>index.ts</code>에서 간단하게 환경변수 <code>NODE_ENV</code>를 출력하는 프로그램을 작성합니다.</p>
+<figure class="highlight ts"><figcaption><span>index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;dotenv&#x27;</span>).config()</span><br><span class="line"><span class="built_in">console</span>.log(process.env.NODE_ENV)</span><br></pre></td></tr></table></figure>
+
+<p><code>tsc</code>로 컴파일 후 실행해 보면 <code>NODE_ENV</code>가 잘 출력되는 것을 확인할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># typescript compile &amp; run</span></span><br><span class="line">$ npx tsc index.ts &amp;&amp; node index.js</span><br><span class="line"></span><br><span class="line"><span class="comment"># output</span></span><br><span class="line">development</span><br></pre></td></tr></table></figure>
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>매번 타입 선언하는 것이 번거로울 수는 있지만, 타입을 선언해서 오타를 줄이고 리팩토링을 빠르게 하기 위해서 TypeScript를 사용하는 만큼 타입을 철저히 선언해서 사용하는 것이 좋을 것 같습니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/javascript/nodejs/typescript-definition-for-process-env/" data-id="cklexwu98001gpypvfx2j8osa" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "TypeScript definition for process.env",
+        "image": "https://gongzza.github.io/images/typescript/cannot-find-name-process.png",
+        "keywords": "typescript dotenv",
+        "genre": "Javascript Node.js",
+        "datePublished": "2019-03-03",
+        "dateCreated": "2019-03-03",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/javascript/nodejs/typescript-definition-for-process-env/",
+        "description": "IntroductionNode.js 환경변수로 process.env를 사용하실 것입니다. TypeScript에서는 process.env도 타입을 선언해서 자동완성 기능을 사용할 수 있습니다.
+@types/nodeprocess를 그냥 쓰게 되면 찾을 수 없는 이름이라고 에러메시지가 나옵니다.
+
+process도 타입 선언이 필요한데요. 위 설명에도 나와 있듯이",
+        "wordCount": 362
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/database/mysql-fulltext-search/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            MySQL 5.7 FullText Search 이용하기 with ngram
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/nuxtjs/nuxt-ts-2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">TypeScript로 Nuxt.js 실행하기 - 2</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/javascript/nodejs/typescript-definition-for-process-env/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

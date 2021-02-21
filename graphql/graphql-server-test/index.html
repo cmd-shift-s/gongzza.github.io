@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>GraphQL Server - Test | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="graphql,express,apollo,test,mocha,chai,supertest" />
+    
+    <meta name="description" content="GraphQL Server - Test이전 포스트에서 작성한 소스코드를 mocha와 supertest로 테스트 코드를 작성 해 볼 것입니다. Install123456789$ npm i -D mocha @types&#x2F;mocha chai @types&#x2F;chai supertest @types&#x2F;supertest ts-node tsconfig-paths+ @types&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL Server - Test">
+<meta property="og:url" content="https://gongzza.github.io/graphql/graphql-server-test/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="GraphQL Server - Test이전 포스트에서 작성한 소스코드를 mocha와 supertest로 테스트 코드를 작성 해 볼 것입니다. Install123456789$ npm i -D mocha @types&#x2F;mocha chai @types&#x2F;chai supertest @types&#x2F;supertest ts-node tsconfig-paths+ @types&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-19T16:18:38.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.611Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="apollo">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="mocha">
+<meta property="article:tag" content="chai">
+<meta property="article:tag" content="supertest">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/GraphQL/">GraphQL</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-graphql/graphql-server-test" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        GraphQL Server - Test
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/graphql/graphql-server-test/" class="article-date">
+       <time datetime="2018-09-19T16:18:38.000Z" itemprop="datePublished">2018-09-20</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/graphql/graphql-server-test/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.611Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/apollo/" rel="tag">apollo</a>, <a class="tag-link-link" href="/tags/chai/" rel="tag">chai</a>, <a class="tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>, <a class="tag-link-link" href="/tags/mocha/" rel="tag">mocha</a>, <a class="tag-link-link" href="/tags/supertest/" rel="tag">supertest</a>, <a class="tag-link-link" href="/tags/test/" rel="tag">test</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="GraphQL-Server-Test"><a href="#GraphQL-Server-Test" class="headerlink" title="GraphQL Server - Test"></a>GraphQL Server - Test</h1><p><a href="../graphql-server-example">이전 포스트</a>에서 작성한 소스코드를 <a target="_blank" rel="noopener" href="https://mochajs.org/">mocha</a>와 <a target="_blank" rel="noopener" href="https://github.com/visionmedia/supertest">supertest</a>로 테스트 코드를 작성 해 볼 것입니다.</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D mocha @types/mocha chai @types/chai supertest @types/supertest ts-node tsconfig-paths</span><br><span class="line">+ @types/supertest@2.0.6</span><br><span class="line">+ @types/chai@4.1.4</span><br><span class="line">+ chai@4.1.2</span><br><span class="line">+ ts-node@7.0.1</span><br><span class="line">+ tsconfig-paths@3.6.0</span><br><span class="line">+ @types/mocha@5.2.5</span><br><span class="line">+ mocha@5.2.0</span><br><span class="line">+ supertest@3.3.0</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://npm.im/ts-node">ts-node</a>는 mocha가 typescript를 해석할 수 있도록 하고, <a target="_blank" rel="noopener" href="https://npm.im/tsconfig-paths">tsconfig-paths</a>는 <code>tsconfig.json</code>의 <code>paths</code>를 사용할 수 있게 합니다.</p>
+<h2 id="TypeScript-Config"><a href="#TypeScript-Config" class="headerlink" title="TypeScript Config"></a>TypeScript Config</h2><p><code>tsconfig.json</code>을 상속 받는 <code>tsconfig.compiler.json</code>을 만듭니다.</p>
+<figure class="highlight json"><figcaption><span>tsconfig.compiler.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;extends&quot;</span>: <span class="string">&quot;./tsconfig.json&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;exclude&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;node_modules&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>tsconfig.json</code> 파일에 “exclude” 로 test 디렉토리를 넣으면 test 디렉토리 안에 있는 typescript 파일들이 <code>tsconfig.json</code> 파일의 설정대로 동작하지 않습니다. 그리고 <code>tsconfig.compiler.json</code> 파일로 설정을 나눔으로 써 컴파일 시 test 디렉토리를 배제할 수 있습니다.</p>
+<h2 id="Scripts"><a href="#Scripts" class="headerlink" title="Scripts"></a>Scripts</h2><p>mocha를 실행하는 test 스크립트와 build 시 typescript 컴파일러가 <code>tsconfig.compiler.json</code>을 바라보도록 수정합니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;mocha -r ts-node/register -r tsconfig-paths/register test/**/*.spec.ts&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;build&quot;</span>: <span class="string">&quot;tsc -p tsconfig.compiler.json&quot;</span>,</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h2><p>Book type에 대한 Query와 Mutation 테스트를 작성합니다.</p>
+<figure class="highlight ts"><figcaption><span>test/book.spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; app, server &#125; <span class="keyword">from</span> <span class="string">&#x27;~/app&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;Book&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> req = request(app)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;query - books&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123; <span class="attr">query</span>: <span class="string">&#x27;&#123; books &#123; title author &#125; &#125;&#x27;</span> &#125;)</span><br><span class="line">      .expect(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> books = [</span><br><span class="line">      &#123;</span><br><span class="line">        title: <span class="string">&#x27;Harry Potter and the Chamber of Secrets&#x27;</span>,</span><br><span class="line">        author: <span class="string">&#x27;J.K. Rowling&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        title: <span class="string">&#x27;Jurassic Park&#x27;</span>,</span><br><span class="line">        author: <span class="string">&#x27;Michael Crichton&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    expect(res.body.data.books).to.eql(books)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;query - books - cannot query field&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> errors = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123; <span class="attr">query</span>: <span class="string">&#x27;&#123; books &#123; title author content &#125; &#125;&#x27;</span> &#125;)</span><br><span class="line">      .expect(<span class="number">400</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> res.body.errors)</span><br><span class="line"></span><br><span class="line">    expect(errors).to.have.lengthOf(<span class="number">1</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].extensions.code).to.equal(<span class="string">&#x27;GRAPHQL_VALIDATION_FAILED&#x27;</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].message).to.equal(<span class="string">&#x27;Cannot query field &quot;content&quot; on type &quot;Book&quot;.&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;mutation - createBook&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> book = &#123;</span><br><span class="line">      title: <span class="string">&#x27;Title&#x27;</span>,</span><br><span class="line">      author: <span class="string">&#x27;Author&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> createdBook = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123;</span><br><span class="line">         query: <span class="string">`</span></span><br><span class="line"><span class="string">            mutation CreateBook($title: String $author: String) &#123;</span></span><br><span class="line"><span class="string">               createBook(title: $title author: $author) &#123;</span></span><br><span class="line"><span class="string">                  title author</span></span><br><span class="line"><span class="string">               &#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">         `</span>,</span><br><span class="line">         variables: book</span><br><span class="line">      &#125;)</span><br><span class="line">      .expect(<span class="number">200</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> res.body.data.createBook)</span><br><span class="line"></span><br><span class="line">    expect(createdBook).to.eql(book)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> books = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123; <span class="attr">query</span>: <span class="string">&#x27;&#123; books &#123; title author &#125; &#125;&#x27;</span> &#125;)</span><br><span class="line">      .expect(<span class="number">200</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> res.body.data.books)</span><br><span class="line"></span><br><span class="line">    expect(books).to.deep.include(book)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;mutation - createBook - unknown argument&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> errors = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123;</span><br><span class="line">         query: <span class="string">`</span></span><br><span class="line"><span class="string">            mutation CreateBook($_id: String) &#123;</span></span><br><span class="line"><span class="string">               createBook(_id: $_id) &#123;</span></span><br><span class="line"><span class="string">                 title author</span></span><br><span class="line"><span class="string">               &#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">         `</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">      .expect(<span class="number">400</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> res.body.errors)</span><br><span class="line"></span><br><span class="line">    expect(errors).to.have.lengthOf(<span class="number">1</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].extensions.code).to.equal(<span class="string">&#x27;GRAPHQL_VALIDATION_FAILED&#x27;</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].message).to.equal(<span class="string">&#x27;Unknown argument &quot;_id&quot; on field &quot;createBook&quot; of type &quot;Mutation&quot;.&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;mutation - createBook - cannot query field&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> errors = <span class="keyword">await</span> req.post(server.graphqlPath)</span><br><span class="line">      .send(&#123;</span><br><span class="line">         query: <span class="string">`</span></span><br><span class="line"><span class="string">            mutation CreateBook($title: String $author: String) &#123;</span></span><br><span class="line"><span class="string">               createBook(title: $title author: $author) &#123;</span></span><br><span class="line"><span class="string">                 title author content</span></span><br><span class="line"><span class="string">               &#125;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">         `</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">      .expect(<span class="number">400</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> res.body.errors)</span><br><span class="line"></span><br><span class="line">    expect(errors).to.have.lengthOf(<span class="number">1</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].extensions.code).to.equal(<span class="string">&#x27;GRAPHQL_VALIDATION_FAILED&#x27;</span>)</span><br><span class="line">    expect(errors[<span class="number">0</span>].message).to.equal(<span class="string">&#x27;Cannot query field &quot;content&quot; on type &quot;Book&quot;.&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 수행하면 정상적으로 동작하는 것을 확인할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ npm t</span><br><span class="line"></span><br><span class="line">&gt; graphql-server-example@1.0.0 <span class="built_in">test</span></span><br><span class="line">&gt; mocha -r ts-node/register -r tsconfig-paths/register <span class="built_in">test</span>/**/*.spec.ts</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Book</span><br><span class="line">  ✓ query - books (91ms)</span><br><span class="line">  ✓ query - books - cannot query field</span><br><span class="line">  ✓ mutation - createBook</span><br><span class="line">  ✓ mutation - createBook - unknown argument</span><br><span class="line">  ✓ mutation - createBook - cannot query field</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">5 passing (150ms)</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://hackernoon.com/how-to-test-graphql-server-using-mocha-and-chai-f5a10956e71a">How to Test GraphQL Server Using Mocha and Chai</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/graphql/graphql-server-test/" data-id="cklexwu6e0009pypvhzklhjhv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "GraphQL Server - Test",
+        "image": "https://gongzza.github.io",
+        "keywords": "graphql express apollo test mocha chai supertest",
+        "genre": "GraphQL",
+        "datePublished": "2018-09-20",
+        "dateCreated": "2018-09-20",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/graphql/graphql-server-test/",
+        "description": "GraphQL Server - Test이전 포스트에서 작성한 소스코드를 mocha와 supertest로 테스트 코드를 작성 해 볼 것입니다.
+Install123456789$ npm i -D mocha @types/mocha chai @types/chai supertest @types/supertest ts-node tsconfig-paths+ @types/",
+        "wordCount": 1441
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/graphql/graphql-server-type/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            GraphQL Server - TypeGraphQL
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/graphql/graphql-server-example/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">GraphQL Server - Example</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/graphql/graphql-server-test/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

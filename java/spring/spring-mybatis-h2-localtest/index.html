@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="test,java,junit,database,h2,spring,mybatis" />
+    
+    <meta name="description" content="소개H2 Database의 In-Memory 기능을 이용해서 로컬 테스트 환경을 만들 것입니다. 로컬 테스트 환경을 만들려는 이유는 원격에 있는 DB로 테스트를 하게 되면, 어떤 데이터가 들어있는지 보장할 수 없으며, 모든 데이터를 삭제를 하면은 다른 개발자의 테스트에 영향을 줄 수 있기 때문입니다. 즉, 불확실한 테스트가 됩니다. 그래서 확실하고 빠른 테">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기">
+<meta property="og:url" content="https://gongzza.github.io/java/spring/spring-mybatis-h2-localtest/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="소개H2 Database의 In-Memory 기능을 이용해서 로컬 테스트 환경을 만들 것입니다. 로컬 테스트 환경을 만들려는 이유는 원격에 있는 DB로 테스트를 하게 되면, 어떤 데이터가 들어있는지 보장할 수 없으며, 모든 데이터를 삭제를 하면은 다른 개발자의 테스트에 영향을 줄 수 있기 때문입니다. 즉, 불확실한 테스트가 됩니다. 그래서 확실하고 빠른 테">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-02-21T14:39:34.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.617Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="junit">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="h2">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="mybatis">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Java/">Java</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Java/Spring/">Spring</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-java/spring/spring-mybatis-h2-localtest" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/java/spring/spring-mybatis-h2-localtest/" class="article-date">
+       <time datetime="2018-02-21T14:39:34.000Z" itemprop="datePublished">2018-02-21</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/java/spring/spring-mybatis-h2-localtest/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.617Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/database/" rel="tag">database</a>, <a class="tag-link-link" href="/tags/h2/" rel="tag">h2</a>, <a class="tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link-link" href="/tags/junit/" rel="tag">junit</a>, <a class="tag-link-link" href="/tags/mybatis/" rel="tag">mybatis</a>, <a class="tag-link-link" href="/tags/spring/" rel="tag">spring</a>, <a class="tag-link-link" href="/tags/test/" rel="tag">test</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h2 id="소개"><a href="#소개" class="headerlink" title="소개"></a>소개</h2><p>H2 Database의 In-Memory 기능을 이용해서 로컬 테스트 환경을 만들 것입니다.</p>
+<p>로컬 테스트 환경을 만들려는 이유는 원격에 있는 DB로 테스트를 하게 되면, 어떤 데이터가 들어있는지 보장할 수 없으며, 모든 데이터를 삭제를 하면은 다른 개발자의 테스트에 영향을 줄 수 있기 때문입니다. 즉, 불확실한 테스트가 됩니다. 그래서 확실하고 빠른 테스트를 하기 위해서 로컬 테스트 환경을 구축하려고 합니다.</p>
+<!-- H2를 선택한 이유는 [In-Memory DB](http://www.h2database.com/html/features.html#in_memory_databases)와 [MySQL Compatibility Mode](http://www.h2database.com/html/features.html#compatibility)를 지원하기 때문입니다. -->
+
+<h2 id="시작하기"><a href="#시작하기" class="headerlink" title="시작하기"></a>시작하기</h2><p>비어있는 Java Project를 생성합니다.</p>
+<p>그리고 lib 디렉토리를 생성합니다.</p>
+<h3 id="Library"><a href="#Library" class="headerlink" title="Library"></a>Library</h3><p>다음과 같은 라이브러리들을 사용하였습니다.</p>
+<ul>
+<li>commons-logging-1.2.jar</li>
+<li>h2-1.4.196.jar</li>
+<li>lombok.jar</li>
+<li>mybatis-3.4.5.jar</li>
+<li>mybatis-spring-1.3.1.jar</li>
+</ul>
+<p>Spring:</p>
+<ul>
+<li>aop</li>
+<li>asm: Spring 3.1.x에서 필요</li>
+<li>beans</li>
+<li>context</li>
+<li>core</li>
+<li>expression</li>
+<li>jdbc</li>
+<li>test</li>
+<li>tx</li>
+</ul>
+<p>spring-asm.jar는 Spring 3.1.x일 때 필요합니다.</p>
+<p><strong>Spring version이 3.2.x 이상일 경우 Java 1.8을 사용해야 합니다.</strong><br>(자세한 사항은 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/24657418/spring-core-3-2-9-java-8">여기</a>를 참고해 주세요.)</p>
+<h4 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h4><p><a target="_blank" rel="noopener" href="https://repo.spring.io/release/org/springframework/spring">Repo</a>에 접속하신 후 원하시는 버전을 클릭 합니다.</p>
+<p>그리고 <code>spring-framework-x.x.x.RELEASE-dist.zip</code> 파일을 클릭해서 다운로드를 받습니다.</p>
+<p>다운로드 받은 파일의 압축을 풀어보면은 lib 디렉토리 안에 jar 파일들이 있습니다.</p>
+<p>위에서 명시한 jar파일들을 찾아서 프로젝트의 lib 디렉토리에 복사합니다.</p>
+<h4 id="JUnit"><a href="#JUnit" class="headerlink" title="JUnit"></a>JUnit</h4><p>테스트를 위해서 JUnit을 프로젝트에 추가합니다.</p>
+<p>Eclipse:</p>
+<ul>
+<li>프로젝트 우클릭 -&gt; Properties 클릭 -&gt; Java Build Path -&gt; Add Library… 클릭 -&gt; JUnit 선택 후 다음 -&gt; Finish</li>
+</ul>
+<p>IntelliJ:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/configuring-testing-libraries.html">여기</a>를 참고해 주세요.</li>
+</ul>
+<h4 id="H2"><a href="#H2" class="headerlink" title="H2"></a>H2</h4><p>H2 jar 파일은 <a target="_blank" rel="noopener" href="http://www.h2database.com/html/download.html">여기</a>에서 다운로드 받습니다.</p>
+<p>Jar File에서 Maven.org 또는 Sourceforge.net을 클릭하면 jar 파일을 받을 수 있습니다.</p>
+<p>다운로드 받은 <code>h2-1.4.196.jar</code> 파일을 위에서 생성한 프로젝트의 lib 디렉토리에 복사합니다.</p>
+<h4 id="MyBatis"><a href="#MyBatis" class="headerlink" title="MyBatis"></a>MyBatis</h4><p>MyBatis는 <a target="_blank" rel="noopener" href="https://github.com/mybatis/mybatis-3/releases">여기</a>에서 다운로드 받습니다.</p>
+<p>MyBatis-spring은 <a target="_blank" rel="noopener" href="https://github.com/mybatis/spring/releases">여기</a>에서 다운로드 받습니다.</p>
+<p>zip 파일을 다운로드 받은 후 압축을 풀면은 안에 jar 파일이 들어 있습니다.</p>
+<p>h2 jar 파일과 마찬가지로 lib 디렉토리에 복사합니다.</p>
+<h4 id="Library-추가-방법"><a href="#Library-추가-방법" class="headerlink" title="Library 추가 방법"></a>Library 추가 방법</h4><p>Eclipse:</p>
+<ul>
+<li>jar 파일 우클릭 -&gt; Build Path -&gt; Add to Build Path 클릭</li>
+</ul>
+<p>IntelliJ:</p>
+<ul>
+<li>lib 디렉토리 우클릭 -&gt; Add as Library.. 클릭</li>
+</ul>
+<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><h4 id="MyBatis-설정"><a href="#MyBatis-설정" class="headerlink" title="MyBatis 설정"></a>MyBatis 설정</h4><p>MyBatis 설정을 추가합니다.</p>
+<figure class="highlight xml"><figcaption><span>src/resources/config/mybatis/SqlMapConfig.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">  <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">  <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">&quot;useGeneratedKeys&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;study.localtest.model&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>useGeneratedKeys를 true로 주면은 insert 할 때 키를 자동으로 생성 후 파라메터로 넘어온 오브젝트에 셋팅할 수 있습니다.</li>
+<li>typeAliases를 package로 주면서 <code>study.localtest.model</code> 패키지 안에 있는 클래스들을 자동으로 Alias를 걸어줍니다.</li>
+</ul>
+<p>예를 들어서 parameterType을 <code>study.localtest.model.User</code>로 풀네임을 명시하는 것이 아니라 <code>User</code>로 줄여서 사용할 수 있습니다.</p>
+<p>자세한 설정 정보들은 <a target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/ko/configuration.html">Mapper Setting</a>에서 확인할 수 있습니다.</p>
+<h4 id="Spring-설정"><a href="#Spring-설정" class="headerlink" title="Spring 설정"></a>Spring 설정</h4><figure class="highlight xml"><figcaption><span>src/resources/config/spring/applicationContext.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xmlns:jdbc</span>=<span class="string">&quot;http://www.springframework.org/schema/jdbc&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">                      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">                      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;study.localtest&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">jdbc:embedded-database</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">type</span>=<span class="string">&quot;H2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbc:script</span> <span class="attr">location</span>=<span class="string">&quot;classpath:resources/sql/*.sql&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">jdbc:embedded-database</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sqlSessionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configLocation&quot;</span> <span class="attr">value</span>=<span class="string">&quot;classpath:resources/config/mybatis/SqlMapConfig.xml&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapperLocations&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:study/localtest/mapper/*.xml<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sqlSessionTemplate&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.SqlSessionTemplate&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;sqlSessionFactory&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- mybatis mapper auto scanning --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;basePackage&quot;</span> <span class="attr">value</span>=<span class="string">&quot;study.localtest.mapper&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>spring의 embedded-database를 이용합니다.</p>
+<p>초기화 sql들을 테이블 별로 따로 만들 수 있어서 구분하기도 편리합니다. 그리고 한번만 호출 되기 때문에 insert 구문도 추가할 수 있습니다.</p>
+<p>아쉬운 점은 <a target="_blank" rel="noopener" href="http://www.h2database.com/html/features.html#compatibility">MySQL Compatibility Mode</a>를 사용하려면은 Spring boot의 Auto configuration을 이용해야 한다는 점입니다.<br><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html">Working with SQL databases</a>에서 설정 가능한 정보들을 확인할 수 있습니다.</p>
+<p>Example:</p>
+<figure class="highlight properties"><figcaption><span>application.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">spring.datasource.url</span>=<span class="string">jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1</span></span><br><span class="line"><span class="meta">spring.datasource.username</span>=<span class="string">sa</span></span><br><span class="line"><span class="meta">spring.datasource.password</span>=<span class="string"></span></span><br><span class="line"><span class="meta">spring.datasource.driver-class-name</span>=<span class="string">org.h2.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>여기서 중요한 것은 <code>spring.dataSource.url</code> 입니다.</p>
+<ul>
+<li><code>jdbc:h2:mem:localtest</code>: jdbc로 h2 디비에 접속하면서 memory db를 이용하고 db이름은 testdb입니다.</li>
+<li><code>MODE=MySQL</code>: MySQL Compatibility Mode를 사용합니다.</li>
+<li><code>DB_CLOSE_DELAY=-1</code>: DB 연결을 닫아도 VM에서 살아서 Content를 지키도록 합니다.</li>
+<li>추가적으로 <code>INIT=runscript from &#39;./sql/users.sql&#39;</code>: 연결될 때마다 스크립트를 실행합니다.</li>
+</ul>
+<p>자세한 기능들은 <a target="_blank" rel="noopener" href="http://www.h2database.com/html/features.html">Features</a>를 확인하시기 바랍니다.</p>
+<h3 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h3><p>테이블을 작성합니다.</p>
+<figure class="highlight sql"><figcaption><span>src/resources/sql/users.sql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> users (</span><br><span class="line">  id <span class="type">int</span> auto_increment <span class="keyword">primary</span> key,</span><br><span class="line">  name <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">  password <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="keyword">null</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>저는 테이블 별로 sql 파일을 만드는 편입니다.</p>
+<p>그리고 기초 데이터가 필요하다면은 create table 밑에 insert 구문을 추가 작성하면 됩니다.</p>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><p>테이블과 매칭되는 User Model을 추가합니다.</p>
+<figure class="highlight java"><figcaption><span>src/study/localtest/model/User.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> study.localtest.model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lombok의 <code>@Data</code> Annotation을 사용하면 Setter/Getter 와 toString()을 자동으로 만들 수 있습니다.</p>
+<h3 id="UserMapper"><a href="#UserMapper" class="headerlink" title="UserMapper"></a>UserMapper</h3><p>간단한 CRUD 기능만 작성하겠습니다.</p>
+<h4 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h4><p>테스트 코드를 작성합니다.</p>
+<figure class="highlight java"><figcaption><span>src/study/localtest/mapper/UserMapperTest.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> study.localtest.mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.is;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.not;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.nullValue;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.Assert.assertThat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.ContextConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> study.localtest.model.User;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ContextConfiguration(locations=&quot;classpath:resources/config/spring/applicationContext.xml&quot;)</span></span><br><span class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserMapperTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">  User user;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    user = <span class="keyword">new</span> User();</span><br><span class="line">    user.setName(<span class="string">&quot;gongzza&quot;</span>);</span><br><span class="line">    user.setPassword(<span class="string">&quot;gzgz&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt = userMapper.add(user);</span><br><span class="line">    assertThat(<span class="string">&quot;1건이 등록되어야 한다.&quot;</span>, cnt, is(<span class="number">1</span>));</span><br><span class="line">    assertThat(<span class="string">&quot;ID가 0이 아니어야 한다.&quot;</span>, user.getId(), is(not(<span class="number">0</span>)));</span><br><span class="line"></span><br><span class="line">    User userAdded = userMapper.getUserById(user.getId());</span><br><span class="line">    checkSameUser(userAdded, user);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt = userMapper.add(user);</span><br><span class="line">    assertThat(<span class="string">&quot;1건이 등록되어야 한다.&quot;</span>, cnt, is(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    user.setName(<span class="string">&quot;gg&quot;</span>);</span><br><span class="line">    user.setPassword(<span class="string">&quot;pp&quot;</span>);</span><br><span class="line"></span><br><span class="line">    cnt = userMapper.update(user);</span><br><span class="line">    assertThat(<span class="string">&quot;1건이 수정되어야 한다.&quot;</span>, cnt, is(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    User userUpdated = userMapper.getUserById(user.getId());</span><br><span class="line">    checkSameUser(userUpdated, user);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt = userMapper.add(user);</span><br><span class="line">    assertThat(<span class="string">&quot;1건이 등록되어야 한다.&quot;</span>, cnt, is(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> id = user.getId();</span><br><span class="line"></span><br><span class="line">    cnt = userMapper.delete(id);</span><br><span class="line">    assertThat(<span class="string">&quot;1건이 삭제되어야 한다.&quot;</span>, cnt, is(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    User userDeleted = userMapper.getUserById(id);</span><br><span class="line">    assertThat(<span class="string">&quot;검색 되는 사용자가 없어야 한다.&quot;</span>, userDeleted, is(nullValue()));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkSameUser</span><span class="params">(User user1, User user2)</span> </span>&#123;</span><br><span class="line">    assertThat(<span class="string">&quot;이름이 같아야 한다.&quot;</span>, user1.getName(), is(user2.getName()));</span><br><span class="line">    assertThat(<span class="string">&quot;비밀번호가 같아야 한다.&quot;</span>, user1.getPassword(), is(user2.getPassword()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>테스트 코드를 작성하고 나면은 빨간줄들이 보일 것입니다.</p>
+<p>이제 그 빨간줄이 그어진 것들만 작성하면 됩니다.</p>
+<h4 id="Interface"><a href="#Interface" class="headerlink" title="Interface"></a>Interface</h4><p>UserMapper는 Interface로 작성합니다.</p>
+<figure class="highlight java"><figcaption><span>src/study/localtest/mapper/UserMapper.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> study.localtest.mapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Delete;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Param;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> study.localtest.model.User;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> User <span class="title">getUserById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(User user)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(User user)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Delete(&quot;delete from users where id = #&#123;id&#125;&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span><span class="params">(<span class="meta">@Param(&quot;id&quot;)</span> <span class="keyword">int</span> id)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>간단한 쿼리는 메소드에 Annotation으로 직접 작성할 수 있습니다.</p>
+<h4 id="Mapper-XML"><a href="#Mapper-XML" class="headerlink" title="Mapper XML"></a>Mapper XML</h4><p>복잡한 쿼리는 XML에서 작성합니다.</p>
+<figure class="highlight xml"><figcaption><span>src/study/localtest/mapper/UserMapper.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span> <span class="meta-keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">  <span class="meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">  <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span>  </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;study.localtest.mapper.UserMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;add&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">keyProperty</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">    insert into</span><br><span class="line">    users (name, password)</span><br><span class="line">    values (#&#123;name&#125;, #&#123;password&#125;)</span><br><span class="line">  <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;update&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    update</span><br><span class="line">      users</span><br><span class="line">    set</span><br><span class="line">      name = #&#123;name&#125;,</span><br><span class="line">      password = #&#123;password&#125;</span><br><span class="line">    where</span><br><span class="line">      id = #&#123;id&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;int&quot;</span>&gt;</span></span><br><span class="line">    select</span><br><span class="line">      id, name, password</span><br><span class="line">    from</span><br><span class="line">      users</span><br><span class="line">    where</span><br><span class="line">      id = #&#123;id&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>여기서 중요한 것은 mapper의 namespace가 <code>study.localtest.mapper.UserMapper</code>를 바라보는 것과 쿼리 id가 UserMapper의 메소드 명과 일치해야 한다는 점입니다.</p>
+<p>그리고 <code>parameterType</code>과 <code>resultType</code>도 namespace처럼 package까지 적어주어야 하지만, 위에서 typeAliases를 걸어주었기 때문에 클래스명 만으로도 선언이 가능합니다.</p>
+<p>자세한 설정 정보는 <a target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html">Mapper XML</a>에서 확인하시기 바랍니다.</p>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p>이제 Mapper와 Model을 자유롭게 추가하면서 빠르게 테스트를 수행할 수 있게 되었습니다.</p>
+<p>그리고 Maven이나 Gradle을 꼭 사용해야겠다는 생각이 들었습니다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.h2database.com/">http://www.h2database.com</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/ko">http://www.mybatis.org/mybatis-3/ko</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/java/spring/spring-mybatis-h2-localtest/" data-id="cklexwu870012pypv6h2jbsjt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Spring + MyBatis + H2 Memory DB를 이용한 로컬 테스트 환경 만들기",
+        "image": "https://gongzza.github.io",
+        "keywords": "test java junit database h2 spring mybatis",
+        "genre": "Java Spring",
+        "datePublished": "2018-02-21",
+        "dateCreated": "2018-02-21",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/java/spring/spring-mybatis-h2-localtest/",
+        "description": "소개H2 Database의 In-Memory 기능을 이용해서 로컬 테스트 환경을 만들 것입니다.
+로컬 테스트 환경을 만들려는 이유는 원격에 있는 DB로 테스트를 하게 되면, 어떤 데이터가 들어있는지 보장할 수 없으며, 모든 데이터를 삭제를 하면은 다른 개발자의 테스트에 영향을 줄 수 있기 때문입니다. 즉, 불확실한 테스트가 됩니다. 그래서 확실하고 빠른 테",
+        "wordCount": 1890
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/learning-typescript-with-jest/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Jest로 TypeScript 학습테스트 환경 만들기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/java/eclipse/continuous-testing-plugin-infinitest/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">지속적인 테스트 플러그인 - Infinitest 소개</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/java/spring/spring-mybatis-h2-localtest/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Installing MySQL on Microsoft Windows Using a noinstall Zip Archive | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="mysql,install" />
+    
+    <meta name="description" content="Windows10에서 MySQL을 설치하는 방법을 알아볼 것이다. MySQL은 5.7로 설치할 것이다.windows-install-archive를 참고하여 작성하였다. 목차 Download ZIP Archive Create an option file Initialize MySQL Start the MySQL server   1. Download Zip Ar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Installing MySQL on Microsoft Windows Using a noinstall Zip Archive">
+<meta property="og:url" content="https://gongzza.github.io/install-mysql-on-windows/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Windows10에서 MySQL을 설치하는 방법을 알아볼 것이다. MySQL은 5.7로 설치할 것이다.windows-install-archive를 참고하여 작성하였다. 목차 Download ZIP Archive Create an option file Initialize MySQL Start the MySQL server   1. Download Zip Ar">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-03-02T14:29:52.000Z">
+<meta property="article:modified_time" content="2021-02-21T09:19:03.614Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="install">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-install-mysql-on-windows" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Installing MySQL on Microsoft Windows Using a noinstall Zip Archive
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/install-mysql-on-windows/" class="article-date">
+       <time datetime="2017-03-02T14:29:52.000Z" itemprop="datePublished">2017-03-02</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/install-mysql-on-windows/" class="article-date">
+     <time datetime="2021-02-21T09:19:03.614Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/install/" rel="tag">install</a>, <a class="tag-link-link" href="/tags/mysql/" rel="tag">mysql</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p>Windows10에서 MySQL을 설치하는 방법을 알아볼 것이다.</p>
+<p>MySQL은 5.7로 설치할 것이다.<br><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/windows-install-archive.html">windows-install-archive</a>를 참고하여 작성하였다.</p>
+<h2 id="목차"><a href="#목차" class="headerlink" title="목차"></a>목차</h2><ol>
+<li><a href="#download_zip_archive">Download ZIP Archive</a></li>
+<li><a href="#create_an_option_file">Create an option file</a></li>
+<li><a href="#initialize_mysql">Initialize MySQL</a></li>
+<li><a href="#start_the_mysql_server">Start the MySQL server</a></li>
+</ol>
+<p><a name="download_zip_archive"></a></p>
+<h2 id="1-Download-Zip-Archive"><a href="#1-Download-Zip-Archive" class="headerlink" title="1. Download Zip Archive"></a>1. Download Zip Archive</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a> 에서 다운로드 받으면 된다.<br>download 버튼을 클릭하면 Login 하라고 나오는데, 당황하지 않고 밑에 <code>No thanks, just start my download.</code>를 클릭한다.<br>다운로드가 완료되면 원하는 위치에 압축을 푼다.<br>나는 <code>C:\mysql</code>에 압축을 풀기로 했다.</p>
+<p>그리고 시스템 환경 변수로 <code>MYSQL_HOME</code>에 <code>c:\mysql</code>를 등록 하고 <code>Path</code>에 <code>%MYSQL_HOME%\bin</code>을 등록한다.</p>
+<p>시스템 환경 변수는 윈도우즈 실행(<code>ctrl-r</code> 또는 <code>ctrl-s</code>)에서 <code>SystemPropertiesAdvanced</code>를 실행한 후 <code>환경 변수</code> 버튼을 눌러서 들어간 다음 <code>시스템 변수</code>에 등록하면 된다.</p>
+<p><a name="create_an_option_file"></a></p>
+<h2 id="2-Create-an-option-file"><a href="#2-Create-an-option-file" class="headerlink" title="2. Create an option file"></a>2. Create an option file</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/windows-create-option-file.html">https://dev.mysql.com/doc/refman/5.7/en/windows-create-option-file.html</a><br>먼저 <code>my-default.ini</code>파일을 <code>my.ini</code>으로 복사한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp my-default.ini my.ini</span><br></pre></td></tr></table></figure>
+<p>그리고 basedir과 port만 설정해 주면된다.<br>MySQL에서 포트는 보통 3306을 사용한다.<br>datadir은 설정하지 않으면 basedir/data로 설정된다.</p>
+<figure class="highlight bash"><figcaption><span>my.ini</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># These are commonly set, remove the # and set as required.</span></span><br><span class="line">basedir = <span class="string">&quot;c:/mysql&quot;</span></span><br><span class="line"><span class="comment"># datadir = .....</span></span><br><span class="line">port = 3306</span><br><span class="line"><span class="comment"># server_id = .....</span></span><br></pre></td></tr></table></figure>
+
+<p><a name="initialize_mysql"></a></p>
+<h2 id="3-Initialize-MySQL"><a href="#3-Initialize-MySQL" class="headerlink" title="3. Initialize MySQL"></a>3. Initialize MySQL</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization-mysqld.html">https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization-mysqld.html</a><br>noinstall로 설치했을 경우 data directory를 초기화 해주어야 한다.<br><code>mysqld</code>로 초기화를 하는데 두가지 옵션이 있다.</p>
+<ul>
+<li><code>--initialize</code>은 root password를 랜덤으로 생성해준다.<ul>
+<li>생성된 패스워드는 로그를 통해서 확인할 수 있다.</li>
+</ul>
+</li>
+<li><code>--initialize-insecure</code>은 root password가 없다.</li>
+</ul>
+<p>나는 root password 없이 초기화 하는 방법을 선택하였다.<br>root password는 서버 실행 후 초기화 할 수 있다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysqld --initialize-insecure</span><br></pre></td></tr></table></figure>
+
+<p>만약 data directory가 있을 경우 초기화는 실패한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR] --initialize specified but the data directory exists. Aborting.</span><br></pre></td></tr></table></figure>
+
+<p><a name="start_the_mysql_server"></a></p>
+<h2 id="4-Start-the-MySQL-server"><a href="#4-Start-the-MySQL-server" class="headerlink" title="4. Start the MySQL server"></a>4. Start the MySQL server</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/windows-start-command-line.html">https://dev.mysql.com/doc/refman/5.7/en/windows-start-command-line.html</a><br>먼저 command line으로 서버를 실행해 보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysqld --console</span><br></pre></td></tr></table></figure>
+<p><code>--console</code> option은 windows only이며 stderr와 stdout을 콘솔에 그대로 보여준다.<br>그래서 마지막에 다음과 같은 문구가 나온다면 정상적으로 실행된 것이다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Version: &#39;5.7.17&#39;  socket: &#39;&#39;  port: 3306  MySQL Community Server (GPL)</span><br></pre></td></tr></table></figure>
+<p><code>ctrl-c</code>를 눌러서 서버를 종료하고 서비스를 등록해보자.<br><strong>꼭 커맨드창을 관리자모드로 실행해야 한다.</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mysqld --install</span><br><span class="line">Service successfully installed.</span><br><span class="line"></span><br><span class="line">$ net start mysql</span><br><span class="line">MySQL 서비스를 시작합니다.</span><br><span class="line">MySQL 서비스가 잘 시작되었습니다.</span><br></pre></td></tr></table></figure>
+
+<p>이제 root password를 설정할 수 있다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># `--initialize-insecure`로 초기화 했을 경우에만 가능하다.</span></span><br><span class="line">$ mysql -u root --skip-password</span><br><span class="line">mysql&gt; ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;new_password&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>exit 명령어로 빠져나온 다음 패스워드를 입력해서 로그인 해보자</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line">Enter password: ************</span><br><span class="line">...</span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+<p>패스워드 입력 프롬프트를 그냥 지나가고 싶은 경우 <code>-pnew_password</code>를 입력하면 되지만, 이렇게 할 경우 패스워드가 노출이 되기 때문에 매우 위험한 행동이다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/install-mysql-on-windows/" data-id="cklexwu5k0001pypvfapk6q8u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Installing MySQL on Microsoft Windows Using a noinstall Zip Archive",
+        "image": "https://gongzza.github.io",
+        "keywords": "mysql install",
+        "genre": "",
+        "datePublished": "2017-03-02",
+        "dateCreated": "2017-03-02",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/install-mysql-on-windows/",
+        "description": "Windows10에서 MySQL을 설치하는 방법을 알아볼 것이다.
+MySQL은 5.7로 설치할 것이다.windows-install-archive를 참고하여 작성하였다.
+목차
+Download ZIP Archive
+Create an option file
+Initialize MySQL
+Start the MySQL server
+
+
+1. Download Zip Ar",
+        "wordCount": 429
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/javascript/webpack/webpack-code-splitting-using-require-ensure/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Webpack Code Splitting - Using require.ensure
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/javascript/vuejs/vuejs-todomvc-template/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Vue.js TodoMVC Template</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/install-mysql-on-windows/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
