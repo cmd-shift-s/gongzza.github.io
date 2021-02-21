@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Yeoman generator with babel | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="yeoman-generator,babel" />
+    
+    <meta name="description" content="이번 포스팅은 Yeoman generator 따라하기를 진행 하다가es6문법을 적용하고 싶어서 babel을 적용하는 과정을 다루게 되었다. Install뭐든지 설치가 먼저인듯 하다. Install1$ npm install --save-dev babel-cli babel-core babel-register babel-preset-es2015 babel-pre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yeoman generator with babel">
+<meta property="og:url" content="https://gongzza.github.io/yeoman/yeoman-with-babel/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="이번 포스팅은 Yeoman generator 따라하기를 진행 하다가es6문법을 적용하고 싶어서 babel을 적용하는 과정을 다루게 되었다. Install뭐든지 설치가 먼저인듯 하다. Install1$ npm install --save-dev babel-cli babel-core babel-register babel-preset-es2015 babel-pre">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-01-15T03:11:34.000Z">
+<meta property="article:modified_time" content="2021-02-21T13:41:51.344Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="yeoman-generator">
+<meta property="article:tag" content="babel">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Yeoman/">Yeoman</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-yeoman/yeoman-with-babel" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Yeoman generator with babel
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/yeoman/yeoman-with-babel/" class="article-date">
+       <time datetime="2017-01-15T03:11:34.000Z" itemprop="datePublished">2017-01-15</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/yeoman/yeoman-with-babel/" class="article-date">
+     <time datetime="2021-02-21T13:41:51.344Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/babel/" rel="tag">babel</a>, <a class="tag-link-link" href="/tags/yeoman-generator/" rel="tag">yeoman-generator</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p>이번 포스팅은 <a href="../generator-v-1">Yeoman generator 따라하기</a>를 진행 하다가<br>es6문법을 적용하고 싶어서 babel을 적용하는 과정을 다루게 되었다.</p>
+<h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><p>뭐든지 설치가 먼저인듯 하다.</p>
+<figure class="highlight bash"><figcaption><span>Install</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev babel-cli babel-core babel-register babel-preset-es2015</span><br></pre></td></tr></table></figure>
+<p><code>babel-preset-es2015</code>를 설치하면 es6문법들을 한방에 적용할 수 있다.</p>
+<p>다음으로 <code>.babelrc</code>를 만들어 줘야 한다.</p>
+<figure class="highlight json"><figcaption><span>.babelrc</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;presets&quot;</span>: [<span class="string">&quot;es2015&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>자세한 설정 사항은 <a target="_blank" rel="noopener" href="https://babeljs.io/docs/usage/babelrc/">babeljs.io</a>에서 확인하자.</p>
+<p>이제 es6 문법을 사용할 수 있는 상황이 되었다.</p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>사용하는 방법을 알아보자.</p>
+<p>테스트에서도 babel을 사용하기 위해서는 <code>package.json</code>에서 test script를 수정해야 한다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;npm run test:base test/specs/**/*.js&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;test:base&quot;</span>: <span class="string">&quot;mocha -R spec --compilers js:babel-register&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 만들어 보자.</p>
+<figure class="highlight js"><figcaption><span>test/app.spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> helper <span class="keyword">from</span> <span class="string">&#x27;yeoman-test&#x27;</span></span><br><span class="line"><span class="keyword">import</span> assert <span class="keyword">from</span> <span class="string">&#x27;yeoman-assert&#x27;</span></span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;app&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> generator = path.resolve(<span class="string">&#x27;generators&#x27;</span>, <span class="string">&#x27;app&#x27;</span>)</span><br><span class="line">  <span class="keyword">const</span> name = <span class="string">&#x27;mock&#x27;</span></span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> helper.run(generator)</span><br><span class="line">            .withArguments([name])</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;create file with content&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> destfile = path.join(<span class="string">&#x27;src&#x27;</span>, name + <span class="string">&#x27;.vue&#x27;</span>)</span><br><span class="line">    assert.file([destfile])</span><br><span class="line">    assert.fileContent(destfile, name)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 실행해 보면 잘 통과하는 것을 확인할 수 있다.</p>
+<p>제너레이터를 es6문법으로 바꾸기전 주의사항이 있다.</p>
+<p><code>yeoman</code>은 index.js를 호출 한다. 그래서 index.js로 작업을 하게 될 경우 node.js에서 es6문법을 모두 해석하지 못하기 때문에 <code>babel</code>로 컴파일된 index.js를 사용해야 한다. 그래서 우리는 <code>index.es6</code>로 작업 후 컴파일을 해서 <code>index.js</code>로 저장 할 것이다.<br><strong>꼭 배포 전에 <code>babel</code>로 컴파일을 해주어야 한다.</strong></p>
+<p>만약 git을 사용한다면 .git/hooks에서 <code>pre-commit</code>을 사용해서 커밋 전에 자동으로 컴파일된 소스를 추가할 수 있다.</p>
+<p>.git/hooks디렉토리에 <code>pre-commit.sample</code>이 있으면 <code>pre-commit</code>으로 복사 후 사용한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> .git/hooks/</span><br><span class="line">$ cp pre-commit.sample pre-commit</span><br><span class="line">$ vi pre-commit</span><br><span class="line">npm run build</span><br><span class="line">git add generators/*/index.js</span><br></pre></td></tr></table></figure>
+<p>위 명령을 추가해준다.</p>
+<p>빌드 스크립트도 추가해준다.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;build&quot;</span>: <span class="string">&quot;babel generators/*/index.es6 -d .&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이제 제너레이터도 es6문법으로 바꿔 보도록 하자.</p>
+<figure class="highlight js"><figcaption><span>generators/app/index.es6</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Generator <span class="keyword">from</span> <span class="string">&#x27;yeoman-generator&#x27;</span></span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppGenerator</span> <span class="keyword">extends</span> <span class="title">Generator</span> </span>&#123;</span><br><span class="line">  <span class="comment">// The name `constructor` is important here</span></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">args, opts</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(args, opts)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// name을 필수로 받도록 처리</span></span><br><span class="line">      <span class="built_in">this</span>.argument(<span class="string">&#x27;name&#x27;</span>, &#123; <span class="attr">type</span>: <span class="built_in">String</span>, <span class="attr">required</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">      <span class="built_in">this</span>.log.error(<span class="string">&#x27;Usage: yo v name&#x27;</span>)</span><br><span class="line">      process.exit(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">initializing</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 생성 될 스크립트확장자</span></span><br><span class="line">    <span class="built_in">this</span>.options.suffixScript = <span class="string">&#x27;.vue&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">writing</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> filename = <span class="built_in">this</span>.options.name + <span class="built_in">this</span>.options.suffixScript</span><br><span class="line">    <span class="built_in">this</span>.fs.copyTpl(</span><br><span class="line">      <span class="built_in">this</span>.templatePath(<span class="string">&#x27;Vue.vue&#x27;</span>),</span><br><span class="line">      <span class="built_in">this</span>.destinationPath(path.join(<span class="string">&#x27;src&#x27;</span>, filename)),</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="built_in">this</span>.options.name&#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = AppGenerator</span><br></pre></td></tr></table></figure>
+
+<p>테스트 코드에서 <code>index.es6</code>를 불러오도록 수정한다.</p>
+<figure class="highlight js"><figcaption><span>test/app.spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">&#x27;app&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> generator = path.resolve(<span class="string">&#x27;generators&#x27;</span>, <span class="string">&#x27;app&#x27;</span>, <span class="string">&#x27;index.es6&#x27;</span>)</span><br><span class="line">  ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 실행해 보면 잘 통과 하는 것을 볼 수 있다.</p>
+<p>이제 직접 사용해 보기 위해서 컴파일을 수행하자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run build</span><br><span class="line">generators/app/index.es6 -&gt; generators/app/index.js</span><br></pre></td></tr></table></figure>
+
+<p>제너레이터를 사용해 보자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yo v App</span><br><span class="line">create src/App.vue</span><br></pre></td></tr></table></figure>
+
+<p>es6문법이 잘 적용된 것을 확인할 수 있다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/yeoman/yeoman-with-babel/" data-id="cklf7gfrf00205lpv1cbmgk5w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Yeoman generator with babel",
+        "image": "https://gongzza.github.io",
+        "keywords": "yeoman-generator babel",
+        "genre": "Yeoman",
+        "datePublished": "2017-01-15",
+        "dateCreated": "2017-01-15",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/yeoman/yeoman-with-babel/",
+        "description": "이번 포스팅은 Yeoman generator 따라하기를 진행 하다가es6문법을 적용하고 싶어서 babel을 적용하는 과정을 다루게 되었다.
+Install뭐든지 설치가 먼저인듯 하다.
+Install1$ npm install --save-dev babel-cli babel-core babel-register babel-preset-es2015
+babel-pre",
+        "wordCount": 746
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/yeoman/generator-v-3/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Yeoman generator 따라하기 - 3
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/yeoman/generator-v-2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Yeoman generator 따라하기 - 2</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/yeoman/yeoman-with-babel/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

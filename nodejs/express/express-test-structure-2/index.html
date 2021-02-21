@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Express 테스트 환경 만들기(2) | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="mongodb,express,node.js,ava,mongoose" />
+    
+    <meta name="description" content="이번에는 Express 테스트 환경 만들기(1)를 이어서 DB 테스트 환경을 구축하겠습니다. 여기서 저는 MongoDB ODM(Object Data Mapping) 프레임워크인 Mongoose를 사용할 것입니다. 설치1$ npm i -S mongoose  Todo간단하게 Todo로 테스트 코드를 만들어 볼 생각입니다. 먼저 DB 접속 부분을 작성합니다.ur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Express 테스트 환경 만들기(2)">
+<meta property="og:url" content="https://gongzza.github.io/nodejs/express/express-test-structure-2/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="이번에는 Express 테스트 환경 만들기(1)를 이어서 DB 테스트 환경을 구축하겠습니다. 여기서 저는 MongoDB ODM(Object Data Mapping) 프레임워크인 Mongoose를 사용할 것입니다. 설치1$ npm i -S mongoose  Todo간단하게 Todo로 테스트 코드를 만들어 볼 생각입니다. 먼저 DB 접속 부분을 작성합니다.ur">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-04-11T12:16:11.000Z">
+<meta property="article:modified_time" content="2021-02-21T13:41:51.325Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="mongodb">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="node.js">
+<meta property="article:tag" content="ava">
+<meta property="article:tag" content="mongoose">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Node-js/">Node.js</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Node-js/Express/">Express</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-nodejs/express/express-test-structure-2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Express 테스트 환경 만들기(2)
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/nodejs/express/express-test-structure-2/" class="article-date">
+       <time datetime="2017-04-11T12:16:11.000Z" itemprop="datePublished">2017-04-11</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/nodejs/express/express-test-structure-2/" class="article-date">
+     <time datetime="2021-02-21T13:41:51.325Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ava/" rel="tag">ava</a>, <a class="tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="tag-link-link" href="/tags/mongoose/" rel="tag">mongoose</a>, <a class="tag-link-link" href="/tags/node-js/" rel="tag">node.js</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p>이번에는 <a href="../express-test-structure-1">Express 테스트 환경 만들기(1)</a>를 이어서 DB 테스트 환경을 구축하겠습니다.</p>
+<p>여기서 저는 <a target="_blank" rel="noopener" href="https://www.mongodb.com/">MongoDB</a> ODM(Object Data Mapping) 프레임워크인 <a target="_blank" rel="noopener" href="http://mongoosejs.com/">Mongoose를</a> 사용할 것입니다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -S mongoose</span><br></pre></td></tr></table></figure>
+
+<h2 id="Todo"><a href="#Todo" class="headerlink" title="Todo"></a>Todo</h2><p>간단하게 Todo로 테스트 코드를 만들어 볼 생각입니다.</p>
+<p>먼저 DB 접속 부분을 작성합니다.<br>url부분은 환경에 맞게 수정하시면 됩니다.</p>
+<figure class="highlight js"><figcaption><span>db.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mongoose <span class="keyword">from</span> <span class="string">&#x27;mongoose&#x27;</span></span><br><span class="line">mongoose.Promise = <span class="built_in">global</span>.Promise</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> db = <span class="literal">null</span></span><br><span class="line"><span class="keyword">var</span> url = <span class="string">&#x27;mongodb://host:port/database&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">  db = mongoose.connection</span><br><span class="line">  db.on(<span class="string">&#x27;error&#x27;</span>, <span class="built_in">console</span>.error.bind(<span class="built_in">console</span>, <span class="string">&#x27;connection error:&#x27;</span>))</span><br><span class="line">  db.once(<span class="string">&#x27;open&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    cb()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  mongoose.connect(url)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>그리고 스키마를 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>todo.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">&#x27;mongoose&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Schema = mongoose.Schema(&#123;</span><br><span class="line">  content: <span class="built_in">String</span>,</span><br><span class="line">  done: <span class="built_in">Boolean</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Todo = mongoose.model(<span class="string">&#x27;Todo&#x27;</span>, Schema)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Todo</span><br></pre></td></tr></table></figure>
+
+<p>api를 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> db <span class="keyword">from</span> <span class="string">&#x27;./db&#x27;</span></span><br><span class="line"><span class="keyword">import</span> Todo <span class="keyword">from</span> <span class="string">&#x27;./todo&#x27;</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/todos&#x27;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> todos = <span class="keyword">await</span> Todo.find().exec()</span><br><span class="line">  res.json(&#123;todos&#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">db.connect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Example app listening on port 3000!&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>test를 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>todos.test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> test <span class="keyword">from</span> <span class="string">&#x27;ava&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> app <span class="keyword">from</span> <span class="string">&#x27;./app&#x27;</span></span><br><span class="line"></span><br><span class="line">test(<span class="string">&#x27;todos&#x27;</span>, <span class="keyword">async</span> t =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> request(app)</span><br><span class="line">    .get(<span class="string">&#x27;/todos&#x27;</span>)</span><br><span class="line">    .expect(<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> todos = res.body.todos</span><br><span class="line"></span><br><span class="line">  t.true(<span class="built_in">Array</span>.isArray(todos))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 돌려보면 성공으로 떨어질 것입니다.</p>
+<p>테스트를 수행하기전에 기본적인 데이터를 넣어두는 방법을 알아보겠습니다.</p>
+<p>테스트 데이터를 만드는 방법은 2가지가 있습니다.<br>하나는 직접 fixtures.json을 만드는 방법과 하나는 <a target="_blank" rel="noopener" href="https://github.com/marak/Faker.js/">faker.js</a>를 이용하는 방법입니다.</p>
+<p>하나하나 알아 보겠습니다.</p>
+<h3 id="Fixtures"><a href="#Fixtures" class="headerlink" title="Fixtures"></a>Fixtures</h3><p>먼저 json파일을 만듭니다.</p>
+<figure class="highlight js"><figcaption><span>fixtures.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;todos&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Todo 1&quot;</span>,</span><br><span class="line">      <span class="string">&quot;done&quot;</span>: <span class="literal">false</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Todo 2&quot;</span>,</span><br><span class="line">      <span class="string">&quot;done&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Todo 3&quot;</span>,</span><br><span class="line">      <span class="string">&quot;done&quot;</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>테스트 파일을 수정합니다.</p>
+<figure class="highlight js"><figcaption><span>todos.test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">import</span> Todo <span class="keyword">from</span> <span class="string">&#x27;./todo&#x27;</span></span><br><span class="line"><span class="keyword">import</span> fixtures <span class="keyword">from</span> <span class="string">&#x27;./fixtures&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> insertedIds = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">test.cb.before(<span class="function"><span class="params">t</span> =&gt;</span> &#123;</span><br><span class="line">  Todo.collection.insert(fixtures.todos, <span class="function">(<span class="params">err, docs</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> t.fail()</span><br><span class="line">    insertedIds = docs.insertedIds</span><br><span class="line">    t.end()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">test.cb.after(<span class="function"><span class="params">t</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (insertedIds) &#123;</span><br><span class="line">    Todo.collection.remove(&#123;<span class="attr">_id</span>: &#123;<span class="attr">$in</span>: insertedIds&#125;&#125;, <span class="function">(<span class="params">err, docs</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> t.fail()</span><br><span class="line">      t.end()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>검증은 아래처럼 할 수 있습니다.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t.is(res.body.todos.length, fixtures.todos.length)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Faker"><a href="#Faker" class="headerlink" title="Faker"></a>Faker</h3><p>json을 만들때 값을 쉽게 만들어주는 라이브러리입니다.</p>
+<p>사용하기 쉽도록 메소드로 만들어 보았습니다.</p>
+<figure class="highlight js"><figcaption><span>helpers.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> faker <span class="keyword">from</span> <span class="string">&#x27;faker&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create mock object</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 파라메터 객체 구조를 그대로 가지면서</span></span><br><span class="line"><span class="comment"> * value값을 해석해서 fake value로 채워서 리턴합니다.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> <span class="variable">obj</span></span> - mock data로 채워질 객체</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return <span class="type">&#123;Object&#125;</span> </span>- mock data로 채워진 객체</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mock</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> mockup = &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.keys(obj)) &#123;</span><br><span class="line">    mockup[key] = faker.fake(obj[key])</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> mockup</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create mock data array</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Object&#125;</span> <span class="variable">obj</span></span> - mock data로 채워질 객체</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123;Number&#125;</span> </span>[length = 3] - 갯수 만큼 객체를 생성</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mocks</span>(<span class="params">obj, length = <span class="number">3</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(&#123;length&#125;, <span class="function">() =&gt;</span> mock(obj))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>사용법은 다음과 같습니다.</p>
+<figure class="highlight js"><figcaption><span>todos.test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;mocks&#125; <span class="keyword">from</span> <span class="string">&#x27;./helper&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> insertedIds = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">test.cb.before(<span class="function"><span class="params">t</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> todos = mocks(&#123;</span><br><span class="line">    content: <span class="string">&#x27;&#123;&#123;lorem.sentence&#125;&#125;&#x27;</span></span><br><span class="line">  &#125;, <span class="number">3</span>)</span><br><span class="line">  Todo.collection.insert(todos, <span class="function">(<span class="params">err, docs</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> t.fail()</span><br><span class="line">    insertedIds = docs.insertedIds</span><br><span class="line">    t.end()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">test.cb.after(<span class="function"><span class="params">t</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (insertedIds) &#123;</span><br><span class="line">    Todo.collection.remove(&#123;<span class="attr">_id</span>: &#123;<span class="attr">$in</span>: insertedIds&#125;&#125;, <span class="function">(<span class="params">err, docs</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> t.fail()</span><br><span class="line">      t.end()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>이렇게 손쉽게 목데이터를 만들수 있습니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/nodejs/express/express-test-structure-2/" data-id="cklf7gfs5002c5lpv0jem6yju" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Express 테스트 환경 만들기(2)",
+        "image": "https://gongzza.github.io",
+        "keywords": "mongodb express node.js ava mongoose",
+        "genre": "Node.js Express",
+        "datePublished": "2017-04-11",
+        "dateCreated": "2017-04-11",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/nodejs/express/express-test-structure-2/",
+        "description": "이번에는 Express 테스트 환경 만들기(1)를 이어서 DB 테스트 환경을 구축하겠습니다.
+여기서 저는 MongoDB ODM(Object Data Mapping) 프레임워크인 Mongoose를 사용할 것입니다.
+설치1$ npm i -S mongoose
+
+Todo간단하게 Todo로 테스트 코드를 만들어 볼 생각입니다.
+먼저 DB 접속 부분을 작성합니다.ur",
+        "wordCount": 1074
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/linux/install/install-letsencrypt-nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Let&#39;s Encrypt - 무료 SSL 인증서 발급받기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/nodejs/express/express-test-structure-1/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Express 테스트 환경 만들기(1)</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/nodejs/express/express-test-structure-2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

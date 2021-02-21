@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Typescript로 Vue.js 시작하기 - 7 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="typescript,vue.js" />
+    
+    <meta name="description" content="이전 포스트 faker.js와 utils.ts를 추가하여 테스트 케이스를 보강하도록 하겠습니다. 이전에 작성했던 Webpack2로 Vue.js 테스트 환경 구축하기 2와 3에서 추가했던 테스트 방법을 참고하여 TypeScript로 옮겨 올 것입니다. utils.tsutils.ts에는 반복되는 작업을 편리하게 해주는 기능들을 추가합니다. newVM먼저, 컴포">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typescript로 Vue.js 시작하기 - 7">
+<meta property="og:url" content="https://gongzza.github.io/vuejs/getting-started-vuejs-with-typescript-7/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="이전 포스트 faker.js와 utils.ts를 추가하여 테스트 케이스를 보강하도록 하겠습니다. 이전에 작성했던 Webpack2로 Vue.js 테스트 환경 구축하기 2와 3에서 추가했던 테스트 방법을 참고하여 TypeScript로 옮겨 올 것입니다. utils.tsutils.ts에는 반복되는 작업을 편리하게 해주는 기능들을 추가합니다. newVM먼저, 컴포">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-31T04:09:56.000Z">
+<meta property="article:modified_time" content="2021-02-21T13:41:51.337Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="vue.js">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Vue-js/">Vue.js</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-vuejs/getting-started-vuejs-with-typescript-7" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Typescript로 Vue.js 시작하기 - 7
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/vuejs/getting-started-vuejs-with-typescript-7/" class="article-date">
+       <time datetime="2017-08-31T04:09:56.000Z" itemprop="datePublished">2017-08-31</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/vuejs/getting-started-vuejs-with-typescript-7/" class="article-date">
+     <time datetime="2021-02-21T13:41:51.337Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>, <a class="tag-link-link" href="/tags/vue-js/" rel="tag">vue.js</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a href="../getting-started-vuejs-with-typescript-6">이전 포스트</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/marak/Faker.js/">faker.js</a>와 <code>utils.ts</code>를 추가하여 테스트 케이스를 보강하도록 하겠습니다.</p>
+<p>이전에 작성했던 <a href="../webpack-simple-with-test-1">Webpack2로 Vue.js 테스트 환경 구축하기</a> <a href="../webpack-simple-with-test-2">2</a>와 <a href="../webpack-simple-with-test-3">3</a>에서 추가했던 테스트 방법을 참고하여 TypeScript로 옮겨 올 것입니다.</p>
+<h1 id="utils-ts"><a href="#utils-ts" class="headerlink" title="utils.ts"></a>utils.ts</h1><p><code>utils.ts</code>에는 반복되는 작업을 편리하게 해주는 기능들을 추가합니다.</p>
+<h3 id="newVM"><a href="#newVM" class="headerlink" title="newVM"></a>newVM</h3><p>먼저, 컴포넌트를 생성해주는 함수를 작성해 보겠습니다.</p>
+<figure class="highlight js"><figcaption><span>test/unit/utils.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue, &#123; ComponentOptions &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> el: Element = <span class="built_in">document</span>.createElement(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">newVM</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">Vue</span>&gt;(<span class="params">Comp: <span class="keyword">new</span> (args: ComponentOptions&lt;Vue&gt;) =&gt; T, propsData?: object</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> Comp(&#123;el, propsData&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>newVM</code>은 컴포넌트와 propsData를 파라메터로 생성된 컴포넌트를 리턴합니다.</p>
+<h3 id="mockup"><a href="#mockup" class="headerlink" title="mockup"></a>mockup</h3><p>이번에는 faker.js를 이용하여 mock data를 생성해주는 기능을 추가합니다.</p>
+<h5 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h5><p>기본적으로 TypeScript를 지원하고 있지 않아서 @types/faker도 같이 설치해야 합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev faker @types/faker</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><figcaption><span>test/unit/utils.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> faker <span class="keyword">from</span> <span class="string">&#x27;faker&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> MockData = &#123;</span><br><span class="line">  [key: <span class="built_in">string</span>]: <span class="built_in">any</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mock</span>&lt;<span class="title">T</span>&gt;(<span class="params">obj: MockData</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> mockup = &#123;&#125; <span class="keyword">as</span> MockData</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.keys(obj)) &#123;</span><br><span class="line">    <span class="keyword">let</span> val: <span class="built_in">string</span> = obj[key]</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> val === <span class="string">&#x27;string&#x27;</span> &amp;&amp; val.length !== <span class="number">0</span>) &#123;</span><br><span class="line">      mockup[key] = mockdata(val)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      mockup[key] = val</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> mockup <span class="keyword">as</span> T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mocks</span>&lt;<span class="title">T</span>&gt;(<span class="params">obj: MockData, cnt: <span class="built_in">number</span> = <span class="number">3</span></span>): <span class="title">Array</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> mockups = <span class="built_in">Array</span>&lt;T&gt;()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (cnt-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    mockups.push(mock(obj))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> mockups</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mockdata</span>(<span class="params">val: <span class="built_in">string</span></span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = faker.fake(val)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="regexp">/^num:/i</span>.test(val)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseInt</span>(data.substring(<span class="string">&#x27;num:&#x27;</span>.length))</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^date:/i</span>.test(val)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>(data.substring(<span class="string">&#x27;date:&#x27;</span>.length))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>generic을 사용해서 mock 데이터를 만들어면, TypeScript의 장점을 활용할 수 있다.</p>
+<p><code>parseInt</code>에서 <code>redix</code>를 설정하고 싶지 않을 경우 <code>tslint.json</code>에서 <code>rules:&#123; radix: false &#125;</code> 를 추가하면 됩니다.</p>
+<h3 id="nextTick"><a href="#nextTick" class="headerlink" title="nextTick"></a>nextTick</h3><p><code>process.nextTick()</code>으로 콜백을 만드는 보다는 async/await을 사용하여 보다 코드를 읽기 편하게 만드는 방법이 좋을 것 같습니다.</p>
+<p>async/await을 사용할 수 있도록 Promise를 리턴하는 <code>nextTick()</code>함수를 추가합니다.</p>
+<figure class="highlight ts"><figcaption><span>test/unit/utils.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">nextTick</span>(<span class="params"></span>): <span class="title">Promise</span>&lt;<span class="title">any</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> process.nextTick(resolve))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="createMockAdapter"><a href="#createMockAdapter" class="headerlink" title="createMockAdapter"></a>createMockAdapter</h3><p>매번 axios와 axios-mock-adapter를 추가하기 보다는 팩토리 메소드를 제공해 주는 것이 편할 것 같습니다.</p>
+<figure class="highlight ts"><figcaption><span>test/unit/utils.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"><span class="keyword">import</span> MockAdapter <span class="keyword">from</span> <span class="string">&#x27;axios-mock-adapter&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createMockAdapter</span>(<span class="params"></span>): <span class="title">MockAdapter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> MockAdapter(axios)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="models"><a href="#models" class="headerlink" title="models"></a>models</h3><p>TodoList에서 <code>interface Todo</code>를 가져오려면은 다음과 같이 선언해야 합니다.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Todo &#125; <span class="keyword">from</span> <span class="string">&#x27;@/components/TodoList&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>하지만 이렇게 불러와서 사용할 경우 webpack에서 컴파일 에러가 발생합니다.</p>
+<p>이유는 webpack에서는 <code>.vue</code>로 불러오기 때문에 Todo를 찾을 수 없어서 에러가 발생합니다. (<code>.vue</code>에서는 TodoList만 불러와서 내보내기 때문입니다.)</p>
+<p>그리고 <code>Todo</code>는 모델로써 다른 곳에서도 사용될 수 있기 때문에 따로 분리해서 불러오는 방법이 좋을 것 같습니다.</p>
+<p>다음과 같이 2개의 파일을 추가합니다.</p>
+<p>먼저, TodoList에 있던 <code>interface Todo</code>를 파일로 분리합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/models/Todo.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Todo &#123;</span><br><span class="line">  id: <span class="built_in">number</span></span><br><span class="line">  userId: <span class="built_in">number</span></span><br><span class="line">  title: <span class="built_in">string</span></span><br><span class="line">  completed: <span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>그리고 간편하게 불러오기 위해서 <code>src/models/index.ts</code>를 추가합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/models/index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&#x27;./Todo&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Refactor"><a href="#Refactor" class="headerlink" title="Refactor"></a>Refactor</h3><p>위에서 추가한 기능들을 사용하여 테스트 케이스를 작성합니다.</p>
+<p>여기서 <code>PropsData</code>를 <code>Todo</code> 처럼 model로 따로 뺴지 않은 이유는 다른 곳에서 사용할 일이 없다고 생각되었기 때문입니다.</p>
+<p>물론 model처럼 따로 props를 만들어서 사용해도 좋을 것 같습니다. 하지만, 관리 포인트가 늘어나면 번거로움만 커질 것 같습니다.</p>
+<figure class="highlight ts"><figcaption><span>test/unit/comonents/Hello.spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> Hello <span class="keyword">from</span> <span class="string">&#x27;@/components/Hello&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; newVM, mock &#125; <span class="keyword">from</span> <span class="string">&#x27;../utils&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> PropsData = &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  initialEnthusiasm: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;Hello.vue&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  it(<span class="string">&#x27;#propsData&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> propsData = mock&lt;PropsData&gt;(&#123;</span><br><span class="line">      name: <span class="string">&#x27;&#123;&#123;name.lastName&#125;&#125;&#x27;</span>,</span><br><span class="line">      initialEnthusiasm: <span class="number">3</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> vm = newVM(Hello, propsData)</span><br><span class="line"></span><br><span class="line">    expect(vm.name).to.equals(propsData.name)</span><br><span class="line">    expect(vm.enthusiasm).to.equals(propsData.initialEnthusiasm)</span><br><span class="line">    expect(vm.exclamationMarks).to.have.lengthOf(propsData.initialEnthusiasm)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> $greeting = vm.$el.querySelector(<span class="string">&#x27;.greeting&#x27;</span>) <span class="keyword">as</span> HTMLElement</span><br><span class="line"></span><br><span class="line">    expect($greeting.textContent, <span class="string">`Hello <span class="subst">$&#123;propsData.name&#125;</span>!!!`</span>)</span><br><span class="line"></span><br><span class="line">    vm.increment()</span><br><span class="line"></span><br><span class="line">    expect(vm.exclamationMarks).to.have.lengthOf(propsData.initialEnthusiasm + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> vm.$nextTick() <span class="comment">// update</span></span><br><span class="line"></span><br><span class="line">    expect($greeting.textContent, <span class="string">`Hello <span class="subst">$&#123;propsData.name&#125;</span>!!!!`</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><figcaption><span>test/unit/components/TodoList.spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> TodoList <span class="keyword">from</span> <span class="string">&#x27;@/components/TodoList&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; Todo &#125; <span class="keyword">from</span> <span class="string">&#x27;@/models&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; newVM, mocks, nextTick, createMockAdapter &#125; <span class="keyword">from</span> <span class="string">&#x27;../utils&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;TodoList.vue&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> mock = createMockAdapter()</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    mock.onGet(<span class="string">&#x27;/todos&#x27;</span>)</span><br><span class="line">    .reply(<span class="number">200</span>, mocks&lt;Todo&gt;(&#123;</span><br><span class="line">      id: <span class="string">&#x27;num:&#123;&#123;random.number&#125;&#125;&#x27;</span>,</span><br><span class="line">      userId: <span class="string">&#x27;num:&#123;&#123;random.number&#125;&#125;&#x27;</span>,</span><br><span class="line">      title: <span class="string">&#x27;&#123;&#123;lorem.sentence&#125;&#125;&#x27;</span>,</span><br><span class="line">      completed: <span class="literal">false</span></span><br><span class="line">    &#125;, <span class="number">3</span>))</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    mock.restore()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;#asyncData&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> vm = newVM(TodoList)</span><br><span class="line"></span><br><span class="line">    expect(vm.todos).to.have.lengthOf(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> nextTick() <span class="comment">// axios.get</span></span><br><span class="line"></span><br><span class="line">    expect(vm.todos).to.have.lengthOf(<span class="number">3</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="마치며"><a href="#마치며" class="headerlink" title="마치며"></a>마치며</h3><p>이 정도면 기본적인 개발 셋팅은 완료 됫다고 생각합니다.</p>
+<p>TypeScript로 개발하는 것은 좋은 것 같습니다.</p>
+<p>지정한 타입대로 코드 이테그레이션?을 보여줘서 오타를 줄여줍니다. 오타를 줄여주는 것만으로도 개발속도는 빠르게 향상될 것입니다.</p>
+<p>유지보수도 데이터의 프로퍼티를 추측이 아닌 타입으로 바로 확인해서 보다 안전하게 개발이 가능할 것입니다.</p>
+<p>아직 Vue와 조화롭지 못한? 부분이 있지만, 그래도 TypeScript의 장점이 더 크다고 생각합니다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/vuejs/getting-started-vuejs-with-typescript-7/" data-id="cklf7gfpn00145lpvcs0t88is" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Typescript로 Vue.js 시작하기 - 7",
+        "image": "https://gongzza.github.io",
+        "keywords": "typescript vue.js",
+        "genre": "Vue.js",
+        "datePublished": "2017-08-31",
+        "dateCreated": "2017-08-31",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/vuejs/getting-started-vuejs-with-typescript-7/",
+        "description": "이전 포스트
+faker.js와 utils.ts를 추가하여 테스트 케이스를 보강하도록 하겠습니다.
+이전에 작성했던 Webpack2로 Vue.js 테스트 환경 구축하기 2와 3에서 추가했던 테스트 방법을 참고하여 TypeScript로 옮겨 올 것입니다.
+utils.tsutils.ts에는 반복되는 작업을 편리하게 해주는 기능들을 추가합니다.
+newVM먼저, 컴포",
+        "wordCount": 1252
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/typescript/typescript-express-starter-1/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            TypeScript로 Express 시작하기 - 1
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/vuejs/getting-started-vuejs-with-typescript-6/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Typescript로 Vue.js 시작하기 - 6</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/vuejs/getting-started-vuejs-with-typescript-7/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

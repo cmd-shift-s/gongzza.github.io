@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>Yeoman generator 따라하기 - 2 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="mocha,yeoman-generator,generator-v" />
+    
+    <meta name="description" content="Yeoman generator 따라하기 - 1 이번에는 테스트 코드를 만들고 테스트 코드를 통과하는 코드를 만드는 작업을 할 것이다. 저번과 마찬가지로 Yoeman#Unit testing을 참조하면서 진행하였다. Getting Started With Mocha먼저 테스트 환경을 구성한다. 테스트 프레임워크로 Mocha를 사용할 것이다. Install12#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yeoman generator 따라하기 - 2">
+<meta property="og:url" content="https://gongzza.github.io/yeoman/generator-v-2/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="Yeoman generator 따라하기 - 1 이번에는 테스트 코드를 만들고 테스트 코드를 통과하는 코드를 만드는 작업을 할 것이다. 저번과 마찬가지로 Yoeman#Unit testing을 참조하면서 진행하였다. Getting Started With Mocha먼저 테스트 환경을 구성한다. 테스트 프레임워크로 Mocha를 사용할 것이다. Install12#">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-01-13T12:00:24.000Z">
+<meta property="article:modified_time" content="2021-02-21T13:41:51.343Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="mocha">
+<meta property="article:tag" content="yeoman-generator">
+<meta property="article:tag" content="generator-v">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Yeoman/">Yeoman</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-yeoman/generator-v-2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Yeoman generator 따라하기 - 2
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/yeoman/generator-v-2/" class="article-date">
+       <time datetime="2017-01-13T12:00:24.000Z" itemprop="datePublished">2017-01-13</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/yeoman/generator-v-2/" class="article-date">
+     <time datetime="2021-02-21T13:41:51.343Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/generator-v/" rel="tag">generator-v</a>, <a class="tag-link-link" href="/tags/mocha/" rel="tag">mocha</a>, <a class="tag-link-link" href="/tags/yeoman-generator/" rel="tag">yeoman-generator</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a href="../generator-v-1">Yeoman generator 따라하기 - 1</a></p>
+<p>이번에는 테스트 코드를 만들고 테스트 코드를 통과하는 코드를 만드는 작업을 할 것이다.</p>
+<p>저번과 마찬가지로 <a target="_blank" rel="noopener" href="http://yeoman.io/authoring/testing.html">Yoeman#Unit testing</a>을 참조하면서 진행하였다.</p>
+<h3 id="Getting-Started-With-Mocha"><a href="#Getting-Started-With-Mocha" class="headerlink" title="Getting Started With Mocha"></a>Getting Started With Mocha</h3><p>먼저 테스트 환경을 구성한다.</p>
+<p>테스트 프레임워크로 <a target="_blank" rel="noopener" href="https://mochajs.org/">Mocha</a>를 사용할 것이다.</p>
+<figure class="highlight bash"><figcaption><span>Install</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test runner</span></span><br><span class="line">$ npm install --save-dev mocha</span><br></pre></td></tr></table></figure>
+
+<p>package.json에서 test script를 변경한다.</p>
+<figure class="highlight"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;mocha&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 작성한다.</p>
+<figure class="highlight js"><figcaption><span>test/test.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> assert = <span class="built_in">require</span>(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line">describe(<span class="string">&#x27;Array&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  describe(<span class="string">&#x27;#indexOf()&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    it(<span class="string">&#x27;should return -1 when the value is not present&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      assert.equal(-<span class="number">1</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].indexOf(<span class="number">4</span>));</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 해보자</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ npm test</span><br><span class="line">Array</span><br><span class="line">  #indexOf()</span><br><span class="line">    ✓ should return -1 when the value is not present</span><br><span class="line"></span><br><span class="line">1 passing (9ms)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Test-Yeoman"><a href="#Test-Yeoman" class="headerlink" title="Test Yeoman"></a>Test Yeoman</h3><p>제너레이터를 테스트하기전에 필요한 모듈이 있다.</p>
+<figure class="highlight bash"><figcaption><span>install</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yeoman test helper and assertion</span></span><br><span class="line">$ npm install --save-dev yeoman-test yeoman-assert</span><br></pre></td></tr></table></figure>
+
+<p><code>yeoman-test</code>는 내가 만든 제너레이터를 실행해 주는 역할을 한다.<br>옵션이나 인수들을 마음대로 넣을 수 있다.</p>
+<p><code>yeoman-assert</code>는 내가 만든 제너레이터가 잘 동작 했는지 검사한다.</p>
+<p>정말 간단한 테스트 코드를 만들어 보자.</p>
+<figure class="highlight js"><figcaption><span>test/app.spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> helper = <span class="built_in">require</span>(<span class="string">&#x27;yeoman-test&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> assert = <span class="built_in">require</span>(<span class="string">&#x27;yeoman-assert&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;app&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> name = <span class="string">&#x27;mock&#x27;</span></span><br><span class="line">  <span class="keyword">const</span> destFile = path.join(<span class="string">&#x27;src&#x27;</span>, name + <span class="string">&#x27;.vue&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> helper.run(path.join(__dirname, <span class="string">&#x27;../generators/app&#x27;</span>))</span><br><span class="line">            .withArguments([name])</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;create file with content&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    assert.file([destFile])</span><br><span class="line">    assert.fileContent(destFile, name)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>위 코드는 다음을 검증한다.</p>
+<ol>
+<li><code>$ yo v mock</code> 명령을 실행 한다.</li>
+<li>파일이 원하는 위치와 이름으로 생성 되는지 확인한다.</li>
+<li>파일안에 파일명이 있는지 확인한다.</li>
+</ol>
+<p>일단 한번 돌려 보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ npm test</span><br><span class="line">app</span><br><span class="line">method 1 just ran</span><br><span class="line">method 2 just ran</span><br><span class="line">  1) create file with content</span><br><span class="line"></span><br><span class="line">0 passing (156ms)</span><br><span class="line">1 failing</span><br><span class="line"></span><br><span class="line">1) app create file with content:</span><br><span class="line"></span><br><span class="line">    AssertionError: src\mock.vue, no such file or directory</span><br><span class="line">    + expected - actual</span><br><span class="line"></span><br><span class="line">    -false</span><br><span class="line">    +true</span><br><span class="line"></span><br><span class="line">    at node_modules\yeoman-assert\index.js:46:12</span><br><span class="line">    at Array.forEach (native)</span><br><span class="line">    at Function.assert.file (node_modules\yeoman-assert\index.js:44:8)</span><br><span class="line">    at Context.it (test\app.spec.js:15:12)</span><br><span class="line"></span><br><span class="line">npm ERR! Test failed.  See above for more details.</span><br></pre></td></tr></table></figure>
+
+<p>앞으로 자주 보게될 화면이다.</p>
+<p>이제 개발을 시작해 보자</p>
+<figure class="highlight js"><figcaption><span>generators/app/index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Generator = <span class="built_in">require</span>(<span class="string">&#x27;yeoman-generator&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">Generator</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params">args, opts</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(args, opts)</span><br><span class="line">    <span class="comment">// name을 필수로 받도록 처리</span></span><br><span class="line">    <span class="built_in">this</span>.argument(<span class="string">&#x27;name&#x27;</span>, &#123; <span class="attr">type</span>: <span class="built_in">String</span>, <span class="attr">required</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    <span class="comment">// 생성 될 스크립트확장자</span></span><br><span class="line">    <span class="built_in">this</span>.options.suffixScript = <span class="string">&#x27;.vue&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="title">writeing</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> filename = <span class="built_in">this</span>.options.name + <span class="built_in">this</span>.options.suffixScript</span><br><span class="line">    <span class="built_in">this</span>.fs.copyTpl(</span><br><span class="line">      <span class="built_in">this</span>.templatePath(<span class="string">&#x27;Vue.vue&#x27;</span>),</span><br><span class="line">      <span class="built_in">this</span>.destinationPath(path.join(<span class="string">&#x27;src&#x27;</span>, <span class="built_in">this</span>.options.name + <span class="string">&#x27;.vue&#x27;</span>)),</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="built_in">this</span>.options.name &#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이제 템플릿을 만들어 보자</p>
+<figure class="highlight js"><figcaption><span>generators/app/templates/Vue.vue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%= name %&gt;</span><br></pre></td></tr></table></figure>
+<p>정말 간단하게 파라메터로 넘어온 name을 그냥 뿌려주기만 한다.</p>
+<p>테스트를 해보자</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm test</span><br><span class="line">app</span><br><span class="line">  ✓ create file with content</span><br><span class="line"></span><br><span class="line">1 passing (173ms)</span><br></pre></td></tr></table></figure>
+
+<p>테스트를 통과했으니 실제로 사용해 보자.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ yo v app</span><br><span class="line">  create src/App.vue</span><br><span class="line"></span><br><span class="line">$ cat src/App.vue</span><br><span class="line">App</span><br></pre></td></tr></table></figure>
+<p>정확히 의도한 대로 개발이 되었다.</p>
+<p>이제는 template을 만들고 그대로 원하는 위치에 파일을 복사 할 수 있는 수준이 되었다.</p>
+<p>다음 포스팅에서는 사용자로부터 정보를 입력받는 기능과 설정 정보를 저장하는 방법을 알아 볼 것이다.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/yeoman/generator-v-2/" data-id="cklf7gfr5001u5lpv6jru0boh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "Yeoman generator 따라하기 - 2",
+        "image": "https://gongzza.github.io",
+        "keywords": "mocha yeoman-generator generator-v",
+        "genre": "Yeoman",
+        "datePublished": "2017-01-13",
+        "dateCreated": "2017-01-13",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/yeoman/generator-v-2/",
+        "description": "Yeoman generator 따라하기 - 1
+이번에는 테스트 코드를 만들고 테스트 코드를 통과하는 코드를 만드는 작업을 할 것이다.
+저번과 마찬가지로 Yoeman#Unit testing을 참조하면서 진행하였다.
+Getting Started With Mocha먼저 테스트 환경을 구성한다.
+테스트 프레임워크로 Mocha를 사용할 것이다.
+Install12# ",
+        "wordCount": 821
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/yeoman/yeoman-with-babel/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Yeoman generator with babel
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/yeoman/generator-v-1/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Yeoman generator 따라하기 - 1</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/yeoman/generator-v-2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

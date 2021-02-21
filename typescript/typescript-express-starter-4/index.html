@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>TypeScript로 Express 시작하기 - 4 | GongZza&#39;s blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="express,typescript,node.js,knex.js,bookshelf.js,mock-knex" />
+    
+    <meta name="description" content="이전 포스트 시작하기Knex.js와 Bookshelf 그리고 mock-knex를 이용해서 DB 테스트 환경을 만들어볼 것입니다. Knex.js는 SQL Query Builder로써 Laravel Query Builder에서 파생되었다고 합니다. Bookshelf는 node.js에서 돌아가는 JavaScript ORM으로 Knex.js를 사용합니다. 설치DB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript로 Express 시작하기 - 4">
+<meta property="og:url" content="https://gongzza.github.io/typescript/typescript-express-starter-4/index.html">
+<meta property="og:site_name" content="GongZza&#39;s blog">
+<meta property="og:description" content="이전 포스트 시작하기Knex.js와 Bookshelf 그리고 mock-knex를 이용해서 DB 테스트 환경을 만들어볼 것입니다. Knex.js는 SQL Query Builder로써 Laravel Query Builder에서 파생되었다고 합니다. Bookshelf는 node.js에서 돌아가는 JavaScript ORM으로 Knex.js를 사용합니다. 설치DB">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-21T09:34:43.000Z">
+<meta property="article:modified_time" content="2021-02-21T13:41:51.330Z">
+<meta property="article:author" content="GongZza">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="typescript">
+<meta property="article:tag" content="node.js">
+<meta property="article:tag" content="knex.js">
+<meta property="article:tag" content="bookshelf.js">
+<meta property="article:tag" content="mock-knex">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <!-- <div class="main-body-inner"> -->
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Typescript/">Typescript</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-typescript/typescript-express-starter-4" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        TypeScript로 Express 시작하기 - 4
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/typescript/typescript-express-starter-4/" class="article-date">
+       <time datetime="2017-10-21T09:34:43.000Z" itemprop="datePublished">2017-10-21</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/typescript/typescript-express-starter-4/" class="article-date">
+     <time datetime="2021-02-21T13:41:51.330Z" itemprop="dateModified">2021-02-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/bookshelf-js/" rel="tag">bookshelf.js</a>, <a class="tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="tag-link-link" href="/tags/knex-js/" rel="tag">knex.js</a>, <a class="tag-link-link" href="/tags/mock-knex/" rel="tag">mock-knex</a>, <a class="tag-link-link" href="/tags/node-js/" rel="tag">node.js</a>, <a class="tag-link-link" href="/tags/typescript/" rel="tag">typescript</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><a href="../typescript-express-starter-3">이전 포스트</a></p>
+<h1 id="시작하기"><a href="#시작하기" class="headerlink" title="시작하기"></a>시작하기</h1><p><a target="_blank" rel="noopener" href="http://knexjs.org/">Knex.js</a>와 <a target="_blank" rel="noopener" href="http://bookshelfjs.org/">Bookshelf</a> 그리고 <a target="_blank" rel="noopener" href="https://github.com/colonyamerican/mock-knex">mock-knex</a>를 이용해서 DB 테스트 환경을 만들어볼 것입니다.</p>
+<p>Knex.js는 SQL Query Builder로써 <a target="_blank" rel="noopener" href="https://laravel.com/docs/queries">Laravel Query Builder</a>에서 파생되었다고 합니다.</p>
+<p>Bookshelf는 node.js에서 돌아가는 JavaScript ORM으로 Knex.js를 사용합니다.</p>
+<h2 id="설치"><a href="#설치" class="headerlink" title="설치"></a>설치</h2><p>DB는 MySQL을 사용할 것입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D knex bookshelf mock-knex mysql2</span><br><span class="line">+ bookshelf@0.10.4</span><br><span class="line">+ mock-knex@0.3.9</span><br><span class="line">+ knex@0.13.0</span><br><span class="line">+ mysql2@1.4.2</span><br></pre></td></tr></table></figure>
+
+<h3 id="types"><a href="#types" class="headerlink" title="@types"></a>@types</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D @types/knex @types/bookshelf</span><br><span class="line">+ @types/bookshelf@0.9.6</span><br><span class="line">+ @types/knex@0.0.61</span><br></pre></td></tr></table></figure>
+
+<h4 id="mock-knex-d-ts"><a href="#mock-knex-d-ts" class="headerlink" title="mock-knex.d.ts"></a>mock-knex.d.ts</h4><p>mock-knex는 <code>.d.ts</code> 파일이 없어서 직접 만들어 주어야 합니다.</p>
+<figure class="highlight js"><figcaption><span>types/mock-kndex.d.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/jessezhang91/typed-mock-knex</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> Knex <span class="keyword">from</span> <span class="string">&#x27;knex&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; EventEmitter &#125; <span class="keyword">from</span> <span class="string">&#x27;events&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Attaches mocked client to knex instance</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param </span>knex initialized knex client</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mock</span>(<span class="params">knex: Knex</span>): <span class="title">void</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">/**</span></span><br><span class="line"><span class="function"> * <span class="title">Detaches</span> <span class="title">mocked</span> <span class="title">client</span> <span class="title">from</span> <span class="title">knex</span> <span class="title">instance</span></span></span><br><span class="line"><span class="function"> *</span></span><br><span class="line"><span class="function"> * @<span class="title">param</span> <span class="title">knex</span> <span class="title">initialized</span> <span class="title">knex</span> <span class="title">client</span></span></span><br><span class="line"><span class="function"> */</span></span><br><span class="line"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">unmock</span>(<span class="params">knex: Knex</span>): <span class="title">void</span></span></span></span><br><span class="line"><span class="function"><span class="function"></span></span></span><br><span class="line"><span class="function"><span class="function">/**</span></span></span><br><span class="line"><span class="function"><span class="function"> * <span class="title">Returns</span> <span class="title">query</span> <span class="title">Tracker</span> <span class="title">instance</span></span></span></span><br><span class="line"><span class="function"><span class="function"> */</span></span></span><br><span class="line"><span class="function"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getTracker</span>(<span class="params"></span>): <span class="title">Tracker</span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">/**</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"> * <span class="title">The</span> <span class="title">tracker</span> <span class="title">enables</span> <span class="title">you</span> <span class="title">to</span> <span class="title">catch</span> <span class="title">and</span> <span class="title">respond</span> <span class="title">to</span> <span class="title">queries</span> <span class="title">that</span> <span class="title">occur</span> <span class="title">during</span> <span class="title">testing</span>, <span class="title">see</span> <span class="title">Test</span> <span class="title">for</span> <span class="title">more</span> <span class="title">examples</span>.</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"> */</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="title">export</span> <span class="title">interface</span> <span class="title">Tracker</span> <span class="title">extends</span> <span class="title">EventEmitter</span> </span>&#123;</span></span></span><br><span class="line"><span class="function"><span class="function">  /**</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Enables</span> <span class="title">query</span> <span class="title">tracking</span> <span class="title">mock</span> <span class="title">on</span> <span class="title">mocked</span> <span class="title">knex</span> <span class="title">client</span></span></span></span><br><span class="line"><span class="function"><span class="function">   */</span></span></span><br><span class="line"><span class="function"><span class="function">  <span class="title">install</span>(<span class="params"></span>): <span class="title">void</span></span></span></span><br><span class="line"><span class="function"><span class="function"></span></span></span><br><span class="line"><span class="function"><span class="function">  /**</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Disables</span> <span class="title">query</span> <span class="title">tracking</span> <span class="title">mock</span> <span class="title">on</span> <span class="title">mocked</span> <span class="title">knex</span> <span class="title">client</span>. <span class="title">Also</span> <span class="title">resets</span> &#x27;<span class="title">step</span>&#x27; <span class="title">counter</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   */</span></span></span><br><span class="line"><span class="function"><span class="function">  <span class="title">uninstall</span>(<span class="params"></span>): <span class="title">void</span></span></span></span><br><span class="line"><span class="function"><span class="function"></span></span></span><br><span class="line"><span class="function"><span class="function">  /**</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Add</span> <span class="title">event</span> <span class="title">listener</span> <span class="title">for</span> &#x27;<span class="title">query</span>&#x27; <span class="title">event</span>. <span class="title">It</span> <span class="title">gets</span> <span class="title">esecuted</span> <span class="title">for</span> <span class="title">each</span> <span class="title">query</span> <span class="title">that</span> <span class="title">should</span> <span class="title">end</span> <span class="title">up</span> <span class="title">in</span> <span class="title">database</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Instead</span> <span class="title">of</span> <span class="title">this</span> <span class="title">callback</span> <span class="title">gets</span> <span class="title">executed</span> <span class="title">and</span> <span class="title">its</span> <span class="title">up</span> <span class="title">to</span> <span class="title">you</span> <span class="title">to</span> <span class="title">assert</span> <span class="title">queries</span> <span class="title">and</span> <span class="title">mock</span> <span class="title">database</span> <span class="title">responses</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   *</span></span></span><br><span class="line"><span class="function"><span class="function">   * @<span class="title">param</span> <span class="title">event</span></span></span></span><br><span class="line"><span class="function"><span class="function">   * @<span class="title">param</span> <span class="title">callback</span> <span class="title">A</span> <span class="function"><span class="keyword">function</span> <span class="title">that</span> <span class="title">gets</span> <span class="title">executed</span> <span class="title">on</span> &#x27;<span class="title">query</span>&#x27; <span class="title">event</span>.</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">   */</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">  <span class="title">on</span>(<span class="params">event: <span class="string">&#x27;query&#x27;</span>, callback: (query: QueryDetails, step: number) =&gt; <span class="keyword">void</span></span>): <span class="title">this</span></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">&#125;</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"></span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">/**</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"> * <span class="title">The</span> <span class="title">object</span> <span class="title">containing</span> <span class="title">query</span> <span class="title">details</span> <span class="title">that</span> <span class="title">is</span> <span class="title">being</span> <span class="title">sent</span> <span class="title">to</span> <span class="title">knex</span> <span class="title">database</span> <span class="title">dialect</span> <span class="title">on</span> <span class="title">query</span> <span class="title">execution</span>.</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"> * <span class="title">Object</span> <span class="title">properties</span> <span class="title">signature</span> <span class="title">matches</span> <span class="title">with</span> <span class="title">knex</span> <span class="title">toSQL</span>(<span class="params"></span>) <span class="title">output</span> <span class="title">with</span> <span class="title">additional</span> <span class="title">method</span> <span class="title">returns</span>(<span class="params">values</span>).</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"> */</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="title">export</span> <span class="title">interface</span> <span class="title">QueryDetails</span> <span class="title">extends</span> <span class="title">Knex</span>.<span class="title">Sql</span> </span>&#123;</span></span></span><br><span class="line"><span class="function"><span class="function">  /**</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Function</span> <span class="title">that</span> <span class="title">needs</span> <span class="title">to</span> <span class="title">be</span> <span class="title">called</span> <span class="title">to</span> <span class="title">mock</span> <span class="title">database</span> <span class="title">query</span> <span class="title">result</span> <span class="title">for</span> <span class="title">knex</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   *</span></span></span><br><span class="line"><span class="function"><span class="function">   * @<span class="title">param</span> <span class="title">error</span> <span class="title">The</span> <span class="title">Error</span>, <span class="title">string</span> <span class="title">or</span> <span class="title">instance</span> <span class="title">of</span> <span class="title">Error</span>, <span class="title">which</span> <span class="title">represents</span> <span class="title">why</span> <span class="title">the</span> <span class="title">result</span> <span class="title">was</span> <span class="title">rejected</span></span></span></span><br><span class="line"><span class="function"><span class="function">   */</span></span></span><br><span class="line"><span class="function"><span class="function">  <span class="title">reject</span>(<span class="params">error: <span class="built_in">Error</span> | string</span>): <span class="title">void</span></span></span></span><br><span class="line"><span class="function"><span class="function"></span></span></span><br><span class="line"><span class="function"><span class="function">  /**</span></span></span><br><span class="line"><span class="function"><span class="function">   * <span class="title">Function</span> <span class="title">that</span> <span class="title">needs</span> <span class="title">to</span> <span class="title">be</span> <span class="title">called</span> <span class="title">to</span> <span class="title">mock</span> <span class="title">database</span> <span class="title">query</span> <span class="title">result</span> <span class="title">for</span> <span class="title">knex</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   *</span></span></span><br><span class="line"><span class="function"><span class="function">   * @<span class="title">param</span> <span class="title">values</span> <span class="title">An</span> <span class="title">array</span> <span class="title">of</span> <span class="title">mock</span> <span class="title">data</span> <span class="title">to</span> <span class="title">be</span> <span class="title">returned</span> <span class="title">by</span> <span class="title">database</span>. <span class="title">For</span> <span class="title">Bookshelf</span> <span class="title">this</span> <span class="title">is</span> <span class="title">mostly</span> <span class="title">array</span> <span class="title">of</span> <span class="title">objects</span>. <span class="title">Knex</span> <span class="title">could</span> <span class="title">return</span> <span class="title">any</span> <span class="title">type</span> <span class="title">of</span> <span class="title">data</span>.</span></span></span><br><span class="line"><span class="function"><span class="function">   * @<span class="title">param</span> <span class="title">options</span></span></span></span><br><span class="line"><span class="function"><span class="function">   */</span></span></span><br><span class="line"><span class="function"><span class="function">  <span class="title">response</span>(<span class="params">values: any[], options?: QueryDetailsResponseOption</span>): <span class="title">void</span></span></span></span><br><span class="line"><span class="function"><span class="function">&#125;</span></span></span><br><span class="line"><span class="function"><span class="function"></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="title">export</span> <span class="title">interface</span> <span class="title">QueryDetailsResponseOption</span> </span>&#123;</span></span><br><span class="line"><span class="function">  /**</span></span><br><span class="line"><span class="function">   * <span class="title">Is</span> <span class="title">this</span> <span class="title">a</span> <span class="title">stream</span> <span class="title">response</span>, <span class="title">defaults</span> <span class="title">to</span> <span class="title">false</span></span></span><br><span class="line"><span class="function">   */</span></span><br><span class="line"><span class="function">  <span class="title">stream</span>: <span class="title">boolean</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="설정"><a href="#설정" class="headerlink" title="설정"></a>설정</h2><p>knex는 <code>knexfile.js</code> 설정 파일을 필요로 합니다.</p>
+<p><code>$ npx knex init</code> 명령어로 간단하게 생성할 수 있습니다.</p>
+<p>우선 필요한 정보만 작성합니다.</p>
+<figure class="highlight js"><figcaption><span>knexfile.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  test: &#123;</span><br><span class="line">    client: <span class="string">&#x27;mysql2&#x27;</span>,</span><br><span class="line">    debug: <span class="literal">false</span></span><br><span class="line">  &#125;,</span><br><span class="line">  development: &#123;</span><br><span class="line">    client: <span class="string">&#x27;mysql2&#x27;</span>,</span><br><span class="line">    connection: &#123;</span><br><span class="line">      database: process.env.DB_DATABASE,</span><br><span class="line">      user: process.env.DB_USERNAME,</span><br><span class="line">      password: process.env.DB_PASSWORD</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DB"><a href="#DB" class="headerlink" title="DB"></a>DB</h2><p>DB 라이브러리를 작성합니다.</p>
+<p>NODE_ENV가 test일 때만 mock-knex를 사용하도록 합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/db.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> Knex <span class="keyword">from</span> <span class="string">&#x27;knex&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> Bookshelf <span class="keyword">from</span> <span class="string">&#x27;bookshelf&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> MockKnex <span class="keyword">from</span> <span class="string">&#x27;mock-knex&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">&#x27;../knexfile&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> env = process.env.NODE_ENV || <span class="string">&#x27;development&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> knex = Knex(config[env])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (env === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">  MockKnex.mock(knex)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Bookshelf(knex)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Echo"><a href="#Echo" class="headerlink" title="Echo"></a>Echo</h2><p>간단하게 msg를 저장하는 Echo 서비스를 작성해 봅니다.</p>
+<h3 id="Table"><a href="#Table" class="headerlink" title="Table"></a>Table</h3><p>Echo 테이블을 작성합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npx knex migrate:make echo</span><br><span class="line">Created Migration: echo.js</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><figcaption><span>migrations/echo.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.up = <span class="function"><span class="keyword">function</span> (<span class="params">knex</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> knex.schema</span><br><span class="line">    .createTable(<span class="string">&#x27;echo&#x27;</span>, <span class="function"><span class="params">table</span> =&gt;</span> &#123;</span><br><span class="line">      table.increments(<span class="string">&#x27;id&#x27;</span>).primary()</span><br><span class="line">      table.string(<span class="string">&#x27;msg&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.down = <span class="function"><span class="keyword">function</span> (<span class="params">knex</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> knex.schema</span><br><span class="line">    .dropTable(<span class="string">&#x27;echo&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Migration"><a href="#Migration" class="headerlink" title="Migration"></a>Migration</h4><p>테스트에서는 mock-knex를 사용하기 때문에 실제 DB Table이 필요하지 않습니다.</p>
+<p>하지만, 서비스를 하기 위해서는 DB Table을 생성해서 사용해야 할 것입니다.</p>
+<p>다음 명령으로 DB Table을 관리할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ knex migrate:latest --env production</span><br><span class="line"></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"></span><br><span class="line">$ NODE_ENV=production knex migrate:latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><figure class="highlight ts"><figcaption><span>src/models/Echo.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> db <span class="keyword">from</span> <span class="string">&#x27;../db&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">Echo</span> <span class="keyword">extends</span> <span class="title">db</span>.<span class="title">Model</span>&lt;<span class="title">Echo</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">get</span> <span class="title">tableName</span>() &#123; <span class="keyword">return</span> <span class="string">&#x27;echo&#x27;</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>index.ts</code> 를 추가하면은 한번에 여러 모델을 불러올 수 있어서 편합니다.</p>
+<figure class="highlight ts"><figcaption><span>src/models/index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&#x27;./Echo&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><figure class="highlight ts"><figcaption><span>src/controllers/echo.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Request, Response &#125; <span class="keyword">from</span> <span class="string">&#x27;express&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; Echo &#125; <span class="keyword">from</span> <span class="string">&#x27;../models&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">echo</span>(<span class="params">req: Request, res: Response</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> vo = <span class="keyword">new</span> Echo(&#123;</span><br><span class="line">    msg: req.query.msg</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> vo.save()</span><br><span class="line">  res.json(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><figure class="highlight ts"><figcaption><span>test/echo.test.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&#x27;chai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> app <span class="keyword">from</span> <span class="string">&#x27;../src/app&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> MockKnex <span class="keyword">from</span> <span class="string">&#x27;mock-knex&#x27;</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">&#x27;echo.test&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> tracker = MockKnex.getTracker()</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    tracker.install()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    tracker.uninstall()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">&#x27;GET /echo?msg&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    tracker.on(<span class="string">&#x27;query&#x27;</span>, <span class="function"><span class="params">query</span> =&gt;</span> &#123;</span><br><span class="line">      expect(query.method).to.equal(<span class="string">&#x27;insert&#x27;</span>)</span><br><span class="line">      query.response([])</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> msg = <span class="string">&#x27;message&#x27;</span></span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> request(app).get(<span class="string">`/echo?msg=<span class="subst">$&#123;msg&#125;</span>`</span>).expect(<span class="number">200</span>)</span><br><span class="line">    expect(res.body.msg).to.equal(msg)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>NODE_ENV</code>를 test로 설정 후 테스트를 수행합니다. (Windows일 경우 [<a target="_blank" rel="noopener" href="https://github.com/kentcdodds/cross-env">cross-env</a>]를 사용하면 유용합니다.)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ NODE_ENV=<span class="built_in">test</span> npm <span class="built_in">test</span></span><br><span class="line">&gt; typescript-express-starter@1.0.0 <span class="built_in">test</span> typescript-express-starter</span><br><span class="line">&gt; mocha --require ts-node/register <span class="string">&#x27;test/**/*.test.ts&#x27;</span></span><br><span class="line"></span><br><span class="line">  app.test</span><br><span class="line">    ✓ GET / (39ms)</span><br><span class="line">    ✓ GET /not_found</span><br><span class="line"></span><br><span class="line">  echo.test</span><br><span class="line">    ✓ GET /<span class="built_in">echo</span>?msg</span><br><span class="line"></span><br><span class="line">  3 passing (72ms)</span><br></pre></td></tr></table></figure>
+
+<p>테스트가 성공적으로 수행되는 것을 볼 수 있습니다.</p>
+<h2 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@jomaora/knex-bookshelf-mocks-and-unit-tests-cca627565d3">Knex, Bookshelf, mocks and Unit Tests</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://gongzza.github.io/typescript/typescript-express-starter-4/" data-id="cklf7gfnq000g5lpvgpu0b2wc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "GongZza"
+        },
+        "headline": "TypeScript로 Express 시작하기 - 4",
+        "image": "https://gongzza.github.io",
+        "keywords": "express typescript node.js knex.js bookshelf.js mock-knex",
+        "genre": "Typescript",
+        "datePublished": "2017-10-21",
+        "dateCreated": "2017-10-21",
+        "dateModified": "2021-02-21",
+        "url": "https://gongzza.github.io/typescript/typescript-express-starter-4/",
+        "description": "이전 포스트
+시작하기Knex.js와 Bookshelf 그리고 mock-knex를 이용해서 DB 테스트 환경을 만들어볼 것입니다.
+Knex.js는 SQL Query Builder로써 Laravel Query Builder에서 파생되었다고 합니다.
+Bookshelf는 node.js에서 돌아가는 JavaScript ORM으로 Knex.js를 사용합니다.
+설치DB",
+        "wordCount": 1856
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <!-- <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/gongzza" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/vuejs/vue-unit-testing-with-jest/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Vue.js Unit Testing with Jest
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/typescript/typescript-express-starter-3/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">TypeScript로 Express 시작하기 - 3</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+    </div>
+</aside>
+ -->
+                <!-- </div> -->
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 GongZza</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'gongzza';
+    
+    
+    var disqus_url = 'https://gongzza.github.io/typescript/typescript-express-starter-4/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
